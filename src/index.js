@@ -1,8 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./assets/main.css"; // Tailwind
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+
+import "./assets/main.css"; // Tailwind
+import "typeface-fira-sans";
+import "typeface-fira-code";
+import "typeface-playfair-display";
 
 ReactDOM.render(
 	<React.StrictMode>

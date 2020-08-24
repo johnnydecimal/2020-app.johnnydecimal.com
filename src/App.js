@@ -1,55 +1,26 @@
 import React from "react";
 
 const App = () => (
-	<div class="w-full max-w-xs mx-auto my-16">
-		<form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-			<div class="mb-4">
-				<label
-					class="block text-gray-700 text-sm font-bold mb-2"
-					for="username"
-				>
-					Username
-				</label>
-				<input
-					class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-					id="username"
-					type="text"
-					placeholder="Username"
-				/>
+	<div className="max-w-5xl px-4 mx-auto leading-relaxed text-offblack sm:px-8 font-jdbody">
+		<header className="mt-2 mb-4 text-base text-gray-800 border-b-2 border-gray-400 sm:mb-6">
+			<span
+				className="inline px-2 mb-1 mr-8 text-base font-semibold text-red-700 border-b-2 border-red-700 sm:px-4"
+				style={{ paddingBottom: "3px" }}
+			>
+				<a href="https://johnnydecimal.com">Johnny&bull;Decimal</a>
+			</span>
+		</header>
+		<div className="flex flex-col sm:flex-row-reverse">
+			<main className="flex-grow mb-8 sm:w-3/4">Main content here</main>
+			{/* Needs pixel-perfect margin to line up the header lines */}
+			<div
+				className="mb-8 sm:w-1/4 print:hidden"
+				style={{ marginTop: "0.5rem" }}
+			>
+				{/* <TOC /> */}
+				Table of contents here
 			</div>
-			<div class="mb-6">
-				<label
-					class="block text-gray-700 text-sm font-bold mb-2"
-					for="password"
-				>
-					Password
-				</label>
-				<input
-					class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-					id="password"
-					type="password"
-					placeholder="******************"
-				/>
-				<p class="text-red-500 text-xs italic">Please choose a password.</p>
-			</div>
-			<div class="flex items-center justify-between">
-				<button
-					class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-					type="button"
-				>
-					Sign In
-				</button>
-				<a
-					class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-					href="#"
-				>
-					Forgot Password?
-				</a>
-			</div>
-		</form>
-		<p class="text-center text-gray-500 text-xs">
-			&copy;2020 Acme Corp. All rights reserved.
-		</p>
+		</div>
 	</div>
 );
 
