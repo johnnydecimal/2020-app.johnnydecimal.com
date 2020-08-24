@@ -10,17 +10,7 @@ const App = () => (
 				<a href="https://johnnydecimal.com">Johnny&bull;Decimal</a>
 			</span>
 		</header>
-		<div className="flex flex-col sm:flex-row-reverse">
-			<main className="flex-grow mb-8 sm:w-3/4">Main content here</main>
-			{/* Needs pixel-perfect margin to line up the header lines */}
-			<div
-				className="mb-8 sm:w-1/4 print:hidden"
-				style={{ marginTop: "0.5rem" }}
-			>
-				{/* <TOC /> */}
-				Table of contents here
-			</div>
-		</div>
+		<div className=""></div>
 	</div>
 );
 
