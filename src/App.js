@@ -1,4 +1,5 @@
 import React from "react";
+import LoginForm from "./components/LoginForm/LoginForm";
 
 const App = () => (
 	<div className="max-w-5xl px-4 mx-auto leading-relaxed text-offblack sm:px-8 font-jdbody">
@@ -10,7 +11,9 @@ const App = () => (
 				<a href="https://johnnydecimal.com">Johnny&bull;Decimal</a>
 			</span>
 		</header>
-		<div className=""></div>
+		<div className="grid justify-center align-middle">
+			<LoginForm />
+		</div>
 	</div>
 );
 
