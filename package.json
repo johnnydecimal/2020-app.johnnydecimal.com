@@ -6,13 +6,16 @@
 		"@testing-library/jest-dom": "^4.2.4",
 		"@testing-library/react": "^9.3.2",
 		"@testing-library/user-event": "^7.1.2",
+		"@xstate/react": "^0.8.1",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"react-hook-form": "^6.5.0",
 		"react-scripts": "3.4.3",
 		"typeface-fira-code": "^1.1.4",
 		"typeface-fira-sans": "0.0.75",
-		"typeface-playfair-display": "^1.1.4"
+		"typeface-playfair-display": "^1.1.4",
+		"userbase-js": "^2.1.3",
+		"xstate": "^4.13.0"
 	},
 	"devDependencies": {
 		"autoprefixer": "^9.8.6",

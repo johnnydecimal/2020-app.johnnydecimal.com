@@ -1,20 +1,44 @@
 import React from "react";
-import LoginForm from "./components/LoginForm/LoginForm";
+import { useMachine } from "@xstate/react";
 
-const App = () => (
-	<div className="max-w-5xl px-4 mx-auto leading-relaxed text-offblack sm:px-8 font-jdbody">
-		<header className="mt-2 mb-4 text-base text-gray-800 border-b-2 border-gray-400 sm:mb-6">
-			<span
-				className="inline px-2 mb-1 mr-8 text-base font-semibold text-red-700 border-b-2 border-red-700 sm:px-4"
-				style={{ paddingBottom: "3px" }}
-			>
-				<a href="https://johnnydecimal.com">Johnny&bull;Decimal</a>
-			</span>
-		</header>
-		<div className="grid justify-center align-middle">
-			<LoginForm />
-		</div>
-	</div>
-);
+import Header from "./components/Header";
+import loginStateMachine from "./machines/loginState";
+
+const App = () => {
+	const [loginState, loginStateSend] = useMachine(loginStateMachine);
+
+	switch (loginState.value) {
+		case "init":
+			return (
+				<div>
+					<div>init</div>
+					<button onClick={() => loginStateSend("NOT_LOGGED_IN")}>USER</button>
+				</div>
+			);
+
+		case "notLoggedin":
+			return <div>notLoggedin</div>;
+
+		case "tryingLogin":
+			return <div>tryingLogin</div>;
+
+		case "loggedIn":
+			return <div>loggedIn</div>;
+
+		default:
+			return <div>Theoretically impossible</div>;
+	}
+	// return (
+	// 	<div className="max-w-5xl px-4 mx-auto leading-relaxed text-offblack sm:px-8 font-jdbody">
+	// 		<Header />
+	// 		{console.log("loginState:", loginState)}
+	// 		<div>loginState: {loginState.value}</div>
+	// 		{/* Need some logic here to decide what to show. */}
+	// 		{/* Aah no, not here. Way up above return(), use a switch/case there
+	// 					and then return an entire component. So it's all pure JS, not
+	// 					this weird JS-in-braces situation down here. */}
+	// 	</div>
+	// );
+};
 
 export default App;
