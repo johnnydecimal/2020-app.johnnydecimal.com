@@ -1,5 +1,5 @@
 import { Machine, assign } from "xstate";
-// import userbase from "userbase-js";
+import userbase from "userbase-js";
 
 export const loginStateMachine = Machine({
 	strict: "true",
@@ -13,9 +13,26 @@ export const loginStateMachine = Machine({
 
 	states: {
 		init: {
-			on: {
-				LOGGED_IN: "loggedIn",
-				NOT_LOGGED_IN: "notLoggedin",
+			invoke: {
+				id: "userbaseInit",
+				src: () =>
+					userbase.init({
+						appId: "37c7462e-f79c-4ef3-bdb0-55968a34d572",
+					}),
+				onDone: [
+					{
+						target: "loggedIn",
+						cond: (_, event) => Boolean(event.data.user),
+						actions: [assign({ user: (_, event) => event.data.user })],
+					},
+					{
+						target: "notLoggedin",
+					},
+				],
+				onError: {
+					target: "error",
+					actions: assign({ error: (_, event) => event.data }),
+				},
 			},
 		},
 		notLoggedin: {
@@ -33,6 +50,9 @@ export const loginStateMachine = Machine({
 			on: {
 				LOGOUT: "notLoggedin",
 			},
+		},
+		error: {
+			type: "final",
 		},
 	},
 });

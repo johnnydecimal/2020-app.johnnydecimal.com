@@ -7,26 +7,23 @@ import loginStateMachine from "./machines/loginState";
 const App = () => {
 	const [loginState, loginStateSend] = useMachine(loginStateMachine);
 
-	switch (loginState.value) {
-		case "init":
-			return (
-				<div>
-					<div>init</div>
-					<button onClick={() => loginStateSend("NOT_LOGGED_IN")}>USER</button>
-				</div>
-			);
+	console.log("loginState.value:", loginState.value);
+	// https://xstate.js.org/docs/packages/xstate-react/#matching-states
+	switch (true) {
+		case loginState.matches("init"):
+			return <div>init</div>;
 
-		case "notLoggedin":
+		case loginState.matches("notLoggedin"):
 			return <div>notLoggedin</div>;
 
-		case "tryingLogin":
+		case loginState.matches("tryingLogin"):
 			return <div>tryingLogin</div>;
 
-		case "loggedIn":
+		case loginState.matches("loggedIn"):
 			return <div>loggedIn</div>;
 
 		default:
-			return <div>Theoretically impossible</div>;
+			return <div>Something else. Must be an error.</div>;
 	}
 	// return (
 	// 	<div className="max-w-5xl px-4 mx-auto leading-relaxed text-offblack sm:px-8 font-jdbody">
