@@ -1,26 +1,49 @@
+// External
 import React from "react";
 import { useMachine } from "@xstate/react";
 
-import Header from "./components/Header";
+// Internal logic
 import loginStateMachine from "./machines/loginState";
 
+// Internal views
+import Header from "./components/Header";
+import LoginForm from "./components/LoginForm";
+
 const App = () => {
-	const [loginState, loginStateSend] = useMachine(loginStateMachine);
+	const [loginState, loginStateSend, loginStateService] = useMachine(
+		loginStateMachine
+	);
 
 	console.log("loginState.value:", loginState.value);
+	console.log("loginState.context:", loginState.context);
 	// https://xstate.js.org/docs/packages/xstate-react/#matching-states
 	switch (true) {
 		case loginState.matches("init"):
 			return <div>init</div>;
 
-		case loginState.matches("notLoggedin"):
-			return <div>notLoggedin</div>;
+		case loginState.matches("notSignedIn"):
+			return (
+				<div className="max-w-lg mx-auto">
+					<LoginForm
+						loginStateSend={loginStateSend}
+						loginStateService={loginStateService}
+					/>
+				</div>
+			);
 
-		case loginState.matches("tryingLogin"):
+		case loginState.matches("tryingSignIn"):
 			return <div>tryingLogin</div>;
 
-		case loginState.matches("loggedIn"):
-			return <div>loggedIn</div>;
+		case loginState.matches("tryingSignUp"):
+			return <div>tryingSignUp</div>;
+
+		case loginState.matches("signedIn"):
+			return (
+				<div>
+					<div>loggedIn</div>
+					<div>{loginState.context.user.data.username}</div>
+				</div>
+			);
 
 		default:
 			return <div>Something else. Must be an error.</div>;
