@@ -16,12 +16,12 @@ const JohnnyDecimal = () => <div>Johnny.Decimal</div>;
 
 const App = () => {
 	const [loginState, loginStateSend, loginStateService] = useMachine(
-		loginStateMachine
+		loginStateMachine,
 	);
 
-	console.log("loginState.value:", loginState.value);
-	console.log("loginState.context:", loginState.context);
-	console.log("🥕 loginStateService:", loginStateService);
+	// console.log("loginState.value:", loginState.value);
+	// console.log("loginState.context:", loginState.context);
+	// console.log("🥕 loginStateService:", loginStateService);
 	// https://xstate.js.org/docs/packages/xstate-react/#matching-states
 
 	return (
