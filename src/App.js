@@ -6,70 +6,35 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // Internal logic
 import loginStateMachine from "./machines/loginState";
 
-// Internal views
-import Header from "./components/Header";
-import LoginForm from "./components/LoginForm";
-import Account from "./components/Account";
-
-const SignUp = () => <div>SignUp</div>;
-const JohnnyDecimal = () => <div>Johnny.Decimal</div>;
+// Internal components
+import SignedInOrNot from "./components/SignedInOrNot";
+import SignUpForm from "./components/SignUpForm";
 
 const App = () => {
+	// prettier-ignore
+	// eslint-disable-next-line no-unused-vars
 	const [loginState, loginStateSend, loginStateService] = useMachine(
-		loginStateMachine,
+		loginStateMachine
 	);
 
-	// console.log("loginState.value:", loginState.value);
-	// console.log("loginState.context:", loginState.context);
-	// console.log("🥕 loginStateService:", loginStateService);
-	// https://xstate.js.org/docs/packages/xstate-react/#matching-states
+	console.log("loginState.value:", loginState.value);
+	console.log("loginState.context:", loginState.context);
 
 	return (
 		<Router>
 			<Switch>
-				<Route path="/account">
+				{/* <Route path="/account">
 					<Account loginStateService={loginStateService} />
-				</Route>
+				</Route> */}
 				<Route path="/signup">
-					<SignUp loginStateService={loginStateService} />
+					<SignUpForm loginStateService={loginStateService} />
 				</Route>
 				<Route path="/">
-					<JohnnyDecimal loginStateService={loginStateService} />
+					<SignedInOrNot loginStateService={loginStateService} />
 				</Route>
 			</Switch>
 		</Router>
 	);
-	// switch (true) {
-	// 	case loginState.matches("init"):
-	// 		return <div>init</div>;
-
-	// 	case loginState.matches("notSignedIn"):
-	// 		return (
-	// 			<div className="max-w-lg mx-auto">
-	// 				<LoginForm
-	// 					loginStateSend={loginStateSend}
-	// 					loginStateService={loginStateService}
-	// 				/>
-	// 			</div>
-	// 		);
-
-	// 	case loginState.matches("tryingSignIn"):
-	// 		return <div>tryingLogin</div>;
-
-	// 	case loginState.matches("tryingSignUp"):
-	// 		return <div>tryingSignUp</div>;
-
-	// 	case loginState.matches("signedIn"):
-	// 		return (
-	// 			<div>
-	// 				<div>loggedIn</div>
-	// 				<div>{loginState.context.user.data.username}</div>
-	// 			</div>
-	// 		);
-
-	// 	default:
-	// 		return <div>Something else. Must be an error.</div>;
-	// }
 };
 
 export default App;

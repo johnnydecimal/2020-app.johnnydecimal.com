@@ -27,6 +27,7 @@ export const loginStateMachine = Machine({
 					},
 					{
 						target: "notSignedIn",
+						actions: assign({ error: (_context, event) => event.data }),
 					},
 				],
 				onError: {

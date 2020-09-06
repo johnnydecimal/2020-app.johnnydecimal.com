@@ -1,12 +1,21 @@
-// External
 import React from "react";
+import PropTypes from "prop-types";
 import { useService } from "@xstate/react";
 import { useForm } from "react-hook-form";
-import userbase from "userbase-js";
 
-const LoginForm = ({ loginStateService }) => {
-	const { register, handleSubmit, watch, errors } = useForm();
+/**
+ * # SignInForm
+ *
+ * - A form which allows the user to sign in.
+ * - All signing-in logic is handled by `loginStateMachine`: this thing just
+ *   sends the machine an event.
+ *
+ * @param {object} loginStateService - XState/loginStateMachine
+ */
+const SignInForm = ({ loginStateService }) => {
+	// eslint-disable-next-line no-unused-vars
 	const [loginState, loginStateSend] = useService(loginStateService);
+	const { register, handleSubmit } = useForm();
 
 	const signIn = (formData) => {
 		console.log("🎒signIn:", formData);
@@ -22,22 +31,14 @@ const LoginForm = ({ loginStateService }) => {
 		});
 	};
 
-	const signUp = (formData) => {
-		console.log("🦋signUp:", formData);
-		loginStateSend({
-			type: "TRY_SIGNUP",
-			formData,
-		});
-	};
-
 	return (
 		<div className="">
 			<h1 className="mb-2 text-2xl border-b border-gray-800 font-jdheader">
-				Log in
+				Sign in
 			</h1>
 			<p className="mb-4 text-xs">
 				Do you need to{" "}
-				<a href="#" className="text-blue-600">
+				<a href="/signup" className="text-blue-600">
 					sign up?
 				</a>
 			</p>
@@ -75,4 +76,8 @@ const LoginForm = ({ loginStateService }) => {
 	);
 };
 
-export default LoginForm;
+SignInForm.propTypes = {
+	loginStateService: PropTypes.object.isRequired,
+};
+
+export default SignInForm;
