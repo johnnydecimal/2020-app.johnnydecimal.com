@@ -8,10 +8,10 @@ import { Link } from "@reach/router";
  * # SignUpForm
  *
  * - A form which allows the user to sign up.
- * - All signing-up logic is handled by `loginStateMachine`: this thing just
+ * - All signing-up logic is handled by `signInStateMachine`: this thing just
  *   sends the machine an event.
  *
- * @param {object} loginStateService - XState/loginStateMachine
+ * @param {object} loginStateService - XState/signInStateMachine
  */
 const SignUpForm = ({ loginStateService }) => {
 	const [loginState, loginStateSend] = useService(loginStateService);

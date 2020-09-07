@@ -2,7 +2,7 @@ import { Machine, assign } from "xstate";
 import userbase from "userbase-js";
 import { navigate } from "@reach/router";
 
-export const loginStateMachine = Machine({
+export const signInStateMachine = Machine({
 	strict: "true",
 
 	id: "loginState",
@@ -144,4 +144,4 @@ export const loginStateMachine = Machine({
 	},
 });
 
-export default loginStateMachine;
+export default signInStateMachine;

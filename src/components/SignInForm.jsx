@@ -8,10 +8,10 @@ import { Link } from "@reach/router";
  * # SignInForm
  *
  * - A form which allows the user to sign in.
- * - All signing-in logic is handled by `loginStateMachine`: this thing just
+ * - All signing-in logic is handled by `signInStateMachine`: this thing just
  *   sends the machine an event.
  *
- * @param {object} loginStateService - XState/loginStateMachine
+ * @param {object} loginStateService - XState/signInStateMachine
  */
 const SignInForm = ({ loginStateService, redirectMessage }) => {
 	// eslint-disable-next-line no-unused-vars

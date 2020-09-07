@@ -4,7 +4,7 @@ import { useMachine } from "@xstate/react";
 import { Router } from "@reach/router";
 
 // Internal logic
-import loginStateMachine from "../machines/loginState";
+import signInStateMachine from "../machines/signInState";
 
 // Internal components
 import Account from "./Account";
@@ -17,7 +17,7 @@ const JDRouter = () => {
 	// prettier-ignore
 	// eslint-disable-next-line no-unused-vars
 	const [loginState, loginStateSend, loginStateService] = useMachine(
-		loginStateMachine
+		signInStateMachine
 	);
 
 	console.debug("loginState.value:", loginState.value);
