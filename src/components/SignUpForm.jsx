@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useService } from "@xstate/react";
 import { useForm } from "react-hook-form";
+import { Link } from "@reach/router";
 
 /**
  * # SignUpForm
@@ -17,7 +18,7 @@ const SignUpForm = ({ loginStateService }) => {
 	const { register, handleSubmit } = useForm();
 
 	const signUp = (formData) => {
-		console.log("🎒signIn:", formData);
+		console.debug("🎒signIn:", formData);
 		/** So the login form needs to pass the credentials that the user has
 		 *  entered *to the machine*, and the machine will do all of the logging in.
 		 *
@@ -37,12 +38,14 @@ const SignUpForm = ({ loginStateService }) => {
 			</h1>
 			<p className="mb-4 text-xs">
 				Do you need to{" "}
-				<a href="/" className="text-blue-600">
+				<Link to="/" className="text-blue-600">
 					sign in?
-				</a>
+				</Link>
 			</p>
-			{loginState.context.error ? (
-				<div className="text-red-700">{loginState.context.error.message}</div>
+			{loginState.context.error.data ? (
+				<div className="text-red-700">
+					{loginState.context.error.data.message}
+				</div>
 			) : null}
 			<form onSubmit={handleSubmit(signUp)} className="flex flex-col">
 				<label htmlFor="username" className="text-sm">
@@ -64,12 +67,21 @@ const SignUpForm = ({ loginStateService }) => {
 					ref={register}
 					className="px-2 py-1 mb-4 border-2 border-gray-800 rounded-md shadow-inner text-jdred-900 font-jdmono focus:outline-none focus:border-jdred-900 hover:border-jdred-900 focus:bg-jdred-100 hover:bg-jdred-100"
 				/>
-				<button
-					className="h-10 bg-blue-300 border-t border-b-2 border-l-2 border-r border-blue-600 rounded shadow-md"
-					onClick={handleSubmit(signUp)}
-				>
-					Log in
-				</button>
+				{!loginState.matches("tryingSignUp") ? (
+					<button
+						className="h-10 bg-blue-300 border-t border-b-2 border-l-2 border-r border-blue-600 rounded shadow-md"
+						onClick={handleSubmit(signUp)}
+					>
+						Sign up
+					</button>
+				) : (
+					<button
+						disabled
+						className="h-10 bg-gray-300 border-t border-b-2 border-l-2 border-r border-gray-600 rounded shadow-md"
+					>
+						Signing up...
+					</button>
+				)}
 			</form>
 		</div>
 	);

@@ -60,7 +60,7 @@ export const loginStateMachine = Machine({
 							assign({ user: (context, event) => event.data }),
 							assign({ error: null }),
 							(context, event) =>
-								console.log("🚜tryingSignIn/onDone/event:", event),
+								console.debug("🚜tryingSignIn/onDone/event:", event),
 						],
 					},
 					{
@@ -103,7 +103,10 @@ export const loginStateMachine = Machine({
 					{
 						target: "signedIn",
 						cond: (context, event) => Boolean(event.data),
-						actions: [assign({ user: (context, event) => event })],
+						actions: [
+							assign({ user: (context, event) => event }),
+							() => navigate("/"),
+						],
 					},
 					{
 						target: "notSignedIn",
