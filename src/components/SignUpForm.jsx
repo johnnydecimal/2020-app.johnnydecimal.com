@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router-dom";
 import { useService } from "@xstate/react";
 import { useForm } from "react-hook-form";
 
@@ -16,11 +15,6 @@ import { useForm } from "react-hook-form";
 const SignUpForm = ({ loginStateService }) => {
 	const [loginState, loginStateSend] = useService(loginStateService);
 	const { register, handleSubmit } = useForm();
-
-	// TODO: Make this better.
-	if (!loginState.matches("notSignedIn")) {
-		return <Redirect to="/" />;
-	}
 
 	const signUp = (formData) => {
 		console.log("🎒signIn:", formData);

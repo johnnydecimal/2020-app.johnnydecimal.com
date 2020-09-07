@@ -17,7 +17,7 @@ const SignedInOrNot = ({ loginStateService }) => {
 	const [loginState, loginStateSend] = useService(loginStateService);
 
 	if (loginState.matches("signedIn")) {
-		return <div>You're signed in, here's the app</div>;
+		return <div>You’re signed in, here’s the app</div>;
 	} else {
 		return <SignInForm loginStateService={loginStateService} />;
 	}

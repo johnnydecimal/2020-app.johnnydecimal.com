@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
  *
  * @param {object} loginStateService - XState/loginStateMachine
  */
-const SignInForm = ({ loginStateService }) => {
+const SignInForm = ({ loginStateService, redirectMessage }) => {
 	// eslint-disable-next-line no-unused-vars
 	const [loginState, loginStateSend] = useService(loginStateService);
 	const { register, handleSubmit } = useForm();
@@ -45,6 +45,7 @@ const SignInForm = ({ loginStateService }) => {
 			{loginState.context.error ? (
 				<div className="text-red-700">{loginState.context.error.message}</div>
 			) : null}
+			{redirectMessage ? <div>{redirectMessage}</div> : null}
 			<form onSubmit={handleSubmit(signIn)} className="flex flex-col">
 				<label htmlFor="username" className="text-sm">
 					Username
@@ -78,6 +79,7 @@ const SignInForm = ({ loginStateService }) => {
 
 SignInForm.propTypes = {
 	loginStateService: PropTypes.object.isRequired,
+	redirectMessage: PropTypes.string,
 };
 
 export default SignInForm;
