@@ -1,16 +1,24 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import { useService } from "@xstate/react";
-import { Redirect } from "react-router-dom";
+import { Link } from "@reach/router";
 
 const Account = ({ loginStateService }) => {
 	const [loginState, loginStateSend] = useService(loginStateService);
 
-	if (loginState.matches("signedIn")) {
-		return <div>Account page</div>;
-	} else {
-		return <Redirect to="/" />;
-	}
+	const signOut = () => {
+		loginStateSend({
+			type: "TRY_SIGNOUT",
+		});
+	};
+
+	return (
+		<div>
+			<Link to="/">Go back to the app</Link>
+			<hr />
+			<button onClick={signOut}>Sign out</button>
+		</div>
+	);
 };
 
 export default Account;
