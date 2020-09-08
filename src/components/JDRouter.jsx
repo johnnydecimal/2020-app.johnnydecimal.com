@@ -7,11 +7,10 @@ import { Router } from "@reach/router";
 import signInStateMachine from "../machines/signInState";
 
 // Internal components
-import Account from "./Account";
 import FourOhFour from "./FourOhFour";
+import JDSignedIn from "./JDSignedIn";
 import SignInForm from "./SignInForm";
 import SignUpForm from "./SignUpForm";
-import TheApp from "./TheApp";
 
 const JDRouter = () => {
 	// prettier-ignore
@@ -35,13 +34,7 @@ const JDRouter = () => {
 		);
 	} else if (loginState.matches("signedIn")) {
 		// == SIGNED IN
-		return (
-			<Router>
-				<Account path="account" loginStateService={loginStateService} />
-				<TheApp path="/" loginStateService={loginStateService} />
-				<FourOhFour default />
-			</Router>
-		);
+		return <JDSignedIn loginStateService={loginStateService} />;
 	} else {
 		// == NOT SIGNED IN
 		return (
