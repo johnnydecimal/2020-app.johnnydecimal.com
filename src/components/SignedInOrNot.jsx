@@ -10,7 +10,7 @@ import SignInForm from "./SignInForm";
  * - If the user is signed in, return the application.
  * - If the user is not signed in, return a signin screen.
  *
- * @param {object} loginStateService - XState/loginStateMachine
+ * @param {object} loginStateService - XState/signInStateMachine
  */
 const SignedInOrNot = ({ loginStateService }) => {
 	// eslint-disable-next-line no-unused-vars

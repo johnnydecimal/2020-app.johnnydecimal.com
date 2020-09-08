@@ -2,15 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useService } from "@xstate/react";
 import { useForm } from "react-hook-form";
+import { Link } from "@reach/router";
 
 /**
  * # SignInForm
  *
  * - A form which allows the user to sign in.
- * - All signing-in logic is handled by `loginStateMachine`: this thing just
+ * - All signing-in logic is handled by `signInStateMachine`: this thing just
  *   sends the machine an event.
  *
- * @param {object} loginStateService - XState/loginStateMachine
+ * @param {object} loginStateService - XState/signInStateMachine
  */
 const SignInForm = ({ loginStateService, redirectMessage }) => {
 	// eslint-disable-next-line no-unused-vars
@@ -18,7 +19,7 @@ const SignInForm = ({ loginStateService, redirectMessage }) => {
 	const { register, handleSubmit } = useForm();
 
 	const signIn = (formData) => {
-		console.log("🎒signIn:", formData);
+		console.debug("🎒signIn:", formData);
 		/** So the login form needs to pass the credentials that the user has
 		 *  entered *to the machine*, and the machine will do all of the logging in.
 		 *
@@ -38,9 +39,9 @@ const SignInForm = ({ loginStateService, redirectMessage }) => {
 			</h1>
 			<p className="mb-4 text-xs">
 				Do you need to{" "}
-				<a href="/signup" className="text-blue-600">
+				<Link to="/signup" className="text-blue-600">
 					sign up?
-				</a>
+				</Link>
 			</p>
 			{loginState.context.error ? (
 				<div className="text-red-700">{loginState.context.error.message}</div>
@@ -66,12 +67,21 @@ const SignInForm = ({ loginStateService, redirectMessage }) => {
 					ref={register}
 					className="px-2 py-1 mb-4 border-2 border-gray-800 rounded-md shadow-inner text-jdred-900 font-jdmono focus:outline-none focus:border-jdred-900 hover:border-jdred-900 focus:bg-jdred-100 hover:bg-jdred-100"
 				/>
-				<button
-					className="h-10 bg-blue-300 border-t border-b-2 border-l-2 border-r border-blue-600 rounded shadow-md"
-					onClick={handleSubmit(signIn)}
-				>
-					Log in
-				</button>
+				{!loginState.matches("tryingSignIn") ? (
+					<button
+						className="h-10 bg-blue-300 border-t border-b-2 border-l-2 border-r border-blue-600 rounded shadow-md"
+						onClick={handleSubmit(signIn)}
+					>
+						Log in
+					</button>
+				) : (
+					<button
+						disabled
+						className="h-10 bg-gray-300 border-t border-b-2 border-l-2 border-r border-gray-600 rounded shadow-md"
+					>
+						Logging in...
+					</button>
+				)}
 			</form>
 		</div>
 	);
