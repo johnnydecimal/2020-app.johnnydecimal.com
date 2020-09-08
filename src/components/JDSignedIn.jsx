@@ -18,11 +18,12 @@ const JDSignedIn = ({ loginStateService }) => {
 	// prettier-ignore
 	// eslint-disable-next-line no-unused-vars
 	const [databaseState, databaseStateSend, databaseStateService] = useMachine(
-		databaseStateMachine, {
-      context: {
-        setJdData
-      }
-    }
+		databaseStateMachine,
+		{
+			context: {
+				setJdData,
+			},
+		}
 	);
 
 	return (
