@@ -2,8 +2,8 @@ import { Machine, assign } from "xstate";
 import userbase from "userbase-js";
 import { navigate } from "@reach/router";
 
-export const signInStateMachine = Machine({
-	strict: "true",
+const signInStateMachine = Machine({
+	strict: true,
 
 	id: "loginState",
 	initial: "init",
