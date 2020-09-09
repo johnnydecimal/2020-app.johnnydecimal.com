@@ -1,4 +1,4 @@
-import JDArea from '../jdTypes/JDArea';
+import JDArea from '../types/JDArea';
 
 /**
  * isAreaOrderValid returns true if the second area sequentially follows the

@@ -1,4 +1,4 @@
-import JDCategory from '../jdTypes/JDCategory';
+import JDCategory from '../types/JDCategory';
 
 /**
  * isCategoryOrderValid returns true if the second category sequentially

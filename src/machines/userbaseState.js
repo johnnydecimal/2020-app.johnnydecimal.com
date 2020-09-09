@@ -1,6 +1,8 @@
 import { Machine } from "xstate";
 import userbase from "userbase-js";
 
+import JDMachineProcessor2 from '../jdLogic/jdDetector/jdMachineProcessor2'
+
 const databaseStateMachine = Machine({
 	strict: "true",
 
@@ -16,6 +18,7 @@ const databaseStateMachine = Machine({
 						databaseName: "test-2020-09-08-14-16",
 						changeHandler: (userbaseData) => {
 							context.setJdData(userbaseData);
+							JDMachineProcessor2(userbaseData);
 						},
 					});
 				},

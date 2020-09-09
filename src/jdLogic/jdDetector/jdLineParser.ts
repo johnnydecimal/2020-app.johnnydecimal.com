@@ -1,4 +1,4 @@
-import JDLineObject from '../jdTypes/JDLineObject';
+import JDLineObject from '../types/JDLineObject';
 
 /**
  * jdLineParser takes one line and parses it to see if it is a JD item.

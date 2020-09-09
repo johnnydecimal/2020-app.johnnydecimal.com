@@ -1,4 +1,4 @@
-import JDID from '../jdTypes/JDID';
+import JDID from '../types/JDID';
 
 /**
  * isIDOrderValid returns true if the second ID sequentially follows the
