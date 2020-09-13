@@ -11,11 +11,14 @@ import { Link } from "@reach/router";
  * - All signing-in logic is handled by `signInStateMachine`: this thing just
  *   sends the machine an event.
  *
- * @param {object} loginStateService - XState/signInStateMachine
+ * @param {object} signInStateService - XState/signInStateMachine
  */
-const SignInForm = ({ loginStateService, redirectMessage }) => {
+const SignInForm = ({ signInStateService, redirectMessage }) => {
+	// props: RouteComponentProps,
+	// { signInStateService, redirectMessage }: any,
+
 	// eslint-disable-next-line no-unused-vars
-	const [loginState, loginStateSend] = useService(loginStateService);
+	const [signInState, signInStateSend] = useService(signInStateService);
 	const { register, handleSubmit } = useForm();
 
 	const signIn = (formData) => {
@@ -26,7 +29,7 @@ const SignInForm = ({ loginStateService, redirectMessage }) => {
 		 *  This will send an event to the service. They look like this:
 		 *  https://xstate.js.org/docs/guides/events.html#sending-events
 		 */
-		loginStateSend({
+		signInStateSend({
 			type: "TRY_SIGNIN",
 			formData,
 		});
@@ -43,8 +46,8 @@ const SignInForm = ({ loginStateService, redirectMessage }) => {
 					sign up?
 				</Link>
 			</p>
-			{loginState.context.error ? (
-				<div className="text-red-700">{loginState.context.error.message}</div>
+			{signInState.context.error ? (
+				<div className="text-red-700">{signInState.context.error.message}</div>
 			) : null}
 			{redirectMessage ? <div>{redirectMessage}</div> : null}
 			<form onSubmit={handleSubmit(signIn)} className="flex flex-col">
@@ -67,7 +70,7 @@ const SignInForm = ({ loginStateService, redirectMessage }) => {
 					ref={register}
 					className="px-2 py-1 mb-4 border-2 border-gray-800 rounded-md shadow-inner text-jdred-900 font-jdmono focus:outline-none focus:border-jdred-900 hover:border-jdred-900 focus:bg-jdred-100 hover:bg-jdred-100"
 				/>
-				{!loginState.matches("tryingSignIn") ? (
+				{!signInState.matches("tryingSignIn") ? (
 					<button
 						className="h-10 bg-blue-300 border-t border-b-2 border-l-2 border-r border-blue-600 rounded shadow-md"
 						onClick={handleSubmit(signIn)}
@@ -88,7 +91,7 @@ const SignInForm = ({ loginStateService, redirectMessage }) => {
 };
 
 SignInForm.propTypes = {
-	loginStateService: PropTypes.object.isRequired,
+	signInStateService: PropTypes.object.isRequired,
 	redirectMessage: PropTypes.string,
 };
 

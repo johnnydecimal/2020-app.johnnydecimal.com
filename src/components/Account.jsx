@@ -3,12 +3,12 @@ import React from "react";
 import { useService } from "@xstate/react";
 import { Link } from "@reach/router";
 
-const Account = ({ loginStateService }) => {
+const Account = ({ signInStateService }) => {
 	// eslint-disable-next-line no-unused-vars
-	const [loginState, loginStateSend] = useService(loginStateService);
+	const [signInState, signInStateSend] = useService(signInStateService);
 
 	const signOut = () => {
-		loginStateSend({
+		signInStateSend({
 			type: "TRY_SIGNOUT",
 		});
 	};

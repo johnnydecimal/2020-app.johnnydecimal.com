@@ -10,21 +10,21 @@ import SignInForm from "./SignInForm";
  * - If the user is signed in, return the application.
  * - If the user is not signed in, return a signin screen.
  *
- * @param {object} loginStateService - XState/signInStateMachine
+ * @param {object} signInStateService - XState/signInStateMachine
  */
-const SignedInOrNot = ({ loginStateService }) => {
+const SignedInOrNot = ({ signInStateService }) => {
 	// eslint-disable-next-line no-unused-vars
-	const [loginState, loginStateSend] = useService(loginStateService);
+	const [signInState, signInStateSend] = useService(signInStateService);
 
-	if (loginState.matches("signedIn")) {
+	if (signInState.matches("signedIn")) {
 		return <div>You’re signed in, here’s the app</div>;
 	} else {
-		return <SignInForm loginStateService={loginStateService} />;
+		return <SignInForm signInStateService={signInStateService} />;
 	}
 };
 
 SignedInOrNot.propTypes = {
-	loginStateService: PropTypes.object.isRequired,
+	signInStateService: PropTypes.object.isRequired,
 };
 
 export default SignedInOrNot;

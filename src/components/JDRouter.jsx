@@ -1,12 +1,12 @@
-// Externalcomponents
+// === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import React from "react";
 import { useMachine } from "@xstate/react";
 import { Router } from "@reach/router";
 
-// Internal logic
+// === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import signInStateMachine from "../machines/signInState";
 
-// Internal components
+// === Internal components  ===-===-===-===-===-===-===-===-===-===-===-===-===
 import FourOhFour from "./FourOhFour";
 import JDSignedIn from "./JDSignedIn";
 import SignInForm from "./SignInForm";
@@ -15,32 +15,32 @@ import SignUpForm from "./SignUpForm";
 const JDRouter = () => {
 	// prettier-ignore
 	// eslint-disable-next-line no-unused-vars
-	const [loginState, loginStateSend, loginStateService] = useMachine(
+	const [signInState, signInStateSend, signInStateService] = useMachine(
 		signInStateMachine
 	);
 
-	console.debug("loginState.value:", loginState.value);
-	console.debug("loginState.context:", loginState.context);
+	console.debug("signInState.value:", signInState.value);
+	console.debug("signInState.context:", signInState.context);
 
-	if (loginState.matches("init")) {
+	if (signInState.matches("init")) {
 		// == INITIALISING
 		return <div className="text-3xl text-center text-red-600">INIT</div>;
-	} else if (loginState.matches("error")) {
+	} else if (signInState.matches("error")) {
 		// == FULLY BREAKING ERROR
 		return (
 			<div className="m-12 text-6xl text-red-600">
 				ERROR! End-of-state. Done. Fubar.
 			</div>
 		);
-	} else if (loginState.matches("signedIn")) {
+	} else if (signInState.matches("signedIn")) {
 		// == SIGNED IN
-		return <JDSignedIn loginStateService={loginStateService} />;
+		return <JDSignedIn signInStateService={signInStateService} />;
 	} else {
 		// == NOT SIGNED IN
 		return (
 			<Router>
-				<SignInForm path="/" loginStateService={loginStateService} />
-				<SignUpForm path="signup" loginStateService={loginStateService} />
+				<SignInForm path="/" signInStateService={signInStateService} />
+				<SignUpForm path="signup" signInStateService={signInStateService} />
 				{/* TODO: Needs something here to handle the edge cases, say where you
 						were signed in, you're on /account, then you sign out. While the
 						machine is in the signing-out phase, you'll see a flash of 

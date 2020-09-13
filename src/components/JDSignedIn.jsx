@@ -13,7 +13,7 @@ import FourOhFour from "./FourOhFour";
 import TheApp from "./TheApp";
 import { useMachine } from "@xstate/react";
 
-const JDSignedIn = ({ loginStateService }) => {
+const JDSignedIn = ({ signInStateService }) => {
 	const [jdData, setJdData] = useState();
 	// prettier-ignore
 	// eslint-disable-next-line no-unused-vars
@@ -28,12 +28,12 @@ const JDSignedIn = ({ loginStateService }) => {
 
 	return (
 		<Router>
-			<Account path="account" loginStateService={loginStateService} />
+			<Account path="account" signInStateService={signInStateService} />
 			<TheApp
 				path="/"
 				jdData={jdData}
 				databaseStateService={databaseStateService}
-				loginStateService={loginStateService}
+				signInStateService={signInStateService}
 			/>
 			<FourOhFour default />
 		</Router>
@@ -41,7 +41,7 @@ const JDSignedIn = ({ loginStateService }) => {
 };
 
 JDSignedIn.propTypes = {
-	loginStateService: PropTypes.object.isRequired,
+	signInStateService: PropTypes.object.isRequired,
 };
 
 export default JDSignedIn;

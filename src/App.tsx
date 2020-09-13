@@ -1,7 +1,7 @@
-// External
+// === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import React from "react";
 
-// Internal components
+// === Internal components  ===-===-===-===-===-===-===-===-===-===-===-===-===
 import JDRouter from "./components/JDRouter";
 
 const App = () => (
@@ -9,4 +9,5 @@ const App = () => (
 		<JDRouter />
 	</div>
 );
+
 export default App;

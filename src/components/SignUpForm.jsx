@@ -11,10 +11,10 @@ import { Link } from "@reach/router";
  * - All signing-up logic is handled by `signInStateMachine`: this thing just
  *   sends the machine an event.
  *
- * @param {object} loginStateService - XState/signInStateMachine
+ * @param {object} signInStateService - XState/signInStateMachine
  */
-const SignUpForm = ({ loginStateService }) => {
-	const [loginState, loginStateSend] = useService(loginStateService);
+const SignUpForm = ({ signInStateService }) => {
+	const [signInState, signInStateSend] = useService(signInStateService);
 	const { register, handleSubmit } = useForm();
 
 	const signUp = (formData) => {
@@ -25,7 +25,7 @@ const SignUpForm = ({ loginStateService }) => {
 		 *  This will send an event to the service. They look like this:
 		 *  https://xstate.js.org/docs/guides/events.html#sending-events
 		 */
-		loginStateSend({
+		signInStateSend({
 			type: "TRY_SIGNUP",
 			formData,
 		});
@@ -42,9 +42,9 @@ const SignUpForm = ({ loginStateService }) => {
 					sign in?
 				</Link>
 			</p>
-			{loginState.context.error.data ? (
+			{signInState.context.error.data ? (
 				<div className="text-red-700">
-					{loginState.context.error.data.message}
+					{signInState.context.error.data.message}
 				</div>
 			) : null}
 			<form onSubmit={handleSubmit(signUp)} className="flex flex-col">
@@ -67,7 +67,7 @@ const SignUpForm = ({ loginStateService }) => {
 					ref={register}
 					className="px-2 py-1 mb-4 border-2 border-gray-800 rounded-md shadow-inner text-jdred-900 font-jdmono focus:outline-none focus:border-jdred-900 hover:border-jdred-900 focus:bg-jdred-100 hover:bg-jdred-100"
 				/>
-				{!loginState.matches("tryingSignUp") ? (
+				{!signInState.matches("tryingSignUp") ? (
 					<button
 						className="h-10 bg-blue-300 border-t border-b-2 border-l-2 border-r border-blue-600 rounded shadow-md"
 						onClick={handleSubmit(signUp)}
@@ -88,7 +88,7 @@ const SignUpForm = ({ loginStateService }) => {
 };
 
 SignUpForm.propTypes = {
-	loginStateService: PropTypes.object.isRequired,
+	signInStateService: PropTypes.object.isRequired,
 };
 
 export default SignUpForm;

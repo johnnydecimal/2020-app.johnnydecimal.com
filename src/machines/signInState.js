@@ -5,10 +5,11 @@ import { navigate } from "@reach/router";
 const signInStateMachine = Machine({
 	strict: true,
 
-	id: "loginState",
+	id: "signInState",
 	initial: "init",
 
 	context: {
+		formData: undefined,
 		user: undefined,
 	},
 
