@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import userbase from "userbase-js";
 
 const TheApp = ({ jdData }) => {
-	console.debug("jdData:", jdData);
+	// console.debug("jdData:", jdData);
 	const { register, handleSubmit } = useForm();
 	const onSubmit = (formData) => {
 		console.debug("Your form's data:", formData);
