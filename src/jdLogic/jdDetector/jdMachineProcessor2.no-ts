@@ -6,8 +6,9 @@ import { interpret } from "xstate";
 import jdMachine from "../../machines/jdParser";
 
 // Types
-import UserbaseData from "../types/UserbaseData";
-import JDMachineProcessorOutput from "../types/jDMachineProcessorOutput";
+import { UserbaseData } from "../types/Userbase";
+// import JDMachineProcessorOutput from "../types/jDMachineProcessorOutput";
+import JDProject from "../types/JDProject";
 
 /**
  * jdArrayCheck takes an array of UserbaseData objects and validates that they
@@ -18,7 +19,7 @@ import JDMachineProcessorOutput from "../types/jDMachineProcessorOutput";
  * @param {array} userbaseData An array of UserbaseData objects. That is, each
  *                                is an object { item: JDitem, itemId: guid}.
  */
-const jdArrayCheck = (userbaseData: UserbaseData): JDMachineProcessorOutput => {
+const jdArrayCheck = (userbaseData: UserbaseData): JDProject => {
 	// TODO: fix :any type
 	// // Create the array of objects to analyse.
 	// let detectedArray: Array<JDLineObject> = [];
@@ -57,13 +58,14 @@ const jdArrayCheck = (userbaseData: UserbaseData): JDMachineProcessorOutput => {
 		jdMachineService.stop();
 		// detectedArray might contain a bunch of blank lines here. Strip them.
 		// TODO perhaps think about making this an option?
+		// TODO just pulled this out for now to keep TS quiet
 		const finalArray = userbaseData.filter(
 			(item: { jdType: string }) => item.jdType !== "emptyline",
 		);
 		console.debug("🎆holy shit this worked");
 		return {
-			status: "success",
-			jdArray: finalArray,
+			status: "valid",
+			jdProjectData: finalArray,
 		};
 	} else {
 		console.debug("🧨dynamite! validation failed");

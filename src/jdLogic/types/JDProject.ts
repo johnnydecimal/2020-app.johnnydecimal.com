@@ -1,4 +1,5 @@
 import JDItem from "./JDItem";
+import { UserbaseData } from "./Userbase";
 
 /**
  * JDProject is the type for any JD Project.
@@ -19,11 +20,11 @@ import JDItem from "./JDItem";
  * when rendered in order, represents the entire JD Project. This can include
  * dividers and blank lines as required.
  */
-type JDProject = {
+interface JDProject {
 	status: "valid" | "error";
-	jdProjectData?: Array<JDItem>;
+	data: UserbaseData; // Required, but can of course be empty.
 	error?: string;
 	errorLine?: Number;
-};
+}
 
 export default JDProject;

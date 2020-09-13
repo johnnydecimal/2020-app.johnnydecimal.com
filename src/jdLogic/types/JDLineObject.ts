@@ -3,7 +3,7 @@
  *
  * **DEPRICATED** -- use JDItem
  */
-type JDLineObject = {
+interface JDLineObject {
 	jdType:
 		| "project"
 		| "area"
@@ -17,6 +17,6 @@ type JDLineObject = {
 	jdTitle?: string;
 	comment?: string; // Any inline comments like this one
 	error?: "Nothing matched." | "Multi-line input not allowed.";
-};
+}
 
 export default JDLineObject;

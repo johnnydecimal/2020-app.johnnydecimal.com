@@ -30,7 +30,7 @@ const TheApp = ({ jdData }) => {
 				{jdData ? (
 					jdData.map((item) => (
 						<li className="ml-6 text-blue-600 list-disc" key={item.itemId}>
-							{item.item.JohnnyDecimal}
+							{item.item.jdNumber}
 						</li>
 					))
 				) : (
