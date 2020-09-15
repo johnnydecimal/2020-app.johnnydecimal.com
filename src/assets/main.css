@@ -10563,12 +10563,16 @@ video {
   clear: none;
 }
 
-.font-jdbody {
-  font-family: Fira Sans;
+.font-jdcode {
+  font-family: Fira Code;
 }
 
 .font-jdmono {
-  font-family: Fira Code;
+  font-family: Fira Mono;
+}
+
+.font-jdbody {
+  font-family: Fira Sans;
 }
 
 .font-jdheader {
@@ -29124,12 +29128,16 @@ video {
     clear: none;
   }
 
-  .sm\:font-jdbody {
-    font-family: Fira Sans;
+  .sm\:font-jdcode {
+    font-family: Fira Code;
   }
 
   .sm\:font-jdmono {
-    font-family: Fira Code;
+    font-family: Fira Mono;
+  }
+
+  .sm\:font-jdbody {
+    font-family: Fira Sans;
   }
 
   .sm\:font-jdheader {
@@ -47655,12 +47663,16 @@ video {
     clear: none;
   }
 
-  .md\:font-jdbody {
-    font-family: Fira Sans;
+  .md\:font-jdcode {
+    font-family: Fira Code;
   }
 
   .md\:font-jdmono {
-    font-family: Fira Code;
+    font-family: Fira Mono;
+  }
+
+  .md\:font-jdbody {
+    font-family: Fira Sans;
   }
 
   .md\:font-jdheader {
@@ -66186,12 +66198,16 @@ video {
     clear: none;
   }
 
-  .lg\:font-jdbody {
-    font-family: Fira Sans;
+  .lg\:font-jdcode {
+    font-family: Fira Code;
   }
 
   .lg\:font-jdmono {
-    font-family: Fira Code;
+    font-family: Fira Mono;
+  }
+
+  .lg\:font-jdbody {
+    font-family: Fira Sans;
   }
 
   .lg\:font-jdheader {
@@ -84717,12 +84733,16 @@ video {
     clear: none;
   }
 
-  .xl\:font-jdbody {
-    font-family: Fira Sans;
+  .xl\:font-jdcode {
+    font-family: Fira Code;
   }
 
   .xl\:font-jdmono {
-    font-family: Fira Code;
+    font-family: Fira Mono;
+  }
+
+  .xl\:font-jdbody {
+    font-family: Fira Sans;
   }
 
   .xl\:font-jdheader {

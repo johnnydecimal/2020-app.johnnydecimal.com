@@ -36,8 +36,8 @@ const SignInForm = ({ signInStateService, redirectMessage }) => {
 	};
 
 	return (
-		<div className="">
-			<h1 className="mb-2 text-2xl border-b border-gray-800 font-jdheader">
+		<div className="mx-8 mt-8 font-jdmono">
+			<h1 className="mb-2 text-2xl font-bold border-b border-gray-800">
 				Sign in
 			</h1>
 			<p className="mb-4 text-xs">
@@ -58,7 +58,11 @@ const SignInForm = ({ signInStateService, redirectMessage }) => {
 					id="username"
 					name="username"
 					ref={register}
-					className="px-2 py-1 mb-2 border-2 border-gray-800 rounded-md shadow-inner text-jdred-900 font-jdmono focus:outline-none focus:border-jdred-900 hover:border-jdred-900 focus:bg-jdred-100 hover:bg-jdred-100"
+					className="px-2 py-1 mb-2 border-2 shadow-inner focus:outline-none "
+					style={{
+						borderColor: "#CFAD8F",
+						boxShadow: "-4px 4px 0 -2px rgba(22, 22, 22, 0.4)",
+					}}
 				/>
 				<label htmlFor="password" className="text-sm">
 					Password
@@ -68,11 +72,20 @@ const SignInForm = ({ signInStateService, redirectMessage }) => {
 					name="password"
 					type="password"
 					ref={register}
-					className="px-2 py-1 mb-4 border-2 border-gray-800 rounded-md shadow-inner text-jdred-900 font-jdmono focus:outline-none focus:border-jdred-900 hover:border-jdred-900 focus:bg-jdred-100 hover:bg-jdred-100"
+					className="px-2 py-1 mb-2 border-2 shadow-inner focus:outline-none "
+					style={{
+						borderColor: "#CFAD8F",
+						boxShadow: "-4px 4px 0 -2px rgba(22, 22, 22, 0.4)",
+					}}
 				/>
 				{!signInState.matches("tryingSignIn") ? (
 					<button
-						className="h-10 bg-blue-300 border-t border-b-2 border-l-2 border-r border-blue-600 rounded shadow-md"
+						className="px-2 py-1 mt-4 text-xl font-bold border-4 shadow-inner focus:outline-none"
+						style={{
+							backgroundColor: "#CECEF5",
+							borderColor: "#CFAD8F",
+							boxShadow: "-4px 4px 0 -2px rgba(22, 22, 22, 0.4)",
+						}}
 						onClick={handleSubmit(signIn)}
 					>
 						Log in

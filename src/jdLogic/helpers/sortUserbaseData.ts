@@ -1,5 +1,4 @@
 import { UserbaseData, UserbaseItem } from "../types/Userbase";
-import JDProject from "../types/JDProject";
 
 /**
  * compareFunction is the function which we need to pass to Array.sort() in

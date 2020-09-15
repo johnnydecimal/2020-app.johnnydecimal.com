@@ -5,7 +5,7 @@ import React from "react";
 import JDRouter from "./components/JDRouter";
 
 const App = () => (
-	<div className="p-2 mx-2 mt-4 border border-blue-400 rounded">
+	<div className="">
 		<JDRouter />
 	</div>
 );
