@@ -13,7 +13,7 @@ import { Link } from "@reach/router";
  *
  * @param {object} signInStateService - XState/signInStateMachine
  */
-const SignInForm = ({ signInStateService, redirectMessage }) => {
+const SignInForm = ({ signInStateService, redirectMessage }: any) => {
 	// props: RouteComponentProps,
 	// { signInStateService, redirectMessage }: any,
 
@@ -21,7 +21,7 @@ const SignInForm = ({ signInStateService, redirectMessage }) => {
 	const [signInState, signInStateSend] = useService(signInStateService);
 	const { register, handleSubmit } = useForm();
 
-	const signIn = (formData) => {
+	const signIn = (formData: any) => {
 		console.debug("🎒signIn:", formData);
 		/** So the login form needs to pass the credentials that the user has
 		 *  entered *to the machine*, and the machine will do all of the logging in.
@@ -46,9 +46,11 @@ const SignInForm = ({ signInStateService, redirectMessage }) => {
 					sign up?
 				</Link>
 			</p>
-			{signInState.context.error ? (
+			{/* Comment out for TS just for now while we resolve the larger issue
+					with the machine and it not liking context/formData.
+				{signInState.context.error ? (
 				<div className="text-red-700">{signInState.context.error.message}</div>
-			) : null}
+			) : null} */}
 			{redirectMessage ? <div>{redirectMessage}</div> : null}
 			<form onSubmit={handleSubmit(signIn)} className="flex flex-col">
 				<label htmlFor="username" className="text-sm">

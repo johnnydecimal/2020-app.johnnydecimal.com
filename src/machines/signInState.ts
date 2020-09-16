@@ -2,7 +2,34 @@ import { Machine, assign } from "xstate";
 import userbase from "userbase-js";
 import { navigate } from "@reach/router";
 
-const signInStateMachine = Machine({
+interface SignInContext {
+	formData: any;
+	user: any;
+}
+
+type SignInEvent = {
+	type:
+		| "TRY_SIGNIN"
+		| "TRY_SIGNUP"
+		| "SIGNED_IN"
+		| "NOT_SIGNED_IN"
+		| "TRY_SIGNOUT";
+	formData: any;
+};
+
+interface SignInSchema {
+	states: {
+		init: {};
+		notSignedIn: {};
+		tryingSignIn: {};
+		signedIn: {};
+		tryingSignUp: {};
+		tryingSignOut: {};
+		error: {};
+	};
+}
+
+const signInStateMachine = Machine<SignInContext, SignInSchema, SignInEvent>({
 	strict: true,
 
 	id: "signInState",
@@ -29,12 +56,16 @@ const signInStateMachine = Machine({
 					},
 					{
 						target: "notSignedIn",
-						actions: assign({ error: (context, event) => event.data }),
+						actions: assign({
+							error: (context: any, event: { data: any }) => event.data,
+						}),
 					},
 				],
 				onError: {
 					target: "error",
-					actions: assign({ error: (context, event) => event.data }),
+					actions: assign({
+						error: (context: any, event: { data: any }) => event.data,
+					}),
 				},
 			},
 		},
@@ -78,7 +109,9 @@ const signInStateMachine = Machine({
 				],
 				onError: {
 					target: "notSignedIn",
-					actions: assign({ error: (context, event) => event.data }),
+					actions: assign({
+						error: (context: any, event: { data: any }) => event.data,
+					}),
 				},
 			},
 			on: {
@@ -111,12 +144,12 @@ const signInStateMachine = Machine({
 					},
 					{
 						target: "notSignedIn",
-						actions: assign({ error: (context, event) => event }),
+						actions: assign({ error: (context: any, event: any) => event }),
 					},
 				],
 				onError: {
 					target: "notSignedIn",
-					actions: assign({ error: (context, event) => event }),
+					actions: assign({ error: (context: any, event: any) => event }),
 				},
 			},
 		},
