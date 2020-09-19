@@ -108,13 +108,9 @@ const newSignInStateMachine = Machine<
 							console.debug("🆔 event: ", event);
 							return Boolean(event.data.userId);
 						},
-						actions: [
-							assign({
-								user: (_context, event) => event.data.user,
-							}),
-							(_context, event) =>
-								console.debug("🌹 tryingSIgnIn: invoke: onDone: event:", event),
-						],
+						actions: assign({
+							user: (_context, event) => event.data.user,
+						}),
 					},
 					{
 						target: "notSignedIn",
