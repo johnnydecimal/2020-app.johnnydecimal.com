@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { useService } from "@xstate/react";
 import { useForm } from "react-hook-form";
 import { Link } from "@reach/router";
+import { Interpreter } from "xstate";
+import { SignInContext, SignInEvent } from "../machines/newSignInState.machine";
 
 /**
  * # SignInForm
@@ -13,7 +15,17 @@ import { Link } from "@reach/router";
  *
  * @param {object} signInStateService - XState/signInStateMachine
  */
+<<<<<<< Updated upstream:src/components/SignInForm.jsx
 const SignInForm = ({ signInStateService, redirectMessage }) => {
+=======
+const SignInForm = ({
+	signInStateService,
+	redirectMessage,
+}: {
+	redirectMessage?: string;
+	signInStateService: Interpreter<SignInContext, any, SignInEvent>;
+}) => {
+>>>>>>> Stashed changes:src/components/SignInForm.tsx
 	// props: RouteComponentProps,
 	// { signInStateService, redirectMessage }: any,
 
