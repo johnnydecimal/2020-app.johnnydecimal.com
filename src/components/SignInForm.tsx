@@ -15,9 +15,6 @@ import { SignInContext, SignInEvent } from "../machines/newSignInState.machine";
  *
  * @param {object} signInStateService - XState/signInStateMachine
  */
-<<<<<<< Updated upstream:src/components/SignInForm.jsx
-const SignInForm = ({ signInStateService, redirectMessage }) => {
-=======
 const SignInForm = ({
 	signInStateService,
 	redirectMessage,
@@ -25,7 +22,6 @@ const SignInForm = ({
 	redirectMessage?: string;
 	signInStateService: Interpreter<SignInContext, any, SignInEvent>;
 }) => {
->>>>>>> Stashed changes:src/components/SignInForm.tsx
 	// props: RouteComponentProps,
 	// { signInStateService, redirectMessage }: any,
 
@@ -33,7 +29,7 @@ const SignInForm = ({
 	const [signInState, signInStateSend] = useService(signInStateService);
 	const { register, handleSubmit } = useForm();
 
-	const signIn = (formData) => {
+	const signIn = (formData: any) => {
 		console.debug("🎒signIn:", formData);
 		/** So the login form needs to pass the credentials that the user has
 		 *  entered *to the machine*, and the machine will do all of the logging in.
