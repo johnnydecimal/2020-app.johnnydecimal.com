@@ -1,10 +1,10 @@
-import { Machine, assign } from 'xstate';
+import { Machine, assign } from "xstate";
 
-import isAreaOrderValid from '../jdLogic/helpers/isAreaOrderValid';
-import isCategoryOrderValid from '../jdLogic/helpers/isCategoryOrderValid';
-import isIDOrderValid from '../jdLogic/helpers/isIDOrderValid';
-import isCategoryInArea from '../jdLogic/helpers/isCategoryInArea';
-import isIDInCategory from '../jdLogic/helpers/isIDInCategory';
+import isAreaOrderValid from "../jdLogic/helpers/isAreaOrderValid";
+import isCategoryOrderValid from "../jdLogic/helpers/isCategoryOrderValid";
+import isIDOrderValid from "../jdLogic/helpers/isIDOrderValid";
+import isCategoryInArea from "../jdLogic/helpers/isCategoryInArea";
+import isIDInCategory from "../jdLogic/helpers/isIDInCategory";
 
 // Context
 const updateAreaContext = assign({
@@ -29,17 +29,17 @@ const guardArea = (context, event, guardMeta) => {
 		return true;
 	} else {
 		switch (guardMeta.state.value) {
-			case 'area_detected':
-				context.error = 'JDE12.12';
+			case "area_detected":
+				context.error = "JDE12.12";
 				return false;
-			case 'category_detected':
-				context.error = 'JDE12.13';
+			case "category_detected":
+				context.error = "JDE12.13";
 				return false;
-			case 'id_detected':
-				context.error = 'JDE12.14';
+			case "id_detected":
+				context.error = "JDE12.14";
 				return false;
 			default:
-				context.error = 'JDE01.12';
+				context.error = "JDE01.12";
 				return false;
 		}
 	}
@@ -60,19 +60,19 @@ const guardCategory = (context, event, guardMeta) => {
 	} else {
 		switch (guardMeta.state.value) {
 			// JDE13.13: Category follows category.
-			case 'category_detected':
-				context.error = 'JDE13.13';
+			case "category_detected":
+				context.error = "JDE13.13";
 				return false;
 			// JDE13.14: Category follows ID.
-			case 'id_detected':
-				context.error = 'JDE13.14';
+			case "id_detected":
+				context.error = "JDE13.14";
 				return false;
 			// JDE23.22: Category does not belong to area.
-			case 'area_detected':
-				context.error = 'JDE23.22';
+			case "area_detected":
+				context.error = "JDE23.22";
 				return false;
 			default:
-				context.error = 'JDE01.13';
+				context.error = "JDE01.13";
 				return false;
 		}
 	}
@@ -92,14 +92,14 @@ const guardID = (context, event, guardMeta) => {
 		return true;
 	} else {
 		switch (guardMeta.state.value) {
-			case 'id_detected':
-				context.error = 'JDE14.14';
+			case "id_detected":
+				context.error = "JDE14.14";
 				return false;
-			case 'category_detected':
-				context.error = 'JDE24.23';
+			case "category_detected":
+				context.error = "JDE24.23";
 				return false;
 			default:
-				context.error = 'JDE01.14';
+				context.error = "JDE01.14";
 				return false;
 		}
 	}
@@ -107,29 +107,29 @@ const guardID = (context, event, guardMeta) => {
 
 const jdMachine = Machine(
 	{
-		id: 'jdLanguage',
-		initial: 'start',
+		id: "jdLanguage",
+		initial: "start",
 		strict: true,
 		context: {
-			area: '',
-			category: '',
-			id: '',
-			error: '',
+			area: "",
+			category: "",
+			id: "",
+			error: "",
 		},
 		states: {
 			start: {
 				on: {
 					AREA: {
-						target: 'area_detected',
-						actions: 'updateAreaContext',
+						target: "area_detected",
+						actions: "updateAreaContext",
 					},
-					CATEGORY: 'error',
-					ID: 'error',
-					COMMENT: 'start',
-					DIVIDER: 'start',
-					EMPTYLINE: 'start',
-					EOF: 'eof',
-					ERROR: 'error',
+					CATEGORY: "error",
+					ID: "error",
+					COMMENT: "start",
+					DIVIDER: "start",
+					EMPTYLINE: "start",
+					EOF: "eof",
+					ERROR: "error",
 				},
 			},
 
@@ -137,26 +137,26 @@ const jdMachine = Machine(
 				on: {
 					AREA: [
 						{
-							target: 'area_detected',
-							actions: 'updateAreaContext',
-							cond: 'guardArea',
+							target: "area_detected",
+							actions: "updateAreaContext",
+							cond: "guardArea",
 						},
-						{ target: 'error' },
+						{ target: "error" },
 					],
 					CATEGORY: [
 						{
-							target: 'category_detected',
-							actions: 'updateCategoryContext',
-							cond: 'guardCategory',
+							target: "category_detected",
+							actions: "updateCategoryContext",
+							cond: "guardCategory",
 						},
-						{ target: 'error' },
+						{ target: "error" },
 					],
-					ID: 'error',
-					COMMENT: 'area_detected',
-					DIVIDER: 'area_detected',
-					EMPTYLINE: 'area_detected',
-					EOF: 'eof',
-					ERROR: 'error',
+					ID: "error",
+					COMMENT: "area_detected",
+					DIVIDER: "area_detected",
+					EMPTYLINE: "area_detected",
+					EOF: "eof",
+					ERROR: "error",
 				},
 			},
 
@@ -164,33 +164,33 @@ const jdMachine = Machine(
 				on: {
 					AREA: [
 						{
-							target: 'area_detected',
-							actions: 'updateAreaContext',
-							cond: 'guardArea',
+							target: "area_detected",
+							actions: "updateAreaContext",
+							cond: "guardArea",
 						},
-						{ target: 'error' },
+						{ target: "error" },
 					],
 					CATEGORY: [
 						{
-							target: 'category_detected',
-							actions: 'updateCategoryContext',
-							cond: 'guardCategory',
+							target: "category_detected",
+							actions: "updateCategoryContext",
+							cond: "guardCategory",
 						},
-						{ target: 'error' },
+						{ target: "error" },
 					],
 					ID: [
 						{
-							target: 'id_detected',
-							actions: 'updateIDContext',
-							cond: 'idValid',
+							target: "id_detected",
+							actions: "updateIDContext",
+							cond: "idValid",
 						},
-						{ target: 'error' },
+						{ target: "error" },
 					],
-					COMMENT: 'category_detected',
-					DIVIDER: 'category_detected',
-					EMPTYLINE: 'category_detected',
-					EOF: 'eof',
-					ERROR: 'error',
+					COMMENT: "category_detected",
+					DIVIDER: "category_detected",
+					EMPTYLINE: "category_detected",
+					EOF: "eof",
+					ERROR: "error",
 				},
 			},
 
@@ -198,45 +198,45 @@ const jdMachine = Machine(
 				on: {
 					AREA: [
 						{
-							target: 'area_detected',
-							actions: 'updateAreaContext',
-							cond: 'guardArea',
+							target: "area_detected",
+							actions: "updateAreaContext",
+							cond: "guardArea",
 						},
-						{ target: 'error' },
+						{ target: "error" },
 					],
 					CATEGORY: [
 						{
-							target: 'category_detected',
-							actions: 'updateCategoryContext',
-							cond: 'guardCategory',
+							target: "category_detected",
+							actions: "updateCategoryContext",
+							cond: "guardCategory",
 						},
-						{ target: 'error' },
+						{ target: "error" },
 					],
 					ID: [
 						{
-							target: 'id_detected',
-							actions: 'updateIDContext',
-							cond: 'idValid',
+							target: "id_detected",
+							actions: "updateIDContext",
+							cond: "idValid",
 						},
-						{ target: 'error' },
+						{ target: "error" },
 					],
-					COMMENT: 'id_detected',
-					DIVIDER: 'id_detected',
-					EMPTYLINE: 'id_detected',
-					EOF: 'eof',
-					ERROR: 'error',
+					COMMENT: "id_detected",
+					DIVIDER: "id_detected",
+					EMPTYLINE: "id_detected",
+					EOF: "eof",
+					ERROR: "error",
 				},
 			},
 
 			eof: {
-				type: 'final',
+				type: "final",
 			},
 
 			error: {
-				type: 'final',
+				type: "final",
 				entry: (context, event) => {
-					if (event.error === 'Nothing matched.') {
-						context.error = 'JDE41.11';
+					if (event.error === "Nothing matched.") {
+						context.error = "JDE41.11";
 					}
 				},
 			},
