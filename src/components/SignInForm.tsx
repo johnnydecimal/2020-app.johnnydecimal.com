@@ -16,8 +16,8 @@ import { SignInContext, SignInEvent } from "../machines/newSignInState.machine";
  * @param {object} signInStateService - XState/signInStateMachine
  */
 const SignInForm = ({
-	signInStateService,
 	redirectMessage,
+	signInStateService,
 }: {
 	redirectMessage?: string;
 	signInStateService: Interpreter<SignInContext, any, SignInEvent>;
