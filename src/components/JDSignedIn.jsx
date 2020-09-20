@@ -5,7 +5,7 @@ import { Router } from "@reach/router";
 // import userbase from "userbase-js";
 
 // Internal logic
-import databaseStateMachine from "../machines/userbaseState";
+import databaseStateMachine from "../machines/userbaseState.machine";
 
 // Internal components
 import Account from "./Account";
