@@ -42,10 +42,13 @@ const SignUpForm = ({ signInStateService }) => {
 					sign in?
 				</Link>
 			</p>
-			{signInState.context.error.data ? (
-				<div className="text-red-700">
-					{signInState.context.error.data.message}
-				</div>
+			{/* TODO: Pop me out to an error-handling-displaying component. */}
+			{signInState.context.error ? (
+				signInState.context.error.data ? (
+					<div className="text-red-700">
+						{signInState.context.error.data.message}
+					</div>
+				) : null
 			) : null}
 			<form onSubmit={handleSubmit(signUp)} className="flex flex-col">
 				<label htmlFor="username" className="text-sm">

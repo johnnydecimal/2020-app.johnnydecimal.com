@@ -101,7 +101,13 @@ const SignInForm = ({
 				) : (
 					<button
 						disabled
-						className="h-10 bg-gray-300 border-t border-b-2 border-l-2 border-r border-gray-600 rounded shadow-md"
+						className="px-2 py-1 mt-4 text-xl font-bold border-4 shadow-inner focus:outline-none"
+						style={{
+							backgroundColor: "#CCCCCC",
+							borderColor: "#CFAD8F",
+							boxShadow: "-4px 4px 0 -2px rgba(22, 22, 22, 0.4)",
+							cursor: "wait",
+						}}
 					>
 						Logging in...
 					</button>

@@ -1,5 +1,5 @@
 import { Machine } from "@xstate/compiled";
-import { assign, DoneInvokeEvent } from "xstate";
+import { assign } from "xstate";
 import userbase from "userbase-js";
 import { navigate } from "@reach/router";
 
@@ -104,23 +104,34 @@ const newSignInStateMachine = Machine<
 				onDone: [
 					{
 						target: "signedIn",
-						cond: (_context, event) => {
-							console.debug("🆔 event: ", event);
-							return Boolean(event.data.userId);
-						},
-						actions: assign({
-							user: (_context, event) => event.data.user,
-						}),
+						cond: (_context, event) => Boolean(event.data.userId),
+						actions: [
+							(_context, event) =>
+								console.debug("tryingSignIn/onDone/event:", event),
+							assign({
+								user: (_context, event) => event.data,
+								error: (_context, _event) => undefined,
+							}),
+						],
 					},
 					{
-						target: "notSignedIn",
-						actions: assign({
-							error: (_context, event) => event.data,
-						}),
+						/* We should never reach this onDone-but-no-user-in-the-event 
+						 condition. If the login fails, the promise rejects and we
+						 transition to `onError`. If the login succeeds, the `cond:` will
+						 always be met, and we'll always transition as above. *But*, just
+						 in case, I'm going to leave this here and send it to `error`.
+						 If we've ended up here, something truly weird is happening and it
+						 needs your attention.
+						
+						 TODO: put some error code in this event so you can show the user
+						       and do something about it. */
+						target: "error",
 					},
 				],
 				onError: {
-					target: "error",
+					/* Whereas this error is the normal .signIn()-promise-rejected error;
+						 probably the login just failed. */
+					target: "notSignedIn",
 					actions: assign({
 						error: (_context, event) => event.data,
 					}),
@@ -132,15 +143,43 @@ const newSignInStateMachine = Machine<
 				TRY_SIGNOUT: "tryingSignOut",
 			},
 		},
-		tryingSignUp: {},
+		tryingSignUp: {
+			invoke: {
+				id: "userbaseSignUp",
+				src: (_context, event) =>
+					userbase.signUp({
+						username: event.formData.username,
+						password: event.formData.password,
+						rememberMe: "local",
+					}),
+				onDone: {
+					target: "signedIn",
+					actions: [
+						assign({ user: (_context, event) => event.data }),
+						// TODO: don't think this clearing-of-error is actually working.
+						assign({ error: (_context, _event) => undefined }),
+						() => navigate("/"),
+					],
+				},
+				onError: {
+					target: "notSignedIn",
+					actions: assign({
+						error: (_context, event) => event.data,
+					}),
+				},
+			},
+		},
 		tryingSignOut: {
 			invoke: {
 				id: "tryingSignOut",
-				src: (_context, _event) => userbase.signOut(),
+				src: () => userbase.signOut(),
 				onDone: {
 					target: "notSignedIn",
 					actions: [
-						assign({ user: (_context, _event) => undefined }),
+						assign({
+							user: (_context, _event) => undefined,
+							error: (_context, _event) => undefined,
+						}),
 						() => navigate("/"),
 					],
 				},
@@ -149,7 +188,7 @@ const newSignInStateMachine = Machine<
 					actions: [
 						assign({
 							user: (_context, _event) => undefined,
-							error: (_context, event) => event,
+							error: (_context, event) => event.data,
 						}),
 						() => navigate("/"),
 					],
