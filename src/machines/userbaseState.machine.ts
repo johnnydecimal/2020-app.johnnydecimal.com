@@ -7,7 +7,7 @@ import userbase from "userbase-js";
 import sortUserbaseData from "../jdLogic/helpers/sortUserbaseData";
 
 interface DatabaseContext {
-	setJdData: any; // TODO: you know.
+	setJdData: Function;
 }
 
 interface DatabaseEvent {
