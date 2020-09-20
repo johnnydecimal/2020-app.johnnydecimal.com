@@ -1,5 +1,5 @@
-import jdLineParser from './jdLineParser';
-import JDLineObject from '../types/JDLineObject';
+import jdLineParser from "./jdLineParser";
+import JDLineObject from "../../types/JDLineObject";
 
 /**
  * jdFileParser takes a multi-line string and feeds each non-blank line to
@@ -17,11 +17,11 @@ import JDLineObject from '../types/JDLineObject';
  */
 const jdFileParser = (input: string): Array<JDLineObject> => {
 	// If there's nothing to process, return an empty array.
-	if (input === '') return [];
+	if (input === "") return [];
 
 	let detectedArray: Array<JDLineObject> = [];
 
-	let lines = input.split('\n');
+	let lines = input.split("\n");
 	lines.forEach((line: string) => {
 		// We don't return empty lines. If you choose to display empty lines
 		// in your output that's a display formatting decision.

@@ -1,6 +1,6 @@
 import { Machine, assign } from "xstate";
 
-import isAreaOrderValid from "../jdLogic/helpers/isAreaOrderValid";
+import isAreaOrderValid from "../jdACIDhelpers/isAreaOrderValid";
 import isCategoryOrderValid from "../jdLogic/helpers/isCategoryOrderValid";
 import isIDOrderValid from "../jdLogic/helpers/isIDOrderValid";
 import isCategoryInArea from "../jdLogic/helpers/isCategoryInArea";

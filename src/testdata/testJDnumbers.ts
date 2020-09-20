@@ -1,4 +1,4 @@
-import JDProject from "../jdLogic/types/JDProject";
+import JDProject from "../types/JDProject";
 
 export const testJDnumbers: JDProject = {
 	status: "valid",

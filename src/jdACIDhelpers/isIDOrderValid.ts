@@ -1,4 +1,4 @@
-import JDID from '../types/JDID';
+import JDID from "../types/JDID";
 
 /**
  * isIDOrderValid returns true if the second ID sequentially follows the
@@ -12,7 +12,7 @@ import JDID from '../types/JDID';
 // TODO Better type/error checking. If you manage to pass this a non-id,
 //      it'll return true regardless.
 const isIDOrderValid = (first: JDID, second: JDID): boolean => {
-  return Number(second) > Number(first);
+	return Number(second) > Number(first);
 };
 
 export default isIDOrderValid;
