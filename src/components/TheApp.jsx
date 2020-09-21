@@ -5,6 +5,8 @@ import { Link } from "@reach/router";
 import { useForm } from "react-hook-form";
 import userbase from "userbase-js";
 
+import AddJDItem from "../components/AddJDItem";
+
 const TheApp = ({ jdData }) => {
 	// console.debug("jdData:", jdData);
 	const { register, handleSubmit } = useForm();
@@ -24,6 +26,8 @@ const TheApp = ({ jdData }) => {
 			<div>This is the app</div>
 			<hr />
 			<Link to="account">Go to my account</Link>
+			<hr />
+			<AddJDItem />
 			<hr />
 			<div>Your data follows:</div>
 			<ul>
