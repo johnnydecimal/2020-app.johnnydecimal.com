@@ -4,7 +4,7 @@ import { Machine } from "@xstate/compiled";
 import userbase from "userbase-js";
 
 // import JDMachineProcessor2 from "../jdLogic/jdDetector/jdMachineProcessor2";
-import sortUserbaseData from "../userbaseHelpers/sortUserbaseData";
+import sortUserbaseData from "../userbase/sortUserbaseData";
 
 interface DatabaseContext {
 	setJdData: Function;

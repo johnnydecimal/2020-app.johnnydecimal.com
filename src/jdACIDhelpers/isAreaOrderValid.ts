@@ -1,3 +1,7 @@
+// === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
+import isArea from "../jdACIDhelpers/isArea";
+
+// === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import JDArea from "../types/JDArea";
 
 /**
@@ -8,10 +12,15 @@ import JDArea from "../types/JDArea";
  * @param {string} first The first area to check.
  * @param {string} second The second area to check.
  * @returns {boolean} `true` if they are sequential, `false` otherwise.
+ * @throws Throws an error if you manage to pass it something that isn't an
+ *          area.
  */
-// TODO Better type/error checking. If you manage to pass this a non-area,
-//      it'll return true regardless.
 const isAreaOrderValid = (first: JDArea, second: JDArea): boolean => {
+	if (!isArea(first) && !isArea(second)) {
+		throw new Error(
+			"🚨 isAreaOrderValid.ts: one of the parameters supplied is not an area."
+		);
+	}
 	return Number(second.charAt(0)) > Number(first.charAt(0));
 };
 

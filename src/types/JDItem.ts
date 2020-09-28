@@ -26,7 +26,7 @@ interface JDItem {
 	// | "emptyline"
 	// | "error"; // TODO: Should this really be a JDItem type?
 	jdNumber: JDArea | JDCategory | JDID;
-	jdTitle?: string;
+	jdTitle: string;
 	comment?: string; // Any inline comments like this one
 	metadata?: string; // TODO: Figure out how this is stored.
 	createdTime?: string; // This will be a Date() string.

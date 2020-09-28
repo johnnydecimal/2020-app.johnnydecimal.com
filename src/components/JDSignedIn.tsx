@@ -1,5 +1,5 @@
 // External
-import React, { useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import PropTypes from "prop-types";
 import { Router } from "@reach/router";
 // import userbase from "userbase-js";
@@ -13,25 +13,50 @@ import FourOhFour from "./FourOhFour";
 import TheApp from "./TheApp";
 import { useMachine } from "@xstate/react";
 
-const JDSignedIn = ({ signInStateService }) => {
-	const [jdData, setJdData] = useState();
+import JDProject from "../types/JDProject";
+
+interface Props {
+	signInStateService: any;
+}
+
+const JDSignedIn: FunctionComponent<Props> = ({ signInStateService }) => {
+	/**
+	 * # jdProject
+	 *
+	 * This is your data. We call it jdProject because, in the first version of
+	 * this app, it is only possible to have one project loaded at any time.
+	 *
+	 * In fact that's probably how it will always be, given that we're going to
+	 * store a project in a Userbase database. One project, one database. If you
+	 * want to load another project, we close the database and establish a new
+	 * connection.
+	 */
+	const emptyProject: JDProject = {
+		status: "valid",
+		data: [],
+	};
+	const [jdProject, setJdProject] = useState(emptyProject);
 	// prettier-ignore
 	// eslint-disable-next-line no-unused-vars
 	const [databaseState, databaseStateSend, databaseStateService] = useMachine(
 		databaseStateMachine,
 		{
 			context: {
-				setJdData,
+				// @ts-ignore
+				setJdProject,
 			},
 		}
 	);
+
+	console.debug("🐝 jdProject @ JDSignedIn follows");
+	console.debug(jdProject);
 
 	return (
 		<Router>
 			<Account path="account" signInStateService={signInStateService} />
 			<TheApp
 				path="/"
-				jdData={jdData}
+				jdProject={jdProject}
 				databaseStateService={databaseStateService}
 				signInStateService={signInStateService}
 			/>

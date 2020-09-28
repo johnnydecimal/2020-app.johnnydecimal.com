@@ -1,11 +1,11 @@
 // External modules
-import { interpret } from 'xstate';
+import { interpret } from "xstate";
 // Internal modules
-import jdFileParser from './jdFileParser';
-import jdMachine from '../../machines/jdParser';
+import jdFileParser from "./jdFileParser";
+import jdMachine from "../../machines/jdParser";
 // Types
-import JDLineObject from '../types/JDLineObject';
-import JDMachineProcessorOutput from '../types/jDMachineProcessorOutput';
+import JDLineObject from "../../types/JDLineObject";
+import JDMachineProcessorOutput from "../../types/jDMachineProcessorOutput";
 
 /**
  * jdMachineProcessor takes a multi-line string and, using various helper
@@ -44,28 +44,29 @@ const jdMachineProcessor = (input: string): JDMachineProcessorOutput => {
 
 		// If the state is now error, we capture which row it happened on.
 		// TODO Fix the !TypeScript override
-		if (jdMachineService.state.value === 'error') {
-			error = jdMachineService.state.context!.error;
+		if (jdMachineService.state.value === "error") {
+			// @ts-ignore
+			error = jdMachineService.state.context.error;
 			errorLine = i + 1;
 			break;
 		}
 	}
 
 	// We're done. Return either success or error.
-	if (jdMachineService.state.value !== 'error') {
+	if (jdMachineService.state.value !== "error") {
 		jdMachineService.stop();
 		// detectedArray might contain a bunch of blank lines here. Strip them.
 		// TODO perhaps think about making this an option?
 		const finalArray = detectedArray.filter(
-			item => item.jdType !== 'emptyline'
+			(item) => item.jdType !== "emptyline"
 		);
 		return {
-			status: 'success',
+			status: "success",
 			jdArray: finalArray,
 		};
 	} else {
 		jdMachineService.stop();
-		return { status: 'error', error, errorLine };
+		return { status: "error", error, errorLine };
 	}
 };
 

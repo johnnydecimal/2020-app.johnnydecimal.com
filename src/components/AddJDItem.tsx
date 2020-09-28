@@ -1,8 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import userbase from "userbase-js";
+import { RouteComponentProps } from "@reach/router";
 
 import JDNumber from "../types/JDNumber";
+import insertJDItem from "../jdCRUD/insertJDItem";
+import JDProject from "../types/JDProject";
 
 interface NewJDItem {
 	jdNumber: JDNumber;
@@ -10,18 +13,25 @@ interface NewJDItem {
 	jdType: "area" | "category" | "id";
 }
 
-const mockUserbaseInsertItem = ({ jdNumber, jdTitle, jdType }: NewJDItem) => {
-	console.debug(jdNumber, jdTitle, jdType);
-	userbase.insertItem({
-		databaseName: "test-2020-09-08-14-16",
-		item: {
-			jdNumber,
-			jdTitle,
-			jdType,
-		},
-	});
+const mockUserbaseInsertItem = (formData: NewJDItem, jdData: JDProject) => {
+	// console.debug(jdNumber, jdTitle, jdType);
+	// userbase.insertitem({
+	// 	databasename: "test-2020-09-08-14-16",
+	// 	item: {
+	// 		jdnumber,
+	// 		jdtitle,
+	// 		jdtype,
+	// 	},
+	// });
+
+	// insertJDItem needs a `:JDItem` as its first arg. That's `formData` in this
+	// test.
+	insertJDItem(formData, jdData);
 };
 
+interface Props {
+	jdProject: JDProject;
+}
 /**
  * AddJDItem
  *
@@ -35,11 +45,11 @@ const mockUserbaseInsertItem = ({ jdNumber, jdTitle, jdType }: NewJDItem) => {
  * When submitted, the form needs to call a function which takes these values
  * and adds them to Userbase.
  */
-const AddJDItem = () => {
+const AddJDItem = ({ jdProject }: Props, props: RouteComponentProps) => {
 	const { register, handleSubmit } = useForm();
 
 	const onSubmit = (formData: NewJDItem) => {
-		mockUserbaseInsertItem(formData);
+		mockUserbaseInsertItem(formData, jdProject);
 	};
 
 	return (
