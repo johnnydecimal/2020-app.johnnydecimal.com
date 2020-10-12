@@ -1,4 +1,4 @@
-import { UserbaseData, UserbaseItem } from "../types/Userbase";
+import { UserbaseData, UserbaseItem } from "../@types/Userbase";
 
 /**
  * compareFunction is the function which we need to pass to Array.sort() in
@@ -36,7 +36,7 @@ const compareFunction = (first: UserbaseItem, second: UserbaseItem): number => {
 };
 
 /**
- * sortProjectArray takes a JDProject-shaped array and returns a new array
+ * sortUserbaseData takes a JDProject-shaped array and returns a new array
  * which is sorted in JD number order.
  *
  * The input array is not modified.
@@ -44,10 +44,11 @@ const compareFunction = (first: UserbaseItem, second: UserbaseItem): number => {
  * @param {JDProject} jdProject The input array.
  * @returns {JDProject} The sorted array.
  */
-const sortUserbaseData = (userbaseData: UserbaseData): UserbaseData => {
+const sortUserbaseData = (
+	userbaseData: Readonly<UserbaseData>
+): UserbaseData => {
 	// Array.sort() mutates the array. Make a copy.
-	const returnArray = userbaseData;
-	// debugger;
+	const returnArray: UserbaseData = [...userbaseData];
 
 	returnArray.sort(compareFunction);
 

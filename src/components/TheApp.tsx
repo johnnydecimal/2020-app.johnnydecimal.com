@@ -7,11 +7,11 @@ import userbase from "userbase-js";
 import { RouteComponentProps } from "@reach/router";
 
 import AddJDItem from "./AddJDItem";
-import insertJDItem from "../jdCRUD/insertJDItem";
+import insertJDItem from "../api/insertJDItem";
 
-import JDItem from "../types/JDItem";
-import { UserbaseItem } from "../types/Userbase";
-import JDProject from "../types/JDProject";
+import JDItem from "../@types/JDItem";
+import { UserbaseItem } from "../@types/Userbase";
+import JDProject from "../@types/JDProject";
 
 interface Props extends RouteComponentProps {
 	jdProject: JDProject;
@@ -33,6 +33,8 @@ const TheApp: FunctionComponent<Props> = ({ jdProject }) => {
 	// 	.catch(() => console.error("That didn't work"));
 	// insertJDItem()
 	// };
+	console.debug("TheApp/jdProject:");
+	console.debug(jdProject);
 
 	return (
 		<div>
@@ -44,15 +46,13 @@ const TheApp: FunctionComponent<Props> = ({ jdProject }) => {
 			<hr />
 			<div>Your data follows:</div>
 			<ul>
-				{jdProject ? (
-					jdProject.data.map((item: UserbaseItem) => (
-						<li className="ml-6 text-blue-600 list-disc" key={item.itemId}>
-							{item.item.jdNumber}
-						</li>
-					))
-				) : (
-					<div>Loading...</div>
-				)}
+				{console.debug("TheApp/return()/jdProject:")}
+				{console.debug(jdProject)}
+				{jdProject.data.map((item: UserbaseItem) => (
+					<li className="ml-6 text-blue-600 list-disc" key={item.itemId}>
+						{item.item.jdNumber}
+					</li>
+				))}
 			</ul>
 			{/* <form onSubmit={handleSubmit(onSubmit)}>
 				<textarea

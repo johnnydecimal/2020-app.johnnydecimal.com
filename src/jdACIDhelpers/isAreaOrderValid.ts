@@ -2,7 +2,7 @@
 import isArea from "../jdACIDhelpers/isArea";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import JDArea from "../types/JDArea";
+import JDArea from "../@types/JDArea";
 
 /**
  * isAreaOrderValid returns true if the second area sequentially follows the

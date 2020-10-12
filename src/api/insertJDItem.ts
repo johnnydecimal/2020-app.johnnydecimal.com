@@ -1,9 +1,54 @@
+// === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
+import { interpret } from "xstate";
+
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import acidDetector from "../jdACIDhelpers/acidDetector";
+import jdMachine from "../machines/jdParser";
+import { isArea, isCategory, isID } from "../jdACIDhelpers/isACID";
+import sortUserbaseData from "../userbase/sortUserbaseData";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import JDItem from "../types/JDItem";
-import JDProject from "../types/JDProject";
+import JDItem from "../@types/JDItem";
+import JDProject from "../@types/JDProject";
+import { UserbaseData } from "../@types/Userbase";
+
+/**
+ * # sanityCheck
+ *
+ * Checks that the item looks like the type you've said it is.
+ *
+ * @param newJDItem - The new JD Item to sanity check
+ * @returns Nothing, but throws an `Error` if something's wrong.
+ */
+const sanityCheck = (newJDItem: JDItem) => {
+	switch (newJDItem.jdType) {
+		case "area":
+			if (!isArea(newJDItem.jdNumber)) {
+				return new Error(
+					`🚨 insertJDItem: you've given me something claiming to be an area, but its jdNumber is ${newJDItem.jdNumber}.`
+				);
+			}
+			break;
+		case "category":
+			if (!isCategory(newJDItem.jdNumber)) {
+				return new Error(
+					`🚨 insertJDItem: you've given me something claiming to be a category, but its jdNumber is ${newJDItem.jdNumber}.`
+				);
+			}
+			break;
+		case "id":
+			if (!isID(newJDItem.jdNumber)) {
+				return new Error(
+					`🚨 insertJDItem: you've given me something claiming to be an ID, but its jdNumber is ${newJDItem.jdNumber}.`
+				);
+			}
+			break;
+		default:
+			return new Error(
+				`🚨 insertJDItem: you've given me something whose jdType is ${newJDItem.jdType}. This is deeply confusing.`
+			);
+			break;
+	}
+};
 
 /**
  * # insertJDItem
@@ -41,10 +86,10 @@ import JDProject from "../types/JDProject";
  *
  * ## Inputs
  *
- * 1. The state-updating function (a React hook).
+ * 1. The local-state-updating function (a React hook).
  * @param {function} setJdData
- * 2. The current database, to allow us to validate the new entry.
- * @param {array} jdData
+ * 2. The current project, to allow us to validate the new entry.
+ * @param {array} jdProject
  * 3. Some logic functions which allow us to check that the thing we're trying
  *    to add is valid (e.g. '00 Test' is not an ID).
  * 4. The actual Userbase methods to allow us to push the data up there.
@@ -61,7 +106,8 @@ import JDProject from "../types/JDProject";
  * ## Process
  *
  * - Check that the thing we're adding is at least a valid JD thing.
- *   - Update: we're forcing that by only accepting `:JDItem` as input.
+ *   - Update: we're forcing that by only accepting `:JDItem` as input,
+ *             but we're still going to check.
  * - Simulate adding it to the current database. Is the resulting database a
  *   valid JD Project?
  *   - If not, return an error.
@@ -76,22 +122,45 @@ import JDProject from "../types/JDProject";
  *
  * ## Outputs
  *
+ * We need to return an object which has details about what happened. This can't
+ * be an `Error`, we need to fail gracefully.
+ *
  * - ? An error, if the input was invalid (e.g. it was a duplicate ID).
  * - Local state will be updated.
  * - A call will be made to userbase.insertItem().
  */
 
-const insertJDItem = (newJDItem: JDItem, jdData: JDProject) => {
+const insertJDItem = (newJDItem: JDItem, jdProject: JDProject) => {
 	// TODO: Remember to approach this like Gordon!
 
-	console.debug("🧪 insertJDItem, newJDItem and jdData:", newJDItem, jdData);
-	// Quick check: does the item already exist? Yeah and just get this function
-	// started, prove that it's plumbed in right.
-	jdData.data.forEach((jdItem) => {
-		if (newJDItem.jdNumber === jdItem.item.jdNumber) {
-			throw new Error("🚨 insertJDItem.ts: the new item already exists.");
-		}
+	// Sanity check: does the input look right?
+	sanityCheck(newJDItem);
+
+	// Make a copy of our current project that we can mutate
+	let jdProjectDataWithNewItem: UserbaseData = [
+		...jdProject.data,
+		{ itemId: "userbase will fill me in", item: newJDItem },
+	];
+	jdProjectDataWithNewItem = sortUserbaseData(jdProjectDataWithNewItem);
+	// console.debug(jdProjectDataWithNewItem);
+
+	// Start the machine
+	const jdMachineService = interpret(jdMachine).start();
+
+	// Run jdProjectDataWithNewItem through the machine
+	jdProjectDataWithNewItem.forEach((userbaseItem) => {
+		// We use jdType as the machine transition
+		const jdType = userbaseItem.item.jdType.toUpperCase();
+		jdMachineService.send({
+			type: jdType,
+			...userbaseItem.item,
+		});
 	});
+
+	console.debug("jdMachineService.state.value:", jdMachineService.state.value);
+
+	// == Return value: `true` if nothing went wrong.  ==-==-==-==-==-==-==-==-==
+	return true;
 };
 
 export default insertJDItem;

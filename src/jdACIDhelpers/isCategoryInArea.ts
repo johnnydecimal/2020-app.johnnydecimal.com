@@ -1,5 +1,5 @@
-import JDArea from "../types/JDArea";
-import JDCategory from "../types/JDCategory";
+import JDArea from "../@types/JDArea";
+import JDCategory from "../@types/JDCategory";
 
 /**
  * isCategoryInArea returns true if the category is a member of the area, e.g.

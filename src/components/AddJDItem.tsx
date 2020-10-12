@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import userbase from "userbase-js";
 import { RouteComponentProps } from "@reach/router";
 
-import JDNumber from "../types/JDNumber";
-import insertJDItem from "../jdCRUD/insertJDItem";
-import JDProject from "../types/JDProject";
+import JDNumber from "../@types/JDNumber";
+import JDProject from "../@types/JDProject";
+import insertJDItem from "../api/insertJDItem";
 
 interface NewJDItem {
 	jdNumber: JDNumber;

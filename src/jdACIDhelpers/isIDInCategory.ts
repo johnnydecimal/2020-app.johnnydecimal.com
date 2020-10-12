@@ -1,5 +1,5 @@
-import JDCategory from "../types/JDCategory";
-import JDID from "../types/JDID";
+import JDCategory from "../@types/JDCategory";
+import JDID from "../@types/JDID";
 
 /**
  * isIDInCategory returns true if the id is a member of the category, e.g.

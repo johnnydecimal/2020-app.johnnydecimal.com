@@ -4,8 +4,8 @@ import { interpret } from "xstate";
 import jdFileParser from "./jdFileParser";
 import jdMachine from "../../machines/jdParser";
 // Types
-import JDLineObject from "../../types/JDLineObject";
-import JDMachineProcessorOutput from "../../types/jDMachineProcessorOutput";
+import JDLineObject from "../../@types/JDLineObject";
+import JDMachineProcessorOutput from "../../@types/jDMachineProcessorOutput";
 
 /**
  * jdMachineProcessor takes a multi-line string and, using various helper

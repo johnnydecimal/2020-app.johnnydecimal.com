@@ -13,7 +13,7 @@ import FourOhFour from "./FourOhFour";
 import TheApp from "./TheApp";
 import { useMachine } from "@xstate/react";
 
-import JDProject from "../types/JDProject";
+import JDProject from "../@types/JDProject";
 
 interface Props {
 	signInStateService: any;
@@ -36,13 +36,14 @@ const JDSignedIn: FunctionComponent<Props> = ({ signInStateService }) => {
 		data: [],
 	};
 	const [jdProject, setJdProject] = useState(emptyProject);
+	// TODO: How do you set the call signature for `setJdProject` in TS? Catch
+	//       errors, remember now you need to `setJdProject({data: [...]})`.
 	// prettier-ignore
 	// eslint-disable-next-line no-unused-vars
 	const [databaseState, databaseStateSend, databaseStateService] = useMachine(
 		databaseStateMachine,
 		{
 			context: {
-				// @ts-ignore
 				setJdProject,
 			},
 		}

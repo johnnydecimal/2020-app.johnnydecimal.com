@@ -1,5 +1,5 @@
 import jdLineParser from "./jdLineParser";
-import JDLineObject from "../../types/JDLineObject";
+import JDLineObject from "../../@types/JDLineObject";
 
 /**
  * jdFileParser takes a multi-line string and feeds each non-blank line to

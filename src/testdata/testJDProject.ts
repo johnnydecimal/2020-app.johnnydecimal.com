@@ -1,6 +1,6 @@
-import JDProject from "../types/JDProject";
+import JDProject from "../@types/JDProject";
 
-export const testJDnumbers: JDProject = {
+export const testJDProject: JDProject = {
 	status: "valid",
 	data: [
 		{

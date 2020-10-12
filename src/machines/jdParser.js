@@ -1,10 +1,10 @@
 import { Machine, assign } from "xstate";
 
 import isAreaOrderValid from "../jdACIDhelpers/isAreaOrderValid";
-import isCategoryOrderValid from "../jdLogic/helpers/isCategoryOrderValid";
-import isIDOrderValid from "../jdLogic/helpers/isIDOrderValid";
-import isCategoryInArea from "../jdLogic/helpers/isCategoryInArea";
-import isIDInCategory from "../jdLogic/helpers/isIDInCategory";
+import isCategoryOrderValid from "../jdACIDhelpers/isCategoryOrderValid";
+import isIDOrderValid from "../jdACIDhelpers/isIDOrderValid";
+import isCategoryInArea from "../jdACIDhelpers/isCategoryInArea";
+import isIDInCategory from "../jdACIDhelpers/isIDInCategory";
 
 // Context
 const updateAreaContext = assign({
