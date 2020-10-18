@@ -19,6 +19,14 @@ interface Props {
 	signInStateService: unknown;
 }
 
+/**
+ * # JDSignedIn
+ *
+ * We're signed in.
+ *
+ * @param signInStateService We need access to `signInStateService` so we can
+ *                           log out, or whatever.
+ */
 const JDSignedIn: FunctionComponent<Props> = ({ signInStateService }) => {
 	/**
 	 * # jdProject
@@ -35,22 +43,14 @@ const JDSignedIn: FunctionComponent<Props> = ({ signInStateService }) => {
 		status: "valid",
 		data: [],
 	};
-	const [jdProject, setJdProject] = useState(emptyProject);
-	// TODO: How do you set the call signature for `setJdProject` in TS? Catch
-	//       errors, remember now you need to `setJdProject({data: [...]})`.
-	// prettier-ignore
-	// eslint-disable-next-line no-unused-vars
-	const [databaseState, databaseStateSend, databaseStateService] = useMachine(
-		databaseStateMachine,
-		{
-			context: {
-				setJdProject,
-			},
-		}
-	);
 
-	console.debug("🐝 jdProject @ JDSignedIn follows");
-	console.debug(jdProject);
+	const [jdProject, setJdProject] = useState(emptyProject);
+
+	const [, , databaseStateService] = useMachine(databaseStateMachine, {
+		context: {
+			setJdProject,
+		},
+	});
 
 	return (
 		<Router>
