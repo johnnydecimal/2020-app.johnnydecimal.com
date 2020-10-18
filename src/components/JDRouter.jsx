@@ -19,39 +19,39 @@ const JDRouter = () => {
 		newSignInStateMachine
 	);
 
-	console.debug("signInState.value:", signInState.value);
-	console.debug("signInState.context:", signInState.context);
+	switch (signInState.value) {
+		case "init":
+			// TODO: Pretty this up
+			return <div className="text-3xl text-center text-red-600">INIT</div>;
 
-	if (signInState.matches("init")) {
-		// == INITIALISING
-		return <div className="text-3xl text-center text-red-600">INIT</div>;
-	} else if (signInState.matches("error")) {
-		// == FULLY BREAKING ERROR
-		return (
-			<div className="m-12 text-6xl text-red-600">
-				ERROR! End-of-state. Done. Fubar.
-			</div>
-		);
-	} else if (signInState.matches("signedIn")) {
-		// == SIGNED IN
-		return <JDSignedIn signInStateService={signInStateService} />;
-	} else {
-		// == NOT SIGNED IN
-		return (
-			<Router>
-				<SignInForm path="/" signInStateService={signInStateService} />
-				<SignUpForm path="signup" signInStateService={signInStateService} />
-				{/* TODO: Needs something here to handle the edge cases, say where you
-						were signed in, you're on /account, then you sign out. While the
-						machine is in the signing-out phase, you'll see a flash of 
-						404 until the action completes and you're `navigate`d to `/`.
-						
-						Be careful, though. You've got this lovely machine and now you're
-						building all sorts of conditional checks. That's antithetical
-						to the machine. */}
-				<FourOhFour default />
-			</Router>
-		);
+		case "signedIn":
+			return <JDSignedIn signInStateService={signInStateService} />;
+
+		case "notSignedIn":
+			return (
+				<Router>
+					<SignInForm path="/" signInStateService={signInStateService} />
+					<SignUpForm path="signup" signInStateService={signInStateService} />
+					<FourOhFour default signInState={signInState} />
+				</Router>
+			);
+
+		case "error":
+			// TODO: Pretty this up
+			return (
+				<div className="m-12 text-6xl text-red-600">
+					ERROR! End-of-state. Done. Fubar.
+				</div>
+			);
+
+		/**
+		 * All other conditions are captured here -- the `trying...` states and
+		 * anything else not specifically handled above. This works out to be a much
+		 * nicer way of handling this -- when this was an `if...then` situation you
+		 * saw 404s when signing out, but now this captures those little edge cases.
+		 */
+		default:
+			return <div>doing a network thing ... standby one</div>;
 	}
 };
 
