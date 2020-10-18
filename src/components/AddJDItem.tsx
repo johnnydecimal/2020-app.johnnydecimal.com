@@ -5,7 +5,9 @@ import { RouteComponentProps } from "@reach/router";
 
 import JDNumber from "../@types/JDNumber";
 import JDProject from "../@types/JDProject";
-import insertJDItem from "../api/insertJDItem";
+
+// == Our new API that we're testing
+import insertJDItem from '../api/insertJDItem'
 
 interface NewJDItem {
 	jdNumber: JDNumber;
@@ -33,7 +35,9 @@ interface Props {
 	jdProject: JDProject;
 }
 /**
- * AddJDItem
+ * # AddJDItem
+ * 
+ *     **THIS IS A TERRIBLE TEST COMPONENT**
  *
  * This component renders a form with two fields:
  * - Number: where we enter our new number.
@@ -49,7 +53,7 @@ const AddJDItem = ({ jdProject }: Props, props: RouteComponentProps) => {
 	const { register, handleSubmit } = useForm();
 
 	const onSubmit = (formData: NewJDItem) => {
-		mockUserbaseInsertItem(formData, jdProject);
+		insertJDItem(formData, jdProject);
 	};
 
 	return (

@@ -1,5 +1,6 @@
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { interpret } from "xstate";
+import userbase from "userbase-js";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import jdMachine from "../machines/jdParser";
@@ -16,7 +17,7 @@ import { UserbaseData } from "../@types/Userbase";
  *
  * Checks that the item looks like the type you've said it is.
  *
- * @param newJDItem - The new JD Item to sanity check
+ * @param newJDItem - The JD Item to sanity check
  * @returns Nothing, but throws an `Error` if something's wrong.
  */
 const sanityCheck = (newJDItem: JDItem) => {
@@ -91,7 +92,8 @@ const sanityCheck = (newJDItem: JDItem) => {
  * 2. The current project, to allow us to validate the new entry.
  * @param {array} jdProject
  * 3. Some logic functions which allow us to check that the thing we're trying
- *    to add is valid (e.g. '00 Test' is not an ID).
+ *    to add is valid (e.g. '00 Test' is not an ID). (We implemented that here
+ *    as `sanityCheck()`.)
  * 4. The actual Userbase methods to allow us to push the data up there.
  * 5. The JD parser to validate that our new data is a valid JD Project.
  * 6. The thing to add! Haha, forgot the most important thing.
@@ -132,6 +134,7 @@ const sanityCheck = (newJDItem: JDItem) => {
 
 const insertJDItem = (newJDItem: JDItem, jdProject: JDProject) => {
 	// TODO: Remember to approach this like Gordon!
+	// TODO: Save to localStorage as well
 
 	// Sanity check: does the input look right?
 	sanityCheck(newJDItem);
@@ -148,16 +151,26 @@ const insertJDItem = (newJDItem: JDItem, jdProject: JDProject) => {
 	const jdMachineService = interpret(jdMachine).start();
 
 	// Run jdProjectDataWithNewItem through the machine
-	jdProjectDataWithNewItem.forEach((userbaseItem) => {
-		// We use jdType as the machine transition
-		const jdType = userbaseItem.item.jdType.toUpperCase();
+	for (let i = 0; i < jdProjectDataWithNewItem.length; i++) {
+		const jdType = jdProjectDataWithNewItem[i].item.jdType.toUpperCase();
 		jdMachineService.send({
 			type: jdType,
-			...userbaseItem.item,
+			...jdProjectDataWithNewItem[i].item,
 		});
-	});
 
-	console.debug("jdMachineService.state.value:", jdMachineService.state.value);
+		// If we're in an error state, break
+		if (jdMachineService.state.matches("error")) {
+			// @ts-expect-error - Doesn't like .error, but we know it exists
+			// TODO: fix this in the machine's context definition.
+			return jdMachineService.state.context.error;
+		}
+	}
+
+	// We're good to go. Push the new item to Userbase.
+	userbase.insertItem({
+		databaseName: "test-2020-09-08-14-16",
+		item: newJDItem,
+	});
 
 	// == Return value: `true` if nothing went wrong.  ==-==-==-==-==-==-==-==-==
 	return true;

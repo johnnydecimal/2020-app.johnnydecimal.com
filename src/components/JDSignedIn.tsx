@@ -16,7 +16,7 @@ import { useMachine } from "@xstate/react";
 import JDProject from "../@types/JDProject";
 
 interface Props {
-	signInStateService: any;
+	signInStateService: unknown;
 }
 
 const JDSignedIn: FunctionComponent<Props> = ({ signInStateService }) => {
