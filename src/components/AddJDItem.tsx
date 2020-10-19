@@ -1,13 +1,14 @@
-import React from "react";
+// === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
+import React, { FunctionComponent } from "react";
 import { useForm } from "react-hook-form";
-import userbase from "userbase-js";
 import { RouteComponentProps } from "@reach/router";
 
+// === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
+import insertJDItem from "../api/insertJDItem";
+
+// === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import JDNumber from "../@types/JDNumber";
 import JDProject from "../@types/JDProject";
-
-// == Our new API that we're testing
-import insertJDItem from '../api/insertJDItem'
 
 interface NewJDItem {
 	jdNumber: JDNumber;
@@ -15,28 +16,12 @@ interface NewJDItem {
 	jdType: "area" | "category" | "id";
 }
 
-const mockUserbaseInsertItem = (formData: NewJDItem, jdData: JDProject) => {
-	// console.debug(jdNumber, jdTitle, jdType);
-	// userbase.insertitem({
-	// 	databasename: "test-2020-09-08-14-16",
-	// 	item: {
-	// 		jdnumber,
-	// 		jdtitle,
-	// 		jdtype,
-	// 	},
-	// });
-
-	// insertJDItem needs a `:JDItem` as its first arg. That's `formData` in this
-	// test.
-	insertJDItem(formData, jdData);
-};
-
-interface Props {
+interface Props extends RouteComponentProps {
 	jdProject: JDProject;
 }
 /**
  * # AddJDItem
- * 
+ *
  *     **THIS IS A TERRIBLE TEST COMPONENT**
  *
  * This component renders a form with two fields:
@@ -48,11 +33,16 @@ interface Props {
  *
  * When submitted, the form needs to call a function which takes these values
  * and adds them to Userbase.
+ *
+ * Update: that function is `insertJDItem`. The purpose of this component is to
+ *         test that function.
  */
-const AddJDItem = ({ jdProject }: Props, props: RouteComponentProps) => {
+const AddJDItem: FunctionComponent<Props> = ({ jdProject }) => {
 	const { register, handleSubmit } = useForm();
 
 	const onSubmit = (formData: NewJDItem) => {
+		console.debug("🥕 AddJDItem/onSubmit:");
+		console.debug(formData);
 		insertJDItem(formData, jdProject);
 	};
 

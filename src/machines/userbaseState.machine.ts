@@ -33,7 +33,6 @@ const databaseStateMachine = Machine<
 						databaseName: "test-2020-09-08-14-16",
 						changeHandler: (userbaseData) => {
 							console.debug("userbaseData:", userbaseData);
-							// prettier-ignore
 							console.debug(
 								"sort[ed]UserbaseData:",
 								sortUserbaseData(userbaseData)

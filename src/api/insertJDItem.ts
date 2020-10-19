@@ -47,7 +47,6 @@ const sanityCheck = (newJDItem: JDItem) => {
 			return new Error(
 				`🚨 insertJDItem: you've given me something whose jdType is ${newJDItem.jdType}. This is deeply confusing.`
 			);
-			break;
 	}
 };
 
@@ -147,6 +146,12 @@ const insertJDItem = (newJDItem: JDItem, jdProject: JDProject) => {
 	jdProjectDataWithNewItem = sortUserbaseData(jdProjectDataWithNewItem);
 	// console.debug(jdProjectDataWithNewItem);
 
+	/**
+	 * We need to extract "is this a valid project?" out to a self-contained
+	 * function. It's needed over in userbaseState.machine/changeHandler().
+	 *
+	 *
+	 */
 	// Start the machine
 	const jdMachineService = interpret(jdMachine).start();
 
@@ -157,6 +162,10 @@ const insertJDItem = (newJDItem: JDItem, jdProject: JDProject) => {
 			type: jdType,
 			...jdProjectDataWithNewItem[i].item,
 		});
+
+		console.debug("👾 insertJDItem: in the machine");
+		console.debug(jdProjectDataWithNewItem[i].item);
+		console.debug(jdMachineService.state.value);
 
 		// If we're in an error state, break
 		if (jdMachineService.state.matches("error")) {
