@@ -21,7 +21,7 @@ import { UserbaseData } from "./Userbase";
  * dividers and blank lines as required.
  */
 interface JDProject {
-	status: "valid" | "error";
+	status: "tbc" | "valid" | "error"; // "tbc" when we initiate the machine.
 	data: UserbaseData; // Required, but can of course be empty.
 	error?: string;
 	errorLine?: Number;

@@ -3,9 +3,10 @@ import { interpret } from "xstate";
 import userbase from "userbase-js";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import jdMachine from "../machines/jdParser";
+import jdProjectMachine from "../machines/jdProject.machine";
 import { isArea, isCategory, isID } from "../jdACIDhelpers/isACID";
 import sortUserbaseData from "../userbase/sortUserbaseData";
+import jdProjectValidator from "../jdLogic/jdProjectValidator";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import JDItem from "../@types/JDItem";
@@ -136,50 +137,33 @@ const insertJDItem = (newJDItem: JDItem, jdProject: JDProject) => {
 	// TODO: Save to localStorage as well
 
 	// Sanity check: does the input look right?
+	// TODO: This needs to be better and fail properly.
 	sanityCheck(newJDItem);
 
 	// Make a copy of our current project that we can mutate
-	let jdProjectDataWithNewItem: UserbaseData = [
+	let userbaseDataWithNewItem: UserbaseData = [
 		...jdProject.data,
 		{ itemId: "userbase will fill me in", item: newJDItem },
 	];
-	jdProjectDataWithNewItem = sortUserbaseData(jdProjectDataWithNewItem);
-	// console.debug(jdProjectDataWithNewItem);
+	userbaseDataWithNewItem = sortUserbaseData(userbaseDataWithNewItem);
 
-	/**
-	 * We need to extract "is this a valid project?" out to a self-contained
-	 * function. It's needed over in userbaseState.machine/changeHandler().
-	 *
-	 *
-	 */
-	// Start the machine
-	const jdMachineService = interpret(jdMachine).start();
-
-	// Run jdProjectDataWithNewItem through the machine
-	for (let i = 0; i < jdProjectDataWithNewItem.length; i++) {
-		const jdType = jdProjectDataWithNewItem[i].item.jdType.toUpperCase();
-		jdMachineService.send({
-			type: jdType,
-			...jdProjectDataWithNewItem[i].item,
-		});
-
-		console.debug("👾 insertJDItem: in the machine");
-		console.debug(jdProjectDataWithNewItem[i].item);
-		console.debug(jdMachineService.state.value);
-
-		// If we're in an error state, break
-		if (jdMachineService.state.matches("error")) {
-			// @ts-expect-error - Doesn't like .error, but we know it exists
-			// TODO: fix this in the machine's context definition.
-			return jdMachineService.state.context.error;
-		}
-	}
-
-	// We're good to go. Push the new item to Userbase.
-	userbase.insertItem({
-		databaseName: "test-2020-09-08-14-16",
-		item: newJDItem,
+	// Make this readonly to stop yourself doing dumb shit that takes you an
+	// hour to troubleshoot. Learn this lesson!
+	const jdProjectValidatorResult: Readonly<JDProject> = jdProjectValidator({
+		status: "tbc",
+		data: [...userbaseDataWithNewItem],
 	});
+
+	if (jdProjectValidatorResult.status === "valid") {
+		console.debug("💹 We are adding that to Userbase");
+		// We're good to go. Push the new item to Userbase.
+		userbase.insertItem({
+			databaseName: "test-2020-09-08-14-16",
+			item: newJDItem,
+		});
+	} else {
+		console.error(`We didn't add that value because the database is fubar.`);
+	}
 
 	// == Return value: `true` if nothing went wrong.  ==-==-==-==-==-==-==-==-==
 	return true;

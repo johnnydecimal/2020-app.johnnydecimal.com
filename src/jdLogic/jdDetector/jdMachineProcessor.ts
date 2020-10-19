@@ -2,7 +2,7 @@
 import { interpret } from "xstate";
 // Internal modules
 import jdFileParser from "./jdFileParser";
-import jdMachine from "../../machines/jdParser";
+import jdProjectMachine from "../../machines/jdProject.machine";
 // Types
 import JDLineObject from "../../@types/JDLineObject";
 import JDMachineProcessorOutput from "../../@types/jDMachineProcessorOutput";
@@ -29,7 +29,7 @@ const jdMachineProcessor = (input: string): JDMachineProcessorOutput => {
 	// console.debug('detectedArray:', detectedArray);
 
 	// Start the machine.
-	const jdMachineService = interpret(jdMachine).start();
+	const jdMachineService = interpret(jdProjectMachine).start();
 
 	// Run the array of objects through the machine.
 	for (let i = 0; i < detectedArray.length; i++) {

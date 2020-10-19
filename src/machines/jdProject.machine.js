@@ -17,12 +17,17 @@ const updateIDContext = assign({
 	id: (context, event) => event.jdNumber,
 });
 
-// -- Guards -----------------------------------------------------------------
+/**
+ * The guards are the functions that ensure that our project parses properly.
+ * For example, you can't directly follow an area with an ID. The guard ensures
+ * that this is the case.
+ */
+
 /**
  * guardArea is executed when any 'AREA' transition is sent.
- * @param {object} context
- * @param {object} event
- * @param {object} guardMeta
+ * @param {Object} context
+ * @param {Object} event
+ * @param {Object} guardMeta
  */
 const guardArea = (context, event, guardMeta) => {
 	if (isAreaOrderValid(context.area, event.jdNumber)) {
@@ -47,9 +52,9 @@ const guardArea = (context, event, guardMeta) => {
 
 /**
  * guardCategory is executed when any 'CATEGORY' transition is sent.
- * @param {object} context
- * @param {object} event
- * @param {object} guardMeta
+ * @param {Object} context
+ * @param {Object} event
+ * @param {Object} guardMeta
  */
 const guardCategory = (context, event, guardMeta) => {
 	if (
@@ -80,9 +85,9 @@ const guardCategory = (context, event, guardMeta) => {
 
 /**
  * guardID is executed when any 'ID' transition is sent.
- * @param {object} context
- * @param {object} event
- * @param {object} guardMeta
+ * @param {Object} context
+ * @param {Object} event
+ * @param {Object} guardMeta
  */
 const guardID = (context, event, guardMeta) => {
 	if (
@@ -105,7 +110,7 @@ const guardID = (context, event, guardMeta) => {
 	}
 };
 
-const jdMachine = Machine(
+const jdProjectMachine = Machine(
 	{
 		id: "jdLanguage",
 		initial: "start",
@@ -252,7 +257,7 @@ const jdMachine = Machine(
 	}
 );
 
-export default jdMachine;
+export default jdProjectMachine;
 
 /* TypeScript stuff. Save this for later.
 interface JDStateSchema {
