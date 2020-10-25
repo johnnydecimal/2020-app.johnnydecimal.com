@@ -69,25 +69,109 @@ export const passACID: JDProject = {
 };
 
 // == Failing objects
-// Noooooo, you idiot. This can't fail -- the machine runner **sorts your input
-// for you!**
-export const fail1212: JDProject = {
+// JDE12.22: An area number was duplicated.
+export const fail1222: JDProject = {
 	status: "tbc",
 	data: [
 		{
 			itemId: "guid",
 			item: {
 				jdType: "area",
-				jdNumber: "20-29",
-				jdTitle: "Area 20-29",
+				jdNumber: "00-09",
+				jdTitle: "Area 00-09",
 			},
 		},
 		{
 			itemId: "guid",
 			item: {
 				jdType: "area",
-				jdNumber: "20-29",
+				jdNumber: "00-09",
+				jdTitle: "Area 00-09",
+			},
+		},
+	],
+};
+
+// JDE13.23: A category number was duplicated.
+export const fail1323: JDProject = {
+	status: "tbc",
+	data: [
+		{
+			itemId: "guid",
+			item: {
+				jdType: "area",
+				jdNumber: "10-19",
 				jdTitle: "Area 10-19",
+			},
+		},
+		{
+			itemId: "guid",
+			item: {
+				jdType: "category",
+				jdNumber: "10",
+				jdTitle: "Category 00",
+			},
+		},
+		{
+			itemId: "guid",
+			item: {
+				jdType: "category",
+				jdNumber: "10",
+				jdTitle: "Category 00",
+			},
+		},
+	],
+};
+
+// JDE14.24: An ID number was duplicated.
+export const fail1424: JDProject = {
+	status: "tbc",
+	data: [
+		{
+			itemId: "guid",
+			item: {
+				jdType: "area",
+				jdNumber: "10-19",
+				jdTitle: "Area 10-19",
+			},
+		},
+		{
+			itemId: "guid",
+			item: {
+				jdType: "category",
+				jdNumber: "10",
+				jdTitle: "Category 00",
+			},
+		},
+		{
+			itemId: "guid",
+			item: {
+				jdType: "id",
+				jdNumber: "10.00",
+				jdTitle: "ID 10.00",
+			},
+		},
+		{
+			itemId: "guid",
+			item: {
+				jdType: "id",
+				jdNumber: "10.00",
+				jdTitle: "ID 10.00",
+			},
+		},
+	],
+};
+
+// JDE23.01: A category was detected as the first item in the database.
+export const fail2301: JDProject = {
+	status: "tbc",
+	data: [
+		{
+			itemId: "guid",
+			item: {
+				jdType: "category",
+				jdNumber: "10",
+				jdTitle: "Category 00",
 			},
 		},
 	],
@@ -116,10 +200,33 @@ export const fail2322: JDProject = {
 	],
 };
 
+// JDE24.01: An ID was detected as the first item in the database.
+export const fail2401: JDProject = {
+	status: "tbc",
+	data: [
+		{
+			itemId: "guid",
+			item: {
+				jdType: "id",
+				jdNumber: "10.00",
+				jdTitle: "ID 10.00",
+			},
+		},
+	],
+};
+
 // JDE24.23: An ID does not belong to its parent category.
 export const fail2423: JDProject = {
 	status: "tbc",
 	data: [
+		{
+			itemId: "guid",
+			item: {
+				jdType: "area",
+				jdNumber: "10-19",
+				jdTitle: "Area 10-19",
+			},
+		},
 		{
 			itemId: "guid",
 			item: {

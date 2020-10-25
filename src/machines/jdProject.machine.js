@@ -17,6 +17,14 @@ const updateIDContext = assign({
 	id: (context, event) => event.jdNumber,
 });
 
+// Errors
+const errorJDE2301 = assign({
+	error: "JDE23.01",
+});
+const errorJDE2401 = assign({
+	error: "JDE24.01",
+});
+
 /**
  * The guards are the functions that ensure that our project parses properly.
  * For example, you can't directly follow an area with an ID. The guard ensures
@@ -30,7 +38,14 @@ const updateIDContext = assign({
  * @param {Object} guardMeta
  */
 const guardArea = (context, event, guardMeta) => {
-	if (isAreaOrderValid(context.area, event.jdNumber)) {
+	if (context.area === event.jdNumber) {
+		// If the numbers are the same, we have a duplicate-value error
+		context.error = "JDE12.22";
+		return false;
+	} else if (isAreaOrderValid(context.area, event.jdNumber)) {
+		// Otherwise test for order validity; note that this is impossible to fail
+		// in the current Userbase implementation as `jdProjectMachineRunner()`
+		// sorts the input object before sending it to the machine.
 		return true;
 	} else {
 		switch (guardMeta.state.value) {
@@ -57,8 +72,16 @@ const guardArea = (context, event, guardMeta) => {
  * @param {Object} guardMeta
  */
 const guardCategory = (context, event, guardMeta) => {
-	if (
+	if (context.category === event.jdNumber) {
+		// If the numbers are the same, we have a duplicate-value error
+		context.error = "JDE13.23";
+		return false;
+	} else if (
+		// Otherwise test for order validity; note that this is impossible to fail
+		// in the current Userbase implementation as `jdProjectMachineRunner()`
+		// sorts the input object before sending it to the machine.
 		isCategoryOrderValid(context.category, event.jdNumber) &&
+		// This is a valid test, however.
 		isCategoryInArea(context.area, event.jdNumber)
 	) {
 		return true;
@@ -90,8 +113,16 @@ const guardCategory = (context, event, guardMeta) => {
  * @param {Object} guardMeta
  */
 const guardID = (context, event, guardMeta) => {
-	if (
+	if (context.id === event.jdNumber) {
+		// If the numbers are the same, we have a duplicate-value error
+		context.error = "JDE14.24";
+		return false;
+	} else if (
+		// Otherwise test for order validity; note that this is impossible to fail
+		// in the current Userbase implementation as `jdProjectMachineRunner()`
+		// sorts the input object before sending it to the machine.
 		isIDInCategory(context.category, event.jdNumber) &&
+		// This is a valid test, however.
 		isIDOrderValid(context.id, event.jdNumber)
 	) {
 		return true;
@@ -128,8 +159,14 @@ const jdProjectMachine = Machine(
 						target: "area_detected",
 						actions: "updateAreaContext",
 					},
-					CATEGORY: "error",
-					ID: "error",
+					CATEGORY: {
+						target: "error",
+						actions: "errorJDE2301",
+					},
+					ID: {
+						target: "error",
+						actions: "errorJDE2401",
+					},
 					COMMENT: "start",
 					DIVIDER: "start",
 					EMPTYLINE: "start",
@@ -248,7 +285,13 @@ const jdProjectMachine = Machine(
 		},
 	},
 	{
-		actions: { updateAreaContext, updateCategoryContext, updateIDContext },
+		actions: {
+			updateAreaContext,
+			updateCategoryContext,
+			updateIDContext,
+			errorJDE2301,
+			errorJDE2401,
+		},
 		guards: {
 			guardArea,
 			guardCategory,

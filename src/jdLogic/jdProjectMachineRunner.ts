@@ -55,11 +55,10 @@ const jdProjectMachineRunner = (jdProject: Readonly<JDProject>): JDProject => {
 
 		// If we're in an error state, we can save time and break
 		if (jdProjectMachineService.state.matches("error")) {
-			// console.debug(
-			// 	"📮 here is the machine, pull out the error and load it in to jdProject"
-			// );
-			// console.debug(jdProjectMachineService);
+			// console.debug(jdProjectMachineService.state.context);
 			jdProjectCopy.status = "error";
+			// @ts-expect-error
+			jdProjectCopy.error = jdProjectMachineService.state.context.error;
 			break;
 		}
 		// There was no error - loop until done
