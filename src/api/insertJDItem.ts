@@ -1,12 +1,10 @@
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import { interpret } from "xstate";
 import userbase from "userbase-js";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import jdProjectMachine from "../machines/jdProject.machine";
 import { isArea, isCategory, isID } from "../jdACIDhelpers/isACID";
 import sortUserbaseData from "../userbase/sortUserbaseData";
-import jdProjectValidator from "../jdLogic/jdProjectValidator";
+import jdProjectMachineRunner from "../jdLogic/jdProjectMachineRunner";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import JDItem from "../@types/JDItem";
@@ -149,7 +147,7 @@ const insertJDItem = (newJDItem: JDItem, jdProject: JDProject) => {
 
 	// Make this readonly to stop yourself doing dumb shit that takes you an
 	// hour to troubleshoot. Learn this lesson!
-	const jdProjectValidatorResult: Readonly<JDProject> = jdProjectValidator({
+	const jdProjectValidatorResult: Readonly<JDProject> = jdProjectMachineRunner({
 		status: "tbc",
 		data: [...userbaseDataWithNewItem],
 	});
@@ -161,12 +159,11 @@ const insertJDItem = (newJDItem: JDItem, jdProject: JDProject) => {
 			databaseName: "test-2020-09-08-14-16",
 			item: newJDItem,
 		});
+		return true;
 	} else {
 		console.error(`We didn't add that value because the database is fubar.`);
+		return new Error("Yeah");
 	}
-
-	// == Return value: `true` if nothing went wrong.  ==-==-==-==-==-==-==-==-==
-	return true;
 };
 
 export default insertJDItem;
