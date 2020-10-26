@@ -1,5 +1,7 @@
 import JDArea from "../@types/JDArea";
 import JDCategory from "../@types/JDCategory";
+import isArea from "./isArea";
+import isCategory from "./isCategory";
 
 /**
  * isCategoryInArea returns true if the category is a member of the area, e.g.
@@ -11,6 +13,17 @@ import JDCategory from "../@types/JDCategory";
  * @returns {boolean} `true` if the category is in the area, `false` otherwise.
  */
 const isCategoryInArea = (area: JDArea, category: JDCategory): boolean => {
+	if (!isArea(area)) {
+		throw new Error(
+			"isCategoryInArea.ts: you passed something claiming to be an area that is not an area"
+		);
+	}
+	if (!isCategory(category)) {
+		throw new Error(
+			"isCategoryInArea.ts: you passed something claiming to be a category that is not a category"
+		);
+	}
+
 	return Number(area.charAt(0)) === Number(category.charAt(0));
 };
 

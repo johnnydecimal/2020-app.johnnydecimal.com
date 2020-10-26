@@ -3,8 +3,8 @@ import { Machine, assign } from "xstate";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 // import isAreaOrderValid from "../jdACIDhelpers/isAreaOrderValid";
-import isCategoryOrderValid from "../jdACIDhelpers/isCategoryOrderValid";
-import isIDOrderValid from "../jdACIDhelpers/isIDOrderValid";
+// import isCategoryOrderValid from "../jdACIDhelpers/isCategoryOrderValid";
+// import isIDOrderValid from "../jdACIDhelpers/isIDOrderValid";
 
 import isCategoryInArea from "../jdACIDhelpers/isCategoryInArea";
 import isIDInCategory from "../jdACIDhelpers/isIDInCategory";
@@ -101,6 +101,12 @@ const guardCategory = (context, event) => {
 		return false;
 	}
 
+	// Does the category belong to its parent area?
+	if (!isCategoryInArea(current.area, event.jdNumber)) {
+		context.error = "JDE23.22";
+		return false;
+	}
+
 	// Note: we had tests here for 'is the category order valid?', but the current
 	//       implementation sorts the input before sending it to the machine.
 	return true;
@@ -127,8 +133,14 @@ const guardID = (context, event) => {
 	}
 
 	// If the number sent is the same as the current ID, it's a duplicate
-	if (event.jdNumber === current.ID) {
+	if (event.jdNumber === current.id) {
 		context.error = "JDE14.24";
+		return false;
+	}
+
+	// Does the ID belong to its parent category?
+	if (!isIDInCategory(current.category, event.jdNumber)) {
+		context.error = "JDE24.23";
 		return false;
 	}
 
@@ -195,6 +207,10 @@ const jdProjectMachine = Machine(
 						},
 						{ target: "error" },
 					],
+					// TODO: Improve this? Currently this will fail as JDE33.01 when you
+					//       send anything that *claims to be* an ID, regardless of what
+					//       it is. Your preference is to prioritise reporting of the
+					//       dodgy input.
 					ID: {
 						target: "error",
 						actions: "errorJDE3301",

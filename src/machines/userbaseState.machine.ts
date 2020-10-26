@@ -41,7 +41,7 @@ const databaseStateMachine = Machine<
 								status: "tbc",
 								data: userbaseData,
 							});
-							if ((jdProjectMachineRunnerResult.status = "valid")) {
+							if (jdProjectMachineRunnerResult.status === "valid") {
 								console.debug(
 									"✅ userbaseState.machine:changeHander - valid project received from Userbase"
 								);

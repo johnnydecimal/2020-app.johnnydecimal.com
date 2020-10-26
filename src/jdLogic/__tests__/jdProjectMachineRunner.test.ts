@@ -35,36 +35,36 @@ test("10-19 Out of order and duplicate entry errors", () => {
 	expect(jdProjectMachineRunner(d.jde1424).error).toBe("JDE14.24");
 });
 
-// test("20-29 Ownership errors", () => {
-// 	expect(jdProjectMachineRunner(d.jde2301).status).toBe("error");
-// 	expect(jdProjectMachineRunner(d.jde2301).error).toBe("JDE23.01");
-// 	expect(jdProjectMachineRunner(d.jde2401).status).toBe("error");
-// 	expect(jdProjectMachineRunner(d.jde2401).error).toBe("JDE24.01");
+test("20-29 Ownership errors", () => {
+	expect(jdProjectMachineRunner(d.jde2301).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde2301).error).toBe("JDE23.01");
+	expect(jdProjectMachineRunner(d.jde2401).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde2401).error).toBe("JDE24.01");
 
-// 	expect(jdProjectMachineRunner(d.jde2322a).status).toBe("error");
-// 	expect(jdProjectMachineRunner(d.jde2322a).error).toBe("JDE23.22");
-// 	expect(jdProjectMachineRunner(d.jde2322b).status).toBe("error");
-// 	expect(jdProjectMachineRunner(d.jde2322b).error).toBe("JDE23.22");
+	expect(jdProjectMachineRunner(d.jde2322a).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde2322a).error).toBe("JDE23.22");
+	expect(jdProjectMachineRunner(d.jde2322b).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde2322b).error).toBe("JDE23.22");
 
-// 	expect(jdProjectMachineRunner(d.jde2423a).status).toBe("error");
-// 	expect(jdProjectMachineRunner(d.jde2423a).error).toBe("JDE24.23");
-// 	expect(jdProjectMachineRunner(d.jde2423b).status).toBe("error");
-// 	expect(jdProjectMachineRunner(d.jde2423b).error).toBe("JDE24.23");
-// });
+	expect(jdProjectMachineRunner(d.jde2423a).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde2423a).error).toBe("JDE24.23");
+	expect(jdProjectMachineRunner(d.jde2423b).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde2423b).error).toBe("JDE24.23");
+});
 
-// test("30-39 Missing errors", () => {
-// 	expect(jdProjectMachineRunner(d.jde3301).status).toBe("error");
-// 	expect(jdProjectMachineRunner(d.jde3301).error).toBe("JDE33.01");
-// });
+test("30-39 Missing errors", () => {
+	expect(jdProjectMachineRunner(d.jde3301).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde3301).error).toBe("JDE33.01");
+});
 
-// test("40-49 Invalid input errors", () => {
-// 	expect(jdProjectMachineRunner(d.jde4201).status).toBe("error");
-// 	expect(jdProjectMachineRunner(d.jde4201).error).toBe("JDE42.01");
-// 	expect(jdProjectMachineRunner(d.jde4301).status).toBe("error");
-// 	expect(jdProjectMachineRunner(d.jde4301).error).toBe("JDE43.01");
-// 	expect(jdProjectMachineRunner(d.jde4401).status).toBe("error");
-// 	expect(jdProjectMachineRunner(d.jde4401).error).toBe("JDE44.01");
-// });
+test("40-49 Invalid input errors", () => {
+	expect(jdProjectMachineRunner(d.jde4201).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde4201).error).toBe("JDE42.01");
+	expect(jdProjectMachineRunner(d.jde4301).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde4301).error).toBe("JDE43.01");
+	expect(jdProjectMachineRunner(d.jde4401).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde4401).error).toBe("JDE44.01");
+});
 
 test("One-off tests", () => {
 	expect(jdProjectMachineRunner(d.fail09).status).toBe("error");
