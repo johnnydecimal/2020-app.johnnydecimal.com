@@ -167,9 +167,9 @@ const jdProjectMachine = Machine(
 						target: "error",
 						actions: "errorJDE2401",
 					},
-					COMMENT: "start",
-					DIVIDER: "start",
-					EMPTYLINE: "start",
+					// COMMENT: "start",
+					// DIVIDER: "start",
+					// EMPTYLINE: "start",
 					EOF: "eof",
 					ERROR: "error",
 				},
@@ -194,9 +194,9 @@ const jdProjectMachine = Machine(
 						{ target: "error" },
 					],
 					ID: "error",
-					COMMENT: "area_detected",
-					DIVIDER: "area_detected",
-					EMPTYLINE: "area_detected",
+					// COMMENT: "area_detected",
+					// DIVIDER: "area_detected",
+					// EMPTYLINE: "area_detected",
 					EOF: "eof",
 					ERROR: "error",
 				},
@@ -224,13 +224,13 @@ const jdProjectMachine = Machine(
 						{
 							target: "id_detected",
 							actions: "updateIDContext",
-							cond: "idValid",
+							cond: "guardID",
 						},
 						{ target: "error" },
 					],
-					COMMENT: "category_detected",
-					DIVIDER: "category_detected",
-					EMPTYLINE: "category_detected",
+					// COMMENT: "category_detected",
+					// DIVIDER: "category_detected",
+					// EMPTYLINE: "category_detected",
 					EOF: "eof",
 					ERROR: "error",
 				},
@@ -258,13 +258,13 @@ const jdProjectMachine = Machine(
 						{
 							target: "id_detected",
 							actions: "updateIDContext",
-							cond: "idValid",
+							cond: "guardID",
 						},
 						{ target: "error" },
 					],
-					COMMENT: "id_detected",
-					DIVIDER: "id_detected",
-					EMPTYLINE: "id_detected",
+					// COMMENT: "id_detected",
+					// DIVIDER: "id_detected",
+					// EMPTYLINE: "id_detected",
 					EOF: "eof",
 					ERROR: "error",
 				},
@@ -276,11 +276,11 @@ const jdProjectMachine = Machine(
 
 			error: {
 				type: "final",
-				entry: (context, event) => {
-					if (event.error === "Nothing matched.") {
-						context.error = "JDE41.11";
-					}
-				},
+				// entry: (context, event) => {
+				// 	if (event.error === "Nothing matched.") {
+				// 		context.error = "JDE41.11";
+				// 	}
+				// },
 			},
 		},
 	},
@@ -295,7 +295,7 @@ const jdProjectMachine = Machine(
 		guards: {
 			guardArea,
 			guardCategory,
-			idValid: guardID,
+			guardID,
 		},
 	}
 );
