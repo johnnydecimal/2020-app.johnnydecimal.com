@@ -75,22 +75,24 @@ const guardArea = (context, event, guardMeta) => {
  * @param {Object} guardMeta
  */
 const guardCategory = (context, event, guardMeta) => {
-	if (context.category === event.jdNumber) {
-		// If the numbers are the same, we have a duplicate-value error
+	const prevState = guardMeta.state;
+	const current = context; // Hep my brain
+
+	if (current.category === event.jdNumber) {
 		context.error = "JDE13.23";
+		return false;
+	} else if (!isCategoryInArea(current.area, event.jdNumber)) {
+		context.error = "JDE23.22";
 		return false;
 	} else if (
 		// Otherwise test for order validity; note that this is impossible to fail
 		// in the current Userbase implementation as `jdProjectMachineRunner()`
 		// sorts the input object before sending it to the machine.
-		isCategoryOrderValid(context.category, event.jdNumber) &&
-		// This is a valid test, however.
-		isCategoryInArea(context.area, event.jdNumber)
+		isCategoryOrderValid(context.category, event.jdNumber)
 	) {
 		return true;
 	} else {
-		console.log(guardMeta.state.value);
-		switch (guardMeta.state.value) {
+		switch (prevState.value) {
 			// JDE13.13: Category follows category.
 			case "category_detected":
 				context.error = "JDE13.13";
@@ -98,10 +100,6 @@ const guardCategory = (context, event, guardMeta) => {
 			// JDE13.14: Category follows ID.
 			case "id_detected":
 				context.error = "JDE13.14";
-				return false;
-			// JDE23.22: Category does not belong to area.
-			case "area_detected":
-				context.error = "JDE23.22";
 				return false;
 			default:
 				context.error = "JDE01.13";
