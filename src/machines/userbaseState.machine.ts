@@ -41,6 +41,9 @@ const databaseStateMachine = Machine<
 								status: "tbc",
 								data: userbaseData,
 							});
+							// TODO: Why won't eslint & prettier play nice here? Prettier
+							//       insists on wrapping this in () if it's `=`, and eslint
+							//       doesn't report the no-cond-assign error either way.
 							if (jdProjectMachineRunnerResult.status === "valid") {
 								console.debug(
 									"✅ userbaseState.machine:changeHander - valid project received from Userbase"
