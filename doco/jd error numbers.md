@@ -81,13 +81,25 @@ Holy shit this system is self-descriptive. :-)
 
    23     Categories
    23.01  A category was detected as the first item in the database.
+          - Example: `-> c`
    23.22  A category does not belong to its parent area.
+          - Example: `-> a×c`
+          - Example: `-> a,c,id×c`
 
    24     IDs
    24.01  An ID was detected as the first item in the database.
+          - Example: `-> id`
    24.23  An ID does not belong to its parent category.
+          - Example: `-> a,c×id`
+          - Example: `-> a,c,id×id` (where the 2nd ID is sequentially higher than the first)
    
 30-39     Missing errors
+   31     Projects
+   32     Areas
+   33     Categories
+   33.01  A category is missing between an area and an ID.
+          - Example: `-> a,id`
+   34     IDs
 
 40-49     Invalid input errors
    41     Projects

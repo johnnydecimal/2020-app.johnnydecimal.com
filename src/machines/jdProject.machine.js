@@ -115,27 +115,31 @@ const guardCategory = (context, event, guardMeta) => {
  * @param {Object} guardMeta
  */
 const guardID = (context, event, guardMeta) => {
-	if (context.id === event.jdNumber) {
+	const prevState = guardMeta.state;
+	const current = context; // Hep my brain
+
+	if (current.id === event.jdNumber) {
 		// If the numbers are the same, we have a duplicate-value error
 		context.error = "JDE14.24";
+		return false;
+	} else if (!isIDInCategory(current.category, event.jdNumber)) {
+		context.error = "JDE24.23";
 		return false;
 	} else if (
 		// Otherwise test for order validity; note that this is impossible to fail
 		// in the current Userbase implementation as `jdProjectMachineRunner()`
 		// sorts the input object before sending it to the machine.
-		isIDInCategory(context.category, event.jdNumber) &&
-		// This is a valid test, however.
 		isIDOrderValid(context.id, event.jdNumber)
 	) {
 		return true;
 	} else {
-		switch (guardMeta.state.value) {
+		switch (prevState.value) {
 			case "id_detected":
 				context.error = "JDE14.14";
 				return false;
-			case "category_detected":
-				context.error = "JDE24.23";
-				return false;
+			// case "category_detected":
+			// 	context.error = "JDE24.23";
+			// 	return false;
 			default:
 				context.error = "JDE01.14";
 				return false;

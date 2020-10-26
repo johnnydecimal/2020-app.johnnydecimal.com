@@ -23,8 +23,10 @@ test("20-29 Ownership errors", () => {
 	expect(jdProjectMachineRunner(d.jde2322b).status).toBe("error");
 	expect(jdProjectMachineRunner(d.jde2322b).error).toBe("JDE23.22");
 
-	expect(jdProjectMachineRunner(d.jde2423).status).toBe("error");
-	expect(jdProjectMachineRunner(d.jde2423).error).toBe("JDE24.23");
+	expect(jdProjectMachineRunner(d.jde2423a).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde2423a).error).toBe("JDE24.23");
+	expect(jdProjectMachineRunner(d.jde2423b).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde2423b).error).toBe("JDE24.23");
 });
 
 test("30-39 Missing errors", () => {

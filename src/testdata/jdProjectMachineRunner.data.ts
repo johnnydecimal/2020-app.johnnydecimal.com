@@ -173,9 +173,13 @@ export const jde2322b: JDProject = {
 };
 
 // JDE24.23: An ID does not belong to its parent category.
-export const jde2423: JDProject = {
+export const jde2423a: JDProject = {
 	status: "tbc",
 	data: [{ ...a1019 }, { ...c10 }, { ...id2000 }],
+};
+export const jde2423b: JDProject = {
+	status: "tbc",
+	data: [{ ...a1019 }, { ...c10 }, { ...id1000 }, { ...id2000 }],
 };
 
 // // JDE12.22: An area number was duplicated.
