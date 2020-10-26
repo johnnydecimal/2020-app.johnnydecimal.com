@@ -605,14 +605,6 @@ video {
   }
 }
 
-html {
-  overflow-y: scroll;
-}
-
-body {
-  min-height: 101vh;
-}
-
 .space-y-0 > :not(template) ~ :not(template) {
   --space-y-reverse: 0;
   margin-top: calc(0px * calc(1 - var(--space-y-reverse)));
@@ -1817,7 +1809,6 @@ body {
 
 .appearance-none {
   -webkit-appearance: none;
-     -moz-appearance: none;
           appearance: none;
 }
 
@@ -10572,12 +10563,16 @@ body {
   clear: none;
 }
 
-.font-jdbody {
-  font-family: Fira Sans;
+.font-jdcode {
+  font-family: Fira Code;
 }
 
 .font-jdmono {
-  font-family: Fira Code;
+  font-family: Fira Mono;
+}
+
+.font-jdbody {
+  font-family: Fira Sans;
 }
 
 .font-jdheader {
@@ -20379,7 +20374,6 @@ body {
 
   .sm\:appearance-none {
     -webkit-appearance: none;
-       -moz-appearance: none;
             appearance: none;
   }
 
@@ -29134,12 +29128,16 @@ body {
     clear: none;
   }
 
-  .sm\:font-jdbody {
-    font-family: Fira Sans;
+  .sm\:font-jdcode {
+    font-family: Fira Code;
   }
 
   .sm\:font-jdmono {
-    font-family: Fira Code;
+    font-family: Fira Mono;
+  }
+
+  .sm\:font-jdbody {
+    font-family: Fira Sans;
   }
 
   .sm\:font-jdheader {
@@ -38911,7 +38909,6 @@ body {
 
   .md\:appearance-none {
     -webkit-appearance: none;
-       -moz-appearance: none;
             appearance: none;
   }
 
@@ -47666,12 +47663,16 @@ body {
     clear: none;
   }
 
-  .md\:font-jdbody {
-    font-family: Fira Sans;
+  .md\:font-jdcode {
+    font-family: Fira Code;
   }
 
   .md\:font-jdmono {
-    font-family: Fira Code;
+    font-family: Fira Mono;
+  }
+
+  .md\:font-jdbody {
+    font-family: Fira Sans;
   }
 
   .md\:font-jdheader {
@@ -57443,7 +57444,6 @@ body {
 
   .lg\:appearance-none {
     -webkit-appearance: none;
-       -moz-appearance: none;
             appearance: none;
   }
 
@@ -66198,12 +66198,16 @@ body {
     clear: none;
   }
 
-  .lg\:font-jdbody {
-    font-family: Fira Sans;
+  .lg\:font-jdcode {
+    font-family: Fira Code;
   }
 
   .lg\:font-jdmono {
-    font-family: Fira Code;
+    font-family: Fira Mono;
+  }
+
+  .lg\:font-jdbody {
+    font-family: Fira Sans;
   }
 
   .lg\:font-jdheader {
@@ -75975,7 +75979,6 @@ body {
 
   .xl\:appearance-none {
     -webkit-appearance: none;
-       -moz-appearance: none;
             appearance: none;
   }
 
@@ -84730,12 +84733,16 @@ body {
     clear: none;
   }
 
-  .xl\:font-jdbody {
-    font-family: Fira Sans;
+  .xl\:font-jdcode {
+    font-family: Fira Code;
   }
 
   .xl\:font-jdmono {
-    font-family: Fira Code;
+    font-family: Fira Mono;
+  }
+
+  .xl\:font-jdbody {
+    font-family: Fira Sans;
   }
 
   .xl\:font-jdheader {

@@ -4,8 +4,9 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 import "./assets/main.css"; // Tailwind
-import "typeface-fira-sans";
 import "typeface-fira-code";
+import "typeface-fira-mono";
+import "typeface-fira-sans";
 import "typeface-playfair-display";
 
 ReactDOM.render(

@@ -1,18 +1,19 @@
 {
-  "parser": "@typescript-eslint/parser",
-  "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "eslint:recommended",
-    "prettier"
-  ],
-  "env": {
-    "es6": true,
-    "node": true
-  },
-  "rules": {
-    "comma-dangle": ["always"],
-    "prettier/prettier": "error"
-  },
-  "plugins": ["prettier"]
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"sourceType": "module"
+	},
+	"extends": ["plugin:react/recommended", "eslint:recommended", "prettier"],
+	"env": {
+		"es6": true,
+		"node": true
+	},
+	"rules": {
+		"comma-dangle": 0,
+		"prettier/prettier": "error"
+	},
+	"plugins": ["prettier"]
 }
