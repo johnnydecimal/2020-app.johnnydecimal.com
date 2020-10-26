@@ -151,12 +151,12 @@ const guardID = (context, event, guardMeta) => {
 		return true;
 	} else {
 		switch (prevState.value) {
+			case "start":
+				context.error = "JDE24.01";
+				return false;
 			case "id_detected":
 				context.error = "JDE14.14";
 				return false;
-			// case "category_detected":
-			// 	context.error = "JDE24.23";
-			// 	return false;
 			default:
 				context.error = "JDE01.14";
 				return false;

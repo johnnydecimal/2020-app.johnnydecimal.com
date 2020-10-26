@@ -1,6 +1,7 @@
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import jdProjectMachineRunner from "../jdProjectMachineRunner";
 
+// === Data     ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import * as d from "../../testdata/jdProjectMachineRunner.data";
 
 test("Valid projects pass", () => {
@@ -63,4 +64,9 @@ test("40-49 Invalid input errors", () => {
 	expect(jdProjectMachineRunner(d.jde4301).error).toBe("JDE43.01");
 	expect(jdProjectMachineRunner(d.jde4401).status).toBe("error");
 	expect(jdProjectMachineRunner(d.jde4401).error).toBe("JDE44.01");
+});
+
+test("One-off tests", () => {
+	expect(jdProjectMachineRunner(d.fail09).status).toBe("error");
+	expect(jdProjectMachineRunner(d.fail09).error).toBe("JDE44.01");
 });

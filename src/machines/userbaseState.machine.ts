@@ -33,6 +33,8 @@ const databaseStateMachine = Machine<
 					userbase.openDatabase({
 						databaseName: "test-2020-09-08-14-16",
 						changeHandler: (userbaseData) => {
+							console.debug("🥎 userbaseData:");
+							console.debug(userbaseData);
 							// Need to test whether this is valid data and set the valid flag
 							// Run the current project through the runner
 							const jdProjectMachineRunnerResult = jdProjectMachineRunner({

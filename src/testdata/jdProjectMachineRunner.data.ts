@@ -306,3 +306,22 @@ export const jde4401: JDProject = {
 		},
 	],
 };
+
+// == Ad-hoc tests  ==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==
+
+export const fail09: JDProject = {
+	status: "tbc",
+	data: [
+		{ ...a1019 },
+		{ ...c10 },
+		{
+			itemId: uuidv4(),
+			item: {
+				jdType: "id",
+				// @ts-expect-error
+				jdNumber: "0.9",
+				jdTitle: "0.9 is not an ID",
+			},
+		},
+	],
+};
