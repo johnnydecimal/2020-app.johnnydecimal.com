@@ -238,7 +238,6 @@ export const jde2322a: JDProject = {
 	status: "tbc",
 	data: [{ ...a1019 }, { ...c20 }],
 };
-
 export const jde2322b: JDProject = {
 	status: "tbc",
 	data: [{ ...a1019 }, { ...c10 }, { ...id1000 }, { ...c20 }],
@@ -258,4 +257,52 @@ export const jde2423b: JDProject = {
 export const jde3301: JDProject = {
 	status: "tbc",
 	data: [{ ...a1019 }, { ...id1000 }],
+};
+
+// JDE42.01 An item whose jdType is 'area' is not an area.
+export const jde4201: JDProject = {
+	status: "tbc",
+	data: [
+		{
+			itemId: uuidv4(),
+			item: {
+				jdType: "area",
+				jdNumber: "23",
+				jdTitle: "23 is not an area",
+			},
+		},
+	],
+};
+
+// JDE43.01 An item whose jdType is 'category' is not a category.
+export const jde4301: JDProject = {
+	status: "tbc",
+	data: [
+		{ ...a1019 },
+		{
+			itemId: uuidv4(),
+			item: {
+				jdType: "category",
+				jdNumber: "20.00",
+				jdTitle: "20.00 is not a category",
+			},
+		},
+	],
+};
+
+// JDE44.01 An item whose jdType is 'id' is not an ID.
+export const jde4401: JDProject = {
+	status: "tbc",
+	data: [
+		{ ...a1019 },
+		{ ...c10 },
+		{
+			itemId: uuidv4(),
+			item: {
+				jdType: "id",
+				jdNumber: "23",
+				jdTitle: "23 is not an ID",
+			},
+		},
+	],
 };

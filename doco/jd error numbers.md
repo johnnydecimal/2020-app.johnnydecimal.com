@@ -120,5 +120,8 @@ Holy shit this system is self-descriptive. :-)
 40-49     Invalid input errors
    41     Projects
    42     Areas
+   42.01  An item whose jdType is 'area' is not an area.
    43     Categories
+   43.01  An item whose jdType is 'category' is not a category.
    44     IDs 
+   44.01  An item whose jdType is 'id' is not an ID.

@@ -55,3 +55,12 @@ test("30-39 Missing errors", () => {
 	expect(jdProjectMachineRunner(d.jde3301).status).toBe("error");
 	expect(jdProjectMachineRunner(d.jde3301).error).toBe("JDE33.01");
 });
+
+test("40-49 Invalid input errors", () => {
+	expect(jdProjectMachineRunner(d.jde4201).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde4201).error).toBe("JDE42.01");
+	expect(jdProjectMachineRunner(d.jde4301).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde4301).error).toBe("JDE43.01");
+	expect(jdProjectMachineRunner(d.jde4401).status).toBe("error");
+	expect(jdProjectMachineRunner(d.jde4401).error).toBe("JDE44.01");
+});

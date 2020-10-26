@@ -1,10 +1,15 @@
+// === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { Machine, assign } from "xstate";
 
+// === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import isAreaOrderValid from "../jdACIDhelpers/isAreaOrderValid";
 import isCategoryOrderValid from "../jdACIDhelpers/isCategoryOrderValid";
 import isIDOrderValid from "../jdACIDhelpers/isIDOrderValid";
+
 import isCategoryInArea from "../jdACIDhelpers/isCategoryInArea";
 import isIDInCategory from "../jdACIDhelpers/isIDInCategory";
+
+import { isArea, isCategory, isID } from "../jdACIDhelpers/isACID";
 
 // Context
 const updateAreaContext = assign({
@@ -41,17 +46,23 @@ const errorJDE3301 = assign({
  * @param {Object} guardMeta
  */
 const guardArea = (context, event, guardMeta) => {
-	if (context.area === event.jdNumber) {
+	const prevState = guardMeta.state;
+	const current = context; // Hep my brain
+
+	if (current.area === event.jdNumber) {
 		// If the numbers are the same, we have a duplicate-value error
 		context.error = "JDE12.22";
 		return false;
-	} else if (isAreaOrderValid(context.area, event.jdNumber)) {
+	} else if (!isArea(event.jdNumber)) {
+		context.error = "JDE42.01";
+		return false;
+	} else if (isAreaOrderValid(current.area, event.jdNumber)) {
 		// Otherwise test for order validity; note that this is impossible to fail
 		// in the current Userbase implementation as `jdProjectMachineRunner()`
 		// sorts the input object before sending it to the machine.
 		return true;
 	} else {
-		switch (guardMeta.state.value) {
+		switch (prevState.value) {
 			case "area_detected":
 				context.error = "JDE12.12";
 				return false;
@@ -80,6 +91,9 @@ const guardCategory = (context, event, guardMeta) => {
 
 	if (current.category === event.jdNumber) {
 		context.error = "JDE13.23";
+		return false;
+	} else if (!isCategory(event.jdNumber)) {
+		context.error = "JDE43.01";
 		return false;
 	} else if (!isCategoryInArea(current.area, event.jdNumber)) {
 		context.error = "JDE23.22";
@@ -122,6 +136,9 @@ const guardID = (context, event, guardMeta) => {
 		// If the numbers are the same, we have a duplicate-value error
 		context.error = "JDE14.24";
 		return false;
+	} else if (!isID(event.jdNumber)) {
+		context.error = "JDE44.01";
+		return false;
 	} else if (!isIDInCategory(current.category, event.jdNumber)) {
 		context.error = "JDE24.23";
 		return false;
@@ -161,10 +178,16 @@ const jdProjectMachine = Machine(
 		states: {
 			start: {
 				on: {
-					AREA: {
-						target: "area_detected",
-						actions: "updateAreaContext",
-					},
+					AREA: [
+						{
+							target: "area_detected",
+							actions: "updateAreaContext",
+							cond: "guardArea",
+						},
+						{
+							target: "error",
+						},
+					],
 					CATEGORY: {
 						target: "error",
 						actions: "errorJDE2301",
