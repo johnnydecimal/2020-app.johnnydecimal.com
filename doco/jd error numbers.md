@@ -125,3 +125,9 @@ Holy shit this system is self-descriptive. :-)
    43.01  An item whose jdType is 'category' is not a category.
    44     IDs 
    44.01  An item whose jdType is 'id' is not an ID.
+
+---
+
+# Just thinking...
+
+If you send a bung ID as the first entry, currently you trigger 

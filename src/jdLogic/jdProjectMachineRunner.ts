@@ -33,6 +33,7 @@ import sortUserbaseData from "../userbase/sortUserbaseData";
  */
 
 const jdProjectMachineRunner = (jdProject: Readonly<JDProject>): JDProject => {
+	// console.debug("🔄 new run of the machine");
 	// Initiate the machine
 	const jdProjectMachineService = interpret(jdProjectMachine).start();
 
@@ -52,6 +53,8 @@ const jdProjectMachineRunner = (jdProject: Readonly<JDProject>): JDProject => {
 			type: jdTypeUpperCase,
 			...jdProjectCopy.data[i].item,
 		});
+
+		// console.debug("💄 state:", jdProjectMachineService.state.value);
 
 		// If we're in an error state, we can save time and break
 		if (jdProjectMachineService.state.matches("error")) {

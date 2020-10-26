@@ -312,16 +312,176 @@ export const jde4401: JDProject = {
 export const fail09: JDProject = {
 	status: "tbc",
 	data: [
-		{ ...a1019 },
-		{ ...c10 },
 		{
-			itemId: uuidv4(),
+			itemId: "d79e58f8-9be5-4f0d-bdcd-52999020ef44",
+			item: {
+				jdType: "area",
+				jdNumber: "00-09",
+				jdTitle: "area 00-09",
+			},
+		},
+		{
+			itemId: "64f99ef4-6b2e-43cb-bbe5-08a7124de5dc",
+			item: {
+				jdType: "category",
+				jdNumber: "00",
+				jdTitle: "cat 00",
+			},
+		},
+		{
+			itemId: "61436c56-e628-4fc1-8dd7-0ac3790d02b0",
+			item: {
+				jdType: "id",
+				jdNumber: "00.00",
+				jdTitle: "id 00.00",
+			},
+		},
+		{
+			itemId: "78853823-4eb8-491b-8f89-237a4c7f42e3",
+			item: {
+				jdNumber: "00.01",
+				jdTitle: "If this works... (I mean it should work)",
+				jdType: "id",
+			},
+		},
+		{
+			itemId: "74bd3018-05c6-4aab-98ac-638f6f5c1746",
+			item: {
+				jdNumber: "00.02",
+				jdTitle: "lkjsjdfjsdjf",
+				jdType: "id",
+			},
+		},
+		{
+			itemId: "8187806a-c615-4061-a541-dd534280bfa2",
+			item: {
+				jdNumber: "00.03",
+				jdTitle: "lkjsjdfjsdjf",
+				jdType: "id",
+			},
+		},
+		{
+			itemId: "289035b3-3ee4-4510-83aa-9e1399cdeda2",
+			item: {
+				jdNumber: "00.06",
+				jdTitle: "zero zero six",
+				jdType: "id",
+			},
+		},
+		{
+			itemId: "92d01688-3eb7-42fd-b332-8807f7a0a4c1",
+			item: {
+				jdNumber: "00.08",
+				jdTitle: "zero zero eight",
+				jdType: "id",
+			},
+		},
+		{
+			itemId: "93d69e14-3dba-4781-b1b1-6fdd898f2606",
 			item: {
 				jdType: "id",
 				// @ts-expect-error
 				jdNumber: "0.9",
-				jdTitle: "0.9 is not an ID",
+				jdTitle: "i am a dud",
+			},
+		},
+		{
+			itemId: "e3b534e7-123a-4c7b-81c5-85200719251a",
+			item: {
+				jdNumber: "10-19",
+				jdType: "area",
+				jdTitle: "My best area",
+			},
+		},
+		{
+			itemId: "20f8fb77-ce23-4393-8600-c207f9c64568",
+			item: {
+				jdNumber: "11",
+				jdType: "category",
+				jdTitle: "A pretty average category",
+			},
+		},
+		{
+			itemId: "58a3a468-f84a-4879-853d-83c59cac28ec",
+			item: {
+				jdNumber: "11.01",
+				jdType: "id",
+				jdTitle: "Just another ID",
+			},
+		},
+		{
+			itemId: "1a8a53cb-8c9c-4bab-bd87-b6e5e229581b",
+			item: {
+				jdType: "id",
+				jdNumber: "11.02",
+				jdTitle: "id 11.02",
+			},
+		},
+		{
+			itemId: "c2e63c07-afb8-454e-aeaf-fca50cdc8c6a",
+			item: {
+				jdType: "id",
+				jdNumber: "11.03",
+				jdTitle: "id 11.03",
+			},
+		},
+		{
+			itemId: "d80a6d4b-72c5-4b4d-98be-6e50936e2785",
+			item: {
+				jdType: "id",
+				jdNumber: "11.04",
+				jdTitle: "id 11.04",
+			},
+		},
+		{
+			itemId: "4bc211b8-2e67-4e94-91b9-638f581c437e",
+			item: {
+				jdType: "area",
+				jdNumber: "20-29",
+				jdTitle: "area 20-29",
+			},
+		},
+		{
+			itemId: "a51d47e9-8a33-4b38-af21-9de4c6e8d134",
+			item: {
+				jdType: "category",
+				jdNumber: "20",
+				jdTitle: "cat20",
+			},
+		},
+		{
+			itemId: "add5291e-d6a7-46b8-a455-c47d1bda22d7",
+			item: {
+				jdType: "id",
+				jdNumber: "20.00",
+				jdTitle: "id twenty-oh-oh",
+			},
+		},
+		{
+			itemId: "745864b7-e0b4-4b54-977d-466705f640d5",
+			item: {
+				jdType: "category",
+				jdNumber: "21",
+				jdTitle: "cat21",
+			},
+		},
+		{
+			itemId: "27326f3b-abf8-49bc-817d-2c14c9021857",
+			item: {
+				jdType: "category",
+				jdNumber: "23",
+				jdTitle: "cat23",
+			},
+		},
+		{
+			itemId: "4f3c1bbb-75dc-4829-b6ed-b5fedd8c5d66",
+			item: {
+				jdNumber: "23.11",
+				jdTitle: "If this works... (I mean it should work)",
+				jdType: "id",
 			},
 		},
 	],
 };
+
+[];

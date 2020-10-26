@@ -2,7 +2,7 @@
 import { Machine, assign } from "xstate";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import isAreaOrderValid from "../jdACIDhelpers/isAreaOrderValid";
+// import isAreaOrderValid from "../jdACIDhelpers/isAreaOrderValid";
 import isCategoryOrderValid from "../jdACIDhelpers/isCategoryOrderValid";
 import isIDOrderValid from "../jdACIDhelpers/isIDOrderValid";
 
@@ -40,128 +40,101 @@ const errorJDE3301 = assign({
  */
 
 /**
- * guardArea is executed when any 'AREA' transition is sent.
+ * # guardArea
+ *
+ * guardArea is executed when *any* `AREA` transition is sent.
+ *
+ * Let's think about this a bit more. You added the emphasis to *any* there
+ * because this didn't used to be the case, e.g. on `start.AREA`.
+ *
+ * The purpose of the guard is simple:
+ * - Return `false` and set `context.error` if there was an error.
+ * - Return `true` otherwise.
+ *
  * @param {Object} context
  * @param {Object} event
- * @param {Object} guardMeta
+ * @param {Object} guardMeta Contains the *previous* state on `.state`
  */
-const guardArea = (context, event, guardMeta) => {
-	const prevState = guardMeta.state;
+const guardArea = (context, event) => {
 	const current = context; // Hep my brain
 
-	if (current.area === event.jdNumber) {
-		// If the numbers are the same, we have a duplicate-value error
-		context.error = "JDE12.22";
-		return false;
-	} else if (!isArea(event.jdNumber)) {
+	// Is the area actually an area?
+	if (!isArea(event.jdNumber)) {
 		context.error = "JDE42.01";
 		return false;
-	} else if (isAreaOrderValid(current.area, event.jdNumber)) {
-		// Otherwise test for order validity; note that this is impossible to fail
-		// in the current Userbase implementation as `jdProjectMachineRunner()`
-		// sorts the input object before sending it to the machine.
-		return true;
-	} else {
-		switch (prevState.value) {
-			case "area_detected":
-				context.error = "JDE12.12";
-				return false;
-			case "category_detected":
-				context.error = "JDE12.13";
-				return false;
-			case "id_detected":
-				context.error = "JDE12.14";
-				return false;
-			default:
-				context.error = "JDE01.12";
-				return false;
-		}
 	}
+
+	// If the number sent is the same as the current area, it's a duplicate
+	if (event.jdNumber === current.area) {
+		context.error = "JDE12.22";
+		return false;
+	}
+
+	// Note: we had tests here for 'is the area order valid?', but in the current
+	//       implementation we sort the input before sending it to the machine.
+	return true;
 };
 
 /**
+ * # guardCategory
+ *
  * guardCategory is executed when any 'CATEGORY' transition is sent.
+ *
+ * See notes on `guardArea` above.
+ *
  * @param {Object} context
  * @param {Object} event
  * @param {Object} guardMeta
  */
-const guardCategory = (context, event, guardMeta) => {
-	const prevState = guardMeta.state;
+const guardCategory = (context, event) => {
 	const current = context; // Hep my brain
 
-	if (current.category === event.jdNumber) {
-		context.error = "JDE13.23";
-		return false;
-	} else if (!isCategory(event.jdNumber)) {
+	// Is the category actually a category?
+	if (!isCategory(event.jdNumber)) {
 		context.error = "JDE43.01";
 		return false;
-	} else if (!isCategoryInArea(current.area, event.jdNumber)) {
-		context.error = "JDE23.22";
-		return false;
-	} else if (
-		// Otherwise test for order validity; note that this is impossible to fail
-		// in the current Userbase implementation as `jdProjectMachineRunner()`
-		// sorts the input object before sending it to the machine.
-		isCategoryOrderValid(context.category, event.jdNumber)
-	) {
-		return true;
-	} else {
-		switch (prevState.value) {
-			// JDE13.13: Category follows category.
-			case "category_detected":
-				context.error = "JDE13.13";
-				return false;
-			// JDE13.14: Category follows ID.
-			case "id_detected":
-				context.error = "JDE13.14";
-				return false;
-			default:
-				context.error = "JDE01.13";
-				return false;
-		}
 	}
+
+	// If the number sent is the same as the current category, it's a duplicate
+	if (event.jdNumber === current.category) {
+		context.error = "JDE13.23";
+		return false;
+	}
+
+	// Note: we had tests here for 'is the category order valid?', but the current
+	//       implementation sorts the input before sending it to the machine.
+	return true;
 };
 
 /**
+ * # guardID
+ *
  * guardID is executed when any 'ID' transition is sent.
+ *
+ * See notes on `guardArea` above.
+ *
  * @param {Object} context
  * @param {Object} event
  * @param {Object} guardMeta
  */
-const guardID = (context, event, guardMeta) => {
-	const prevState = guardMeta.state;
+const guardID = (context, event) => {
 	const current = context; // Hep my brain
 
-	if (current.id === event.jdNumber) {
-		// If the numbers are the same, we have a duplicate-value error
-		context.error = "JDE14.24";
-		return false;
-	} else if (!isID(event.jdNumber)) {
+	// Is the ID actually an ID?
+	if (!isID(event.jdNumber)) {
 		context.error = "JDE44.01";
 		return false;
-	} else if (!isIDInCategory(current.category, event.jdNumber)) {
-		context.error = "JDE24.23";
-		return false;
-	} else if (
-		// Otherwise test for order validity; note that this is impossible to fail
-		// in the current Userbase implementation as `jdProjectMachineRunner()`
-		// sorts the input object before sending it to the machine.
-		isIDOrderValid(context.id, event.jdNumber)
-	) {
-		return true;
-	} else {
-		switch (prevState.value) {
-			case "start":
-				context.error = "JDE24.01";
-				return false;
-			case "id_detected":
-				context.error = "JDE14.14";
-				return false;
-			default:
-				context.error = "JDE01.14";
-				return false;
-		}
 	}
+
+	// If the number sent is the same as the current ID, it's a duplicate
+	if (event.jdNumber === current.ID) {
+		context.error = "JDE14.24";
+		return false;
+	}
+
+	// Note: we had tests here for 'is the ID order valid?', but in the current
+	//       implementation we sort the input before sending it to the machine.
+	return true;
 };
 
 const jdProjectMachine = Machine(
