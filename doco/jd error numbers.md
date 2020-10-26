@@ -46,11 +46,18 @@ Holy shit this system is self-descriptive. :-)
           *a preceding area, because that area does not exist.*
    12.12  An area which immediately follows another area has an area number
           lower than the preceding area.
+          - Example: `-> a-a`
+          - Note: This passes in the current implementation as the runner sorts the input.
    12.13  An area which follows a category has an area number ~~lower~~
           not higher than the preceding area.
+          - Example: `-> a,c-a`
+          - Note: This passes in the current implementation as the runner sorts the input.
    12.14  An area which follows an ID has an area number lower than the
           preceding area.
+          - Example: `-> a,c,id-a`
+          - Note: This passes in the current implementation as the runner sorts the input.
    12.22  An area number was duplicated.
+          - Example: `-> a!a`
           - Note: new with the Userbase implementation.
 
    13 Categories
@@ -59,9 +66,14 @@ Holy shit this system is self-descriptive. :-)
           *the preceding category, because that category does not exist.*
    13.13  A category which immediately follows another category has a category
           number ~~lower~~ not higher than than the preceding category.
+          - Example: `-> a,c-c`
+          - Note: This passes in the current implementation as the runner sorts the input.
    13.14  A category which follows an ID has a category number lower than the
           preceding category.
+          - Example: `-> a,c,id-c`
+          - Note: This passes in the current implementation as the runner sorts the input.
    13.23  A category number was duplicated.
+          - Example: `-> a,c!c`
           - Note: new with the Userbase implementation.
 
    14 IDs
@@ -71,7 +83,10 @@ Holy shit this system is self-descriptive. :-)
           *a preceding ID, because that ID does not exist.*
    14.14  An ID which follows an ID has an ID ~~lower~~ not higher than
           the preceding ID.
+          - Example: `-> a,c,id-id`
+          - Note: This passes in the current implementation as the runner sorts the input.
    14.24  An ID number was duplicated.
+          - Example: `-> a,c,id!id`
           - Note: new with the Userbase implementation.
 
 20-29     Ownership errors
@@ -92,6 +107,7 @@ Holy shit this system is self-descriptive. :-)
    24.23  An ID does not belong to its parent category.
           - Example: `-> a,c×id`
           - Example: `-> a,c,id×id` (where the 2nd ID is sequentially higher than the first)
+          - Note: `-> a,c,id-id` fails correctly as 24.01, because the runner sorts the lower id and processes it as the first input. :-)
    
 30-39     Missing errors
    31     Projects

@@ -20,15 +20,16 @@ import { UserbaseItem } from "../@types/Userbase";
  * c					// 23.01 A category was detected as the first item in the database.
  * id					// 24.01 An ID was detected as the first item in the database.
  *
+ * a×c				// 23.22 A category does not belong to its parent area.
+ * a,c,id×c   // 23.22 A category does not belong to its parent area.
+ *
+ * a,c×id     // 24.23 An ID does not belong to its parent category.
+ *
  * a,id   		// 33.01 A category is missing between an area and an ID.
  *
- * a×c				// Incorrect ownership (`×` = doesn't belong)
- * a,c×id
- * a,c,id×c
- *
- * a-a				// Out-of-order (`-` = below)
- * a,c-c
- * a,c,id-id
+ * a-a				// This class of error isn't possible here as the runner sorts
+ * a,c-c      // the input and 'fixes' it for us. We prove that by testing for
+ * a,c,id-id  // it.
  *
  * a!a        // Duplicate values (`!` = 'the same')
  * a,c!c
@@ -40,6 +41,7 @@ import { UserbaseItem } from "../@types/Userbase";
  * a,c,id,~
  */
 
+// == Building blocks  ==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==
 const a1019: UserbaseItem = {
 	itemId: uuidv4(),
 	item: {
@@ -85,6 +87,15 @@ const id1001: UserbaseItem = {
 	},
 };
 
+const id1101: UserbaseItem = {
+	itemId: uuidv4(),
+	item: {
+		jdType: "id",
+		jdNumber: "11.01",
+		jdTitle: "ID 11.01",
+	},
+};
+
 const a2029: UserbaseItem = {
 	itemId: uuidv4(),
 	item: {
@@ -112,7 +123,7 @@ const id2000: UserbaseItem = {
 	},
 };
 
-// == Passing objects
+// == Passing objects  ==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==
 export const passA: JDProject = {
 	status: "tbc",
 	data: [{ ...a1019 }],
@@ -143,7 +154,73 @@ export const passAACID: JDProject = {
 	data: [{ ...a1019 }, { ...a2029 }, { ...c20 }, { ...id2000 }],
 };
 
-// == Failing objects
+/**
+ * Items below pass because the machine runner sorts our input for us. A whole
+ * subset of JD errors are redundant as a result.
+ */
+
+// Pass: JDE12.12 An area which immediately follows another area has an area
+//       number lower than the preceding area.
+export const passJDE1212: JDProject = {
+	status: "tbc",
+	data: [{ ...a2029 }, { ...a1019 }],
+};
+
+// Pass: JDE12.13 An area which follows a category has an area number lower
+//       than the preceding area.
+export const passJDE1213: JDProject = {
+	status: "tbc",
+	data: [{ ...a2029 }, { ...c20 }, { ...a1019 }],
+};
+
+// Pass: JDE12.14 An area which follows an ID has an area number lower than the
+//       preceding area.
+export const passJDE1214: JDProject = {
+	status: "tbc",
+	data: [{ ...a2029 }, { ...c20 }, { ...id2000 }, { ...a1019 }],
+};
+
+// Pass: JDE13.13 A category which immediately follows another category has a
+//       category number lower than the preceding category.
+export const passJDE1313: JDProject = {
+	status: "tbc",
+	data: [{ ...a1019 }, { ...c11 }, { ...c10 }],
+};
+
+// Pass: JDE13.14 A category which follows an ID has a category number lower
+//       than the preceding category.
+export const passJDE1314: JDProject = {
+	status: "tbc",
+	data: [{ ...a1019 }, { ...c11 }, { ...id1101 }, { ...c10 }],
+};
+
+// Pass: JDE14.14 An ID which follows an ID has an ID lower than
+//       the preceding ID.
+export const passJDE1414: JDProject = {
+	status: "tbc",
+	data: [{ ...a1019 }, { ...c10 }, { ...id1001 }, { ...id1000 }],
+};
+
+// == Failing objects  ==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==
+
+// JDE12.22: An area number was duplicated.
+export const jde1222: JDProject = {
+	status: "tbc",
+	data: [{ ...a1019 }, { ...a1019 }],
+};
+
+// JDE13.23: A category number was duplicated.
+export const jde1323: JDProject = {
+	status: "tbc",
+	data: [{ ...a1019 }, { ...c10 }, { ...c10 }],
+};
+
+// JDE14.24: An ID number was duplicated.
+export const jde1424: JDProject = {
+	status: "tbc",
+	data: [{ ...a1019 }, { ...c10 }, { ...id1000 }, { ...id1000 }],
+};
+
 // JDE23.01 A category was detected as the first item in the database.
 export const jde2301: JDProject = {
 	status: "tbc",
@@ -156,17 +233,12 @@ export const jde2401: JDProject = {
 	data: [{ ...id1000 }],
 };
 
-// JDE33.01 A category is missing between an area and an ID.
-export const jde3301: JDProject = {
-	status: "tbc",
-	data: [{ ...a1019 }, { ...id1000 }],
-};
-
 // JDE23.22: A category does not belong to its parent area.
 export const jde2322a: JDProject = {
 	status: "tbc",
 	data: [{ ...a1019 }, { ...c20 }],
 };
+
 export const jde2322b: JDProject = {
 	status: "tbc",
 	data: [{ ...a1019 }, { ...c10 }, { ...id1000 }, { ...c20 }],
@@ -182,125 +254,8 @@ export const jde2423b: JDProject = {
 	data: [{ ...a1019 }, { ...c10 }, { ...id1000 }, { ...id2000 }],
 };
 
-// // JDE12.22: An area number was duplicated.
-// export const fail1222: JDProject = {
-// 	status: "tbc",
-// 	data: [
-// 		{
-// 			itemId: "guid",
-// 			item: {
-// 				jdType: "area",
-// 				jdNumber: "00-09",
-// 				jdTitle: "Area 00-09",
-// 			},
-// 		},
-// 		{
-// 			itemId: "guid",
-// 			item: {
-// 				jdType: "area",
-// 				jdNumber: "00-09",
-// 				jdTitle: "Area 00-09",
-// 			},
-// 		},
-// 	],
-// };
-
-// // JDE13.23: A category number was duplicated.
-// export const fail1323: JDProject = {
-// 	status: "tbc",
-// 	data: [
-// 		{
-// 			itemId: "guid",
-// 			item: {
-// 				jdType: "area",
-// 				jdNumber: "10-19",
-// 				jdTitle: "Area 10-19",
-// 			},
-// 		},
-// 		{
-// 			itemId: "guid",
-// 			item: {
-// 				jdType: "category",
-// 				jdNumber: "10",
-// 				jdTitle: "Category 00",
-// 			},
-// 		},
-// 		{
-// 			itemId: "guid",
-// 			item: {
-// 				jdType: "category",
-// 				jdNumber: "10",
-// 				jdTitle: "Category 00",
-// 			},
-// 		},
-// 	],
-// };
-
-// // JDE14.24: An ID number was duplicated.
-// export const fail1424: JDProject = {
-// 	status: "tbc",
-// 	data: [
-// 		{
-// 			itemId: "guid",
-// 			item: {
-// 				jdType: "area",
-// 				jdNumber: "10-19",
-// 				jdTitle: "Area 10-19",
-// 			},
-// 		},
-// 		{
-// 			itemId: "guid",
-// 			item: {
-// 				jdType: "category",
-// 				jdNumber: "10",
-// 				jdTitle: "Category 00",
-// 			},
-// 		},
-// 		{
-// 			itemId: "guid",
-// 			item: {
-// 				jdType: "id",
-// 				jdNumber: "10.00",
-// 				jdTitle: "ID 10.00",
-// 			},
-// 		},
-// 		{
-// 			itemId: "guid",
-// 			item: {
-// 				jdType: "id",
-// 				jdNumber: "10.00",
-// 				jdTitle: "ID 10.00",
-// 			},
-// 		},
-// 	],
-// };
-
-// // JDE23.01: A category was detected as the first item in the database.
-// export const fail2301: JDProject = {
-// 	status: "tbc",
-// 	data: [
-// 		{
-// 			itemId: "guid",
-// 			item: {
-// 				jdType: "category",
-// 				jdNumber: "10",
-// 				jdTitle: "Category 00",
-// 			},
-// 		},
-// 	],
-// };
-
-// // JDE24.01: An ID was detected as the first item in the database.
-// export const fail2401: JDProject = {
-// 	status: "tbc",
-// 	data: [
-// 		{
-// 			itemId: "guid",
-// 			item: {
-// 				jdType: "id",
-// 				jdNumber: "10.00",
-// 				jdTitle: "ID 10.00",
-// 			},
-// 		},
-// 	],
-// };
+// JDE33.01 A category is missing between an area and an ID.
+export const jde3301: JDProject = {
+	status: "tbc",
+	data: [{ ...a1019 }, { ...id1000 }],
+};
