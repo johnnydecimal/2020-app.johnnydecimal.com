@@ -3,11 +3,11 @@ import React from "react";
 import { getSimplePaths } from "@xstate/graph";
 import { getShortestPaths } from "@xstate/graph";
 
-import jdProjectMachine from "../machines/jdProject.machine";
+import jdProjectMachineSimplified from "../machines/jdProjectSimplified.machine";
 
 const ScratchPad = () => {
-	console.debug(getSimplePaths(jdProjectMachine));
-	console.debug(getShortestPaths(jdProjectMachine));
+	console.debug("simple:", getSimplePaths(jdProjectMachineSimplified));
+	console.debug("shortest:", getShortestPaths(jdProjectMachineSimplified));
 	return <div>ScratchPad rendered</div>;
 };
 

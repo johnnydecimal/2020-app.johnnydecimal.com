@@ -64,8 +64,19 @@ const jdProjectMachineRunner = (jdProject: Readonly<JDProject>): JDProject => {
 		// There was no error - loop until done
 	}
 
-	// If we make it this far, the input was valid
-	if (jdProjectCopy.status === "tbc") {
+	// If we're *not* in an error condition, send an EOF. (Checking first just
+	// prevents console warnings that we're already in a 'final' state.)
+	// This isn't really necessary, it's just neat.
+	if (!jdProjectMachineService.state.matches("error")) {
+		jdProjectMachineService.send({
+			type: "EOF",
+		});
+	}
+
+	// And therefore if we're in a valid EOF state, the input must have been good.
+	// Flip our project's status accordingly. (There's no need to do anything
+	// otherwise, as it's already been set to 'error' above.)
+	if (jdProjectMachineService.state.matches("eof")) {
 		jdProjectCopy.status = "valid";
 	}
 	return jdProjectCopy;

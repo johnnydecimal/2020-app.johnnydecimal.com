@@ -24,6 +24,9 @@ const errorJDE2301 = assign({
 const errorJDE2401 = assign({
 	error: "JDE24.01",
 });
+const errorJDE3301 = assign({
+	error: "JDE33.01",
+});
 
 /**
  * The guards are the functions that ensure that our project parses properly.
@@ -86,6 +89,7 @@ const guardCategory = (context, event, guardMeta) => {
 	) {
 		return true;
 	} else {
+		console.log(guardMeta.state.value);
 		switch (guardMeta.state.value) {
 			// JDE13.13: Category follows category.
 			case "category_detected":
@@ -193,7 +197,10 @@ const jdProjectMachine = Machine(
 						},
 						{ target: "error" },
 					],
-					ID: "error",
+					ID: {
+						target: "error",
+						actions: "errorJDE3301",
+					},
 					// COMMENT: "area_detected",
 					// DIVIDER: "area_detected",
 					// EMPTYLINE: "area_detected",
@@ -291,6 +298,7 @@ const jdProjectMachine = Machine(
 			updateIDContext,
 			errorJDE2301,
 			errorJDE2401,
+			errorJDE3301,
 		},
 		guards: {
 			guardArea,

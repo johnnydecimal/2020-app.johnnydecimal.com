@@ -3,12 +3,12 @@ import React from "react";
 
 // === Internal components  ===-===-===-===-===-===-===-===-===-===-===-===-===
 import JDRouter from "./components/JDRouter";
-// import ScratchPad from "./components/ScratchPad";
+import ScratchPad from "./components/ScratchPad";
 
 const App = () => (
 	<div className="">
 		<JDRouter />
-		{/* <ScratchPad /> */}
+		<ScratchPad />
 	</div>
 );
 
