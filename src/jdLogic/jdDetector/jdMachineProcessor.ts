@@ -1,5 +1,5 @@
 // External modules
-import { interpret } from "xstate";
+import { interpret, StateMachine } from "xstate";
 // Internal modules
 import jdFileParser from "./jdFileParser";
 import jdProjectMachine from "../../machines/jdProject.machine";
@@ -29,6 +29,8 @@ const jdMachineProcessor = (input: string): JDMachineProcessorOutput => {
 	// console.debug('detectedArray:', detectedArray);
 
 	// Start the machine.
+	// TODO: Fix this TS-override one day.
+	// @ts-expect-error
 	const jdMachineService = interpret(jdProjectMachine).start();
 
 	// Run the array of objects through the machine.

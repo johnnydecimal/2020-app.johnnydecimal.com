@@ -34,6 +34,8 @@ import sortUserbaseData from "../userbase/sortUserbaseData";
 
 const jdProjectMachineRunner = (jdProject: Readonly<JDProject>): JDProject => {
 	// Initiate the machine
+	// TODO: Fix this TS-override one day.
+	// @ts-expect-error
 	const jdProjectMachineService = interpret(jdProjectMachine).start();
 
 	// Set up a copy of the input
@@ -56,7 +58,6 @@ const jdProjectMachineRunner = (jdProject: Readonly<JDProject>): JDProject => {
 		// If we're in an error state, we can save time and break
 		if (jdProjectMachineService.state.matches("error")) {
 			jdProjectCopy.status = "error";
-			// @ts-expect-error
 			jdProjectCopy.error = jdProjectMachineService.state.context.error;
 			break;
 		}
