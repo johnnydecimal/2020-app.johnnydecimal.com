@@ -1,9 +1,11 @@
-// External modules
+// === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { interpret, StateMachine } from "xstate";
-// Internal modules
+
+// === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import jdFileParser from "./jdFileParser";
 import jdProjectMachine from "../../machines/jdProject.machine";
-// Types
+
+// === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import JDLineObject from "../../@types/JDLineObject";
 import JDMachineProcessorOutput from "../../@types/jDMachineProcessorOutput";
 

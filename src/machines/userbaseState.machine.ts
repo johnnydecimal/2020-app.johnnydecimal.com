@@ -6,6 +6,7 @@ import userbase from "userbase-js";
 import sortUserbaseData from "../userbase/sortUserbaseData";
 import jdProjectMachineRunner from "../jdLogic/jdProjectMachineRunner";
 
+// === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 interface DatabaseContext {
 	setJdProject: Function;
 }
@@ -22,6 +23,7 @@ interface DatabaseEvent {
 	type: "PLACEHOLDER";
 }
 
+// === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 const databaseStateMachine = Machine<
 	DatabaseContext,
 	DatabaseSchema,
@@ -59,6 +61,9 @@ const databaseStateMachine = Machine<
 							} else {
 								console.error(
 									"🚨 userbaseState.machine:changeHander - invalid project received from Userbase, taking no action"
+								);
+								throw new Error(
+									"The project as stored on Userbase is corrupt. Fix it manually then refresh."
 								);
 							}
 						},
