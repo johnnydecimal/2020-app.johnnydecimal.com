@@ -1,11 +1,13 @@
-// External modules
-import { interpret } from "xstate";
-// Internal modules
+// === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
+import { interpret, StateMachine } from "xstate";
+
+// === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import jdFileParser from "./jdFileParser";
-import jdProjectMachine from "../../machines/jdProject.machine";
-// Types
-import JDLineObject from "../../@types/JDLineObject";
-import JDMachineProcessorOutput from "../../@types/jDMachineProcessorOutput";
+import jdProjectMachine from "../machines/jdProject.machine";
+
+// === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
+import JDLineObject from "../@types/JDLineObject";
+import JDMachineProcessorOutput from "../@types/jDMachineProcessorOutput";
 
 /**
  * jdMachineProcessor takes a multi-line string and, using various helper
@@ -29,6 +31,8 @@ const jdMachineProcessor = (input: string): JDMachineProcessorOutput => {
 	// console.debug('detectedArray:', detectedArray);
 
 	// Start the machine.
+	// TODO: Fix this TS-override one day.
+	// @ts-expect-error
 	const jdMachineService = interpret(jdProjectMachine).start();
 
 	// Run the array of objects through the machine.

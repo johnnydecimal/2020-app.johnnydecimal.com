@@ -1,28 +1,53 @@
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import { Machine, assign } from "xstate";
+import { Machine, assign, EventObject } from "xstate";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
-// import isAreaOrderValid from "../jdACIDhelpers/isAreaOrderValid";
-// import isCategoryOrderValid from "../jdACIDhelpers/isCategoryOrderValid";
-// import isIDOrderValid from "../jdACIDhelpers/isIDOrderValid";
-
 import isCategoryInArea from "../jdACIDhelpers/isCategoryInArea";
 import isIDInCategory from "../jdACIDhelpers/isIDInCategory";
-
 import { isArea, isCategory, isID } from "../jdACIDhelpers/isACID";
 
-// Context
+// === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
+import JDNumber from "../@types/JDNumber";
+import JDArea from "../@types/JDArea";
+import JDCategory from "../@types/JDCategory";
+import JDID from "../@types/JDID";
+
+interface JDProjectContext {
+	area: JDArea;
+	category: JDCategory;
+	id: JDID;
+	error: string;
+}
+
+interface JDProjectSchema {
+	states: {
+		start: {};
+		area_detected: {};
+		category_detected: {};
+		id_detected: {};
+		eof: {};
+		error: {};
+	};
+}
+
+type JDEvent = "AREA" | "CATEGORY" | "ID" | "EOF" | "ERROR";
+interface JDProjectEvent extends EventObject {
+	type: JDEvent;
+	jdNumber: JDNumber;
+}
+
+// Context-assigning functions
 const updateAreaContext = assign({
-	area: (context, event) => event.jdNumber,
+	area: (context, event: JDProjectEvent) => event.jdNumber,
 });
 const updateCategoryContext = assign({
-	category: (context, event) => event.jdNumber,
+	category: (context, event: JDProjectEvent) => event.jdNumber,
 });
 const updateIDContext = assign({
-	id: (context, event) => event.jdNumber,
+	id: (context, event: JDProjectEvent) => event.jdNumber,
 });
 
-// Errors
+// Error-assigning functions
 const errorJDE2301 = assign({
 	error: "JDE23.01",
 });
@@ -37,6 +62,13 @@ const errorJDE3301 = assign({
  * The guards are the functions that ensure that our project parses properly.
  * For example, you can't directly follow an area with an ID. The guard ensures
  * that this is the case.
+ *
+ * Actually that's a terrible example. It's the machine definition which ensures
+ * that a transition of ID from a state of `area` results in a state of `error`.
+ *
+ * The guards do other valuable things that the machine can't pick up, such as
+ * checking that the current area number isn't the same as the existing area
+ * number.
  */
 
 /**
@@ -55,7 +87,7 @@ const errorJDE3301 = assign({
  * @param {Object} event
  * @param {Object} guardMeta Contains the *previous* state on `.state`
  */
-const guardArea = (context, event) => {
+const guardArea = (context: JDProjectContext, event: JDProjectEvent) => {
 	const current = context; // Hep my brain
 
 	// Is the area actually an area?
@@ -86,7 +118,7 @@ const guardArea = (context, event) => {
  * @param {Object} event
  * @param {Object} guardMeta
  */
-const guardCategory = (context, event) => {
+const guardCategory = (context: JDProjectContext, event: JDProjectEvent) => {
 	const current = context; // Hep my brain
 
 	// Is the category actually a category?
@@ -102,7 +134,7 @@ const guardCategory = (context, event) => {
 	}
 
 	// Does the category belong to its parent area?
-	if (!isCategoryInArea(current.area, event.jdNumber)) {
+	if (!isCategoryInArea(current.area, event.jdNumber as JDCategory)) {
 		context.error = "JDE23.22";
 		return false;
 	}
@@ -123,7 +155,7 @@ const guardCategory = (context, event) => {
  * @param {Object} event
  * @param {Object} guardMeta
  */
-const guardID = (context, event) => {
+const guardID = (context: JDProjectContext, event: JDProjectEvent) => {
 	const current = context; // Hep my brain
 
 	// Is the ID actually an ID?
@@ -139,7 +171,7 @@ const guardID = (context, event) => {
 	}
 
 	// Does the ID belong to its parent category?
-	if (!isIDInCategory(current.category, event.jdNumber)) {
+	if (!isIDInCategory(current.category, event.jdNumber as JDID)) {
 		context.error = "JDE24.23";
 		return false;
 	}
@@ -149,14 +181,21 @@ const guardID = (context, event) => {
 	return true;
 };
 
-const jdProjectMachine = Machine(
+const jdProjectMachine = Machine<
+	JDProjectContext,
+	JDProjectSchema,
+	JDProjectEvent
+>(
 	{
 		id: "jdLanguage",
 		initial: "start",
 		strict: true,
 		context: {
+			// @ts-expect-error
 			area: "",
+			// @ts-expect-error
 			category: "",
+			// @ts-expect-error
 			id: "",
 			error: "",
 		},
@@ -323,33 +362,3 @@ const jdProjectMachine = Machine(
 );
 
 export default jdProjectMachine;
-
-/* TypeScript stuff. Save this for later.
-interface JDStateSchema {
-  states: {
-    start: {};
-    area_detected: {};
-    category_detected: {};
-    id_detected: {};
-    eof: {};
-    error: {};
-  };
-}
-
-type ContextObject = {
-  area: string;
-  category: string;
-  id: string;
-};
-
-type JDEvent =
-  | { type: 'AREA'; actions: 'updateAreaContext' }
-  | { type: 'CATEGORY' }
-  | { type: 'ID' }
-  | { type: 'ERROR' }
-  | { type: 'COMMENT' }
-  | { type: 'DIVIDER' }
-  | { type: 'EMPTYLINE' }
-  | { type: 'EOF' };
-
-*/

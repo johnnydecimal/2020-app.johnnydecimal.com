@@ -1,10 +1,16 @@
+// === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import React from "react";
-import PropTypes from "prop-types";
+import { Interpreter } from "xstate";
 import { useService } from "@xstate/react";
 import { useForm } from "react-hook-form";
 import { Link } from "@reach/router";
-import { Interpreter } from "xstate";
-import { SignInContext, SignInEvent } from "../machines/newSignInState.machine";
+
+// === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
+import {
+	SignInContext,
+	SignInSchema,
+	SignInEvent,
+} from "../machines/newSignInState.machine";
 
 /**
  * # SignInForm
@@ -20,12 +26,8 @@ const SignInForm = ({
 	signInStateService,
 }: {
 	redirectMessage?: string;
-	signInStateService: Interpreter<SignInContext, any, SignInEvent>;
+	signInStateService: Interpreter<SignInContext, SignInSchema, SignInEvent>;
 }) => {
-	// props: RouteComponentProps,
-	// { signInStateService, redirectMessage }: any,
-
-	// eslint-disable-next-line no-unused-vars
 	const [signInState, signInStateSend] = useService(signInStateService);
 	const { register, handleSubmit } = useForm();
 
@@ -115,11 +117,6 @@ const SignInForm = ({
 			</form>
 		</div>
 	);
-};
-
-SignInForm.propTypes = {
-	signInStateService: PropTypes.object.isRequired,
-	redirectMessage: PropTypes.string,
 };
 
 export default SignInForm;

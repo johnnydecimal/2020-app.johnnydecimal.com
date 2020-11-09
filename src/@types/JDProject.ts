@@ -1,5 +1,5 @@
-import JDItem from "./JDItem";
-import { UserbaseData } from "./Userbase";
+// === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
+import { UserbaseData, UserbaseItem } from "./Userbase";
 
 /**
  * JDProject is the type for any JD Project.
@@ -25,6 +25,7 @@ interface JDProject {
 	data: UserbaseData; // Required, but can of course be empty.
 	error?: string;
 	errorLine?: Number;
+	errorItem?: UserbaseItem;
 }
 
 export default JDProject;
