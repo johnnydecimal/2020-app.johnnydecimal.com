@@ -2,16 +2,11 @@
 import { Machine, assign } from "xstate";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
-// import isAreaOrderValid from "../jdACIDhelpers/isAreaOrderValid";
-// import isCategoryOrderValid from "../jdACIDhelpers/isCategoryOrderValid";
-// import isIDOrderValid from "../jdACIDhelpers/isIDOrderValid";
-
 import isCategoryInArea from "../jdACIDhelpers/isCategoryInArea";
 import isIDInCategory from "../jdACIDhelpers/isIDInCategory";
-
 import { isArea, isCategory, isID } from "../jdACIDhelpers/isACID";
 
-// Context
+// Context-assigning functions
 const updateAreaContext = assign({
 	area: (context, event) => event.jdNumber,
 });
@@ -22,7 +17,7 @@ const updateIDContext = assign({
 	id: (context, event) => event.jdNumber,
 });
 
-// Errors
+// Error-assigning functions
 const errorJDE2301 = assign({
 	error: "JDE23.01",
 });
@@ -37,6 +32,13 @@ const errorJDE3301 = assign({
  * The guards are the functions that ensure that our project parses properly.
  * For example, you can't directly follow an area with an ID. The guard ensures
  * that this is the case.
+ *
+ * Actually that's a terrible example. It's the machine definition which ensures
+ * that a transition of ID from a state of `area` results in a state of `error`.
+ *
+ * The guards do other valuable things that the machine can't pick up, such as
+ * checking that the current area number isn't the same as the existing area
+ * number.
  */
 
 /**

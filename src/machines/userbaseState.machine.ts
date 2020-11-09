@@ -1,14 +1,21 @@
-import { Machine } from "@xstate/compiled";
-// import { assign } from "xstate";
-// import { Machine } from "xstate";
+// === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
+import { Machine } from "xstate";
 import userbase from "userbase-js";
 
-// import JDMachineProcessor2 from "../jdLogic/jdDetector/jdMachineProcessor2";
+// === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import sortUserbaseData from "../userbase/sortUserbaseData";
 import jdProjectMachineRunner from "../jdLogic/jdProjectMachineRunner";
 
 interface DatabaseContext {
 	setJdProject: Function;
+}
+
+interface DatabaseSchema {
+	states: {
+		init: {};
+		databaseOpen: {};
+		error: {};
+	};
 }
 
 interface DatabaseEvent {
@@ -17,8 +24,8 @@ interface DatabaseEvent {
 
 const databaseStateMachine = Machine<
 	DatabaseContext,
-	DatabaseEvent,
-	"databaseMachine"
+	DatabaseSchema,
+	DatabaseEvent
 >({
 	strict: true,
 
