@@ -62,9 +62,8 @@ const databaseStateMachine = Machine<
 								console.error(
 									"🚨 userbaseState.machine:changeHander - invalid project received from Userbase, taking no action"
 								);
-								throw new Error(
-									"The project as stored on Userbase is corrupt. Fix it manually then refresh."
-								);
+								console.error(jdProjectMachineRunnerResult.error);
+								console.error(jdProjectMachineRunnerResult.errorItem);
 							}
 						},
 					});

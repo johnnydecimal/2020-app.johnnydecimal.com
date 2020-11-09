@@ -59,6 +59,7 @@ const jdProjectMachineRunner = (jdProject: Readonly<JDProject>): JDProject => {
 		if (jdProjectMachineService.state.matches("error")) {
 			jdProjectCopy.status = "error";
 			jdProjectCopy.error = jdProjectMachineService.state.context.error;
+			jdProjectCopy.errorItem = jdProjectCopy.data[i];
 			break;
 		}
 		// There was no error - loop until done
