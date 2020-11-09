@@ -7,8 +7,9 @@ import sortUserbaseData from "../userbase/sortUserbaseData";
 import jdProjectMachineRunner from "../jdProjectMachineRunner/jdProjectMachineRunner";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import JDItem from "../@types/JDItem";
 import JDProject from "../@types/JDProject";
+import JDItem from "../@types/JDItem";
+import JDAPICall from "../@types/JDAPICall";
 import { UserbaseData } from "../@types/Userbase";
 
 /**
@@ -130,7 +131,7 @@ const sanityCheck = (newJDItem: JDItem) => {
  * - A call will be made to userbase.insertItem().
  */
 
-const insertJDItem = (newJDItem: JDItem, jdProject: JDProject) => {
+const insertJDItem = (newJDItem: JDItem, jdProject: JDProject): JDAPICall => {
 	// TODO: Remember to approach this like Gordon!
 	// TODO: Save to localStorage as well
 
@@ -159,10 +160,13 @@ const insertJDItem = (newJDItem: JDItem, jdProject: JDProject) => {
 			databaseName: "test-2020-09-08-14-16",
 			item: newJDItem,
 		});
-		return true;
+		return { success: true };
 	} else {
 		console.error(`We didn't add that value because the database is fubar.`);
-		return new Error("Yeah");
+		return {
+			success: false,
+			error: "Adding that value would cause an error. It was not added.",
+		};
 	}
 };
 

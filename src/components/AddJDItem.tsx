@@ -43,7 +43,15 @@ const AddJDItem: FunctionComponent<Props> = ({ jdProject }) => {
 	const onSubmit = (formData: NewJDItem) => {
 		console.debug("🥕 AddJDItem/onSubmit:");
 		console.debug(formData);
-		insertJDItem(formData, jdProject);
+		const insertResult = insertJDItem(formData, jdProject);
+		if (insertResult.success) {
+			// The database will update, there's nothing to do
+		} else {
+			// This component has received notification that the thing didn't work;
+			// it should handle it appropriately (as every component's handling of
+			// such an event will be different).
+			console.error("🧸 AddJDItem.tsx -- failed to add to database");
+		}
 	};
 
 	return (
