@@ -3,11 +3,11 @@ import { interpret, StateMachine } from "xstate";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import jdFileParser from "./jdFileParser";
-import jdProjectMachine from "../../machines/jdProject.machine";
+import jdProjectMachine from "../machines/jdProject.machine";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import JDLineObject from "../../@types/JDLineObject";
-import JDMachineProcessorOutput from "../../@types/jDMachineProcessorOutput";
+import JDLineObject from "../@types/JDLineObject";
+import JDMachineProcessorOutput from "../@types/jDMachineProcessorOutput";
 
 /**
  * jdMachineProcessor takes a multi-line string and, using various helper

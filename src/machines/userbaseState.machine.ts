@@ -4,7 +4,7 @@ import userbase from "userbase-js";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import sortUserbaseData from "../userbase/sortUserbaseData";
-import jdProjectMachineRunner from "../jdLogic/jdProjectMachineRunner";
+import jdProjectMachineRunner from "../jdProjectMachineRunner/jdProjectMachineRunner";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 interface DatabaseContext {

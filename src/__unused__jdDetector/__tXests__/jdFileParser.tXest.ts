@@ -1,5 +1,5 @@
 import jdFileParser from "../jdFileParser";
-import { validTestJDString } from "../../../testdata/testJDStrings";
+import { validTestJDString } from "../../testdata/testJDStrings";
 
 test("detects a correct file", () => {
 	// Indexes here include blank lines, which *are* returned by

@@ -4,7 +4,7 @@ import userbase from "userbase-js";
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { isArea, isCategory, isID } from "../jdACIDhelpers/isACID";
 import sortUserbaseData from "../userbase/sortUserbaseData";
-import jdProjectMachineRunner from "../jdLogic/jdProjectMachineRunner";
+import jdProjectMachineRunner from "../jdProjectMachineRunner/jdProjectMachineRunner";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import JDItem from "../@types/JDItem";
