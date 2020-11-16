@@ -4,9 +4,10 @@ import { Link, RouteComponentProps } from "@reach/router";
 
 // === Internal components  ===-===-===-===-===-===-===-===-===-===-===-===-===
 import AddJDItem from "./AddJDItem";
+import DisplayData from "./DisplayData";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import { UserbaseItem } from "../@types/Userbase";
+// import { UserbaseItem } from "../@types/Userbase";
 import JDProject from "../@types/JDProject";
 
 interface Props extends RouteComponentProps {
@@ -23,6 +24,10 @@ const TheApp: FunctionComponent<Props> = ({ jdProject }) => (
 		<hr />
 		<AddJDItem jdProject={jdProject} />
 		<hr />
+		<div className="max-w-3xl mx-auto my-8">
+			<DisplayData jdProject={jdProject} />
+		</div>
+		{/* <hr />
 		<div>Your data follows:</div>
 		<ul>
 			{jdProject.data.map((item: UserbaseItem) => (
@@ -30,7 +35,7 @@ const TheApp: FunctionComponent<Props> = ({ jdProject }) => (
 					{item.item.jdNumber}
 				</li>
 			))}
-		</ul>
+		</ul> */}
 	</div>
 );
 

@@ -38,6 +38,7 @@ const JDRouter = () => {
 
 		case "error":
 			// TODO: Pretty this up
+			// TODO: You ended up here once. No idea why. Fix.
 			return (
 				<div className="m-12 text-6xl text-red-600">
 					ERROR! End-of-state. Done. Fubar.
