@@ -1,10 +1,11 @@
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import React, { FunctionComponent } from "react";
 import { useMachine } from "@xstate/react";
-import { Machine } from "xstate";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import displayDataMachine from "../machines/displayData.machine";
+import displayDataMachine, {
+	DisplayDataEvent,
+} from "../machines/displayData.machine";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { RouteComponentProps } from "@reach/router";
@@ -18,15 +19,19 @@ interface Props extends RouteComponentProps {
 const DisplayData: FunctionComponent<Props> = ({ jdProject }) => {
 	const [displayDataState, displayDataSend] = useMachine(displayDataMachine);
 
+	console.debug("dDS.context:", displayDataState.context);
+
 	// @ts-ignore
 	window.pear = displayDataState;
 
 	// @ts-ignore
 	window.banana = displayDataSend;
 
-	const handleOnClick = (event: any) => {
-		console.debug(event);
-		displayDataSend("CLICK_ITEM");
+	const handleOnClick = (event) => {
+		displayDataSend({
+			type: "CLICK_ITEM",
+			itemId: event.currentTarget.dataset.itemid,
+		});
 	};
 
 	const handleCancel = () => {
@@ -48,13 +53,21 @@ const DisplayData: FunctionComponent<Props> = ({ jdProject }) => {
 			}
 
 			tableRows.push(
-				<tr
-					className={index % 2 === 0 ? "bg-gray-100" : ""}
-					key={index}
-					onClick={handleOnClick}
-				>
-					<td className="px-4 py-2">{jdItem.item.jdNumber}</td>
-					<td className="px-4 py-2">{jdItem.item.jdTitle}</td>
+				<tr className={index % 2 === 0 ? "bg-gray-100" : ""} key={index}>
+					<td
+						className="px-4 py-2"
+						data-itemid={jdItem.itemId}
+						onClick={handleOnClick}
+					>
+						{jdItem.item.jdNumber}
+					</td>
+					<td
+						className="px-4 py-2"
+						data-itemid={jdItem.itemId}
+						onClick={handleOnClick}
+					>
+						{jdItem.item.jdTitle}
+					</td>
 				</tr>
 			);
 		});
