@@ -1,5 +1,5 @@
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import React, { FunctionComponent, SyntheticEvent } from "react";
+import React, { FunctionComponent, ChangeEvent } from "react";
 import { useMachine } from "@xstate/react";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
@@ -10,13 +10,27 @@ import displayDataMachine, {
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { RouteComponentProps } from "@reach/router";
 import JDProject from "../@types/JDProject";
+import { UserbaseItem } from "../@types/Userbase";
 
-type DisplayDataProps = {
+type DisplayListProps = {
 	jdProject: JDProject;
 };
 
+type DisplayItemProps = {
+	handleCancel: () => void;
+	userbaseItem: UserbaseItem;
+};
+
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-const DisplayData: FunctionComponent<DisplayDataProps> = ({ jdProject }) => {
+const DisplayItem: FunctionComponent<DisplayItemProps> = ({
+	handleCancel,
+	userbaseItem,
+}) => {
+	console.log("DisplayItem/userbaseItem:", userbaseItem);
+	return <button onClick={handleCancel}>Display item</button>;
+};
+
+const DisplayList: FunctionComponent<DisplayListProps> = ({ jdProject }) => {
 	const [displayDataState, displayDataSend] = useMachine(displayDataMachine);
 
 	console.debug("dDS.context:", displayDataState.context);
@@ -27,15 +41,23 @@ const DisplayData: FunctionComponent<DisplayDataProps> = ({ jdProject }) => {
 	// @ts-ignore
 	window.banana = displayDataSend;
 
-	const handleOnClick = (event: SyntheticEvent<EventTarget>) => {
-		// If event target not an HTMLButtonElement, exit
-		// https://stackoverflow.com/questions/49631688/property-dataset-does-not-exist-on-type-eventtarget
-		if (!(event.target instanceof HTMLButtonElement)) {
-			return;
+	const handleOnClick = (event: any) => {
+		// Get the full UserbaseItem from jdProject so we can feed it to the
+		// display component.
+
+		let selectedUserbaseItem;
+		for (let userbaseItem of jdProject.data) {
+			if (userbaseItem.itemId === event.target.dataset.itemid) {
+				selectedUserbaseItem = userbaseItem;
+				break;
+			}
 		}
+
+		console.debug("selectedUserbaseItem:", selectedUserbaseItem);
 		displayDataSend({
 			type: "CLICK_ITEM",
 			itemId: event.target.dataset.itemid,
+			userbaseItem: selectedUserbaseItem,
 		});
 	};
 
@@ -47,8 +69,8 @@ const DisplayData: FunctionComponent<DisplayDataProps> = ({ jdProject }) => {
 	let tableRows: any = [];
 
 	if (jdProject.data.length > 0) {
-		jdProject.data.forEach((jdItem, index) => {
-			if (jdItem.item.jdType === "area") {
+		jdProject.data.forEach((userbaseItem, index) => {
+			if (userbaseItem.item.jdType === "area") {
 				// Push a blank separator row
 				tableRows.push(
 					<tr key={1 / index}>
@@ -59,19 +81,21 @@ const DisplayData: FunctionComponent<DisplayDataProps> = ({ jdProject }) => {
 
 			tableRows.push(
 				<tr className={index % 2 === 0 ? "bg-gray-100" : ""} key={index}>
-					<td
-						className="px-4 py-2"
-						data-itemid={jdItem.itemId}
-						onClick={handleOnClick}
-					>
-						{jdItem.item.jdNumber}
+					<td>
+						<button
+							className="px-4 py-2"
+							data-itemid={userbaseItem.itemId}
+							onClick={handleOnClick}
+						>
+							{userbaseItem.item.jdNumber}
+						</button>
 					</td>
 					<td
 						className="px-4 py-2"
-						data-itemid={jdItem.itemId}
+						data-itemid={userbaseItem.itemId}
 						onClick={handleOnClick}
 					>
-						{jdItem.item.jdTitle}
+						{userbaseItem.item.jdTitle}
 					</td>
 				</tr>
 			);
@@ -91,10 +115,19 @@ const DisplayData: FunctionComponent<DisplayDataProps> = ({ jdProject }) => {
 			</table>
 		);
 	} else if (displayDataState.matches("displayingItem")) {
-		return <div onClick={handleCancel}>Displaying Item</div>;
+		if (displayDataState.context && displayDataState.context.userbaseItem) {
+			return (
+				<DisplayItem
+					handleCancel={handleCancel}
+					userbaseItem={displayDataState.context.userbaseItem}
+				/>
+			);
+		} else {
+			throw new Error("🚨 Whoopa");
+		}
 	} else {
 		return <div>WTF</div>;
 	}
 };
 
-export default DisplayData;
+export default DisplayList;

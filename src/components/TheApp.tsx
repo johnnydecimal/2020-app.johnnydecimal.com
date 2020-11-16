@@ -4,7 +4,7 @@ import { Link, RouteComponentProps } from "@reach/router";
 
 // === Internal components  ===-===-===-===-===-===-===-===-===-===-===-===-===
 import AddJDItem from "./AddJDItem";
-import DisplayData from "./DisplayData";
+import DisplayList from "./DisplayData";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 // import { UserbaseItem } from "../@types/Userbase";
@@ -25,7 +25,7 @@ const TheApp: FunctionComponent<Props> = ({ jdProject }) => (
 		<AddJDItem jdProject={jdProject} />
 		<hr />
 		<div className="max-w-3xl mx-auto my-8">
-			<DisplayData jdProject={jdProject} />
+			<DisplayList jdProject={jdProject} />
 		</div>
 		{/* <hr />
 		<div>Your data follows:</div>
