@@ -1,17 +1,11 @@
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import {
-	Machine,
-	DefaultContext,
-	StateSchema,
-	EventObject,
-	assign,
-} from "xstate";
+import { Machine, assign, StateSchema, EventObject } from "xstate";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { UserbaseItem } from "../@types/Userbase";
-export type DisplayDataContext = DefaultContext & {
-	// setJdProject: Function;
-	itemId: string;
+
+export type DisplayDataContext = {
+	itemId?: string;
 	userbaseItem?: UserbaseItem;
 };
 
@@ -38,10 +32,6 @@ const displayDataMachine = Machine<
 
 	id: "displayData",
 	initial: "displayingList",
-
-	context: {
-		itemId: "",
-	},
 
 	states: {
 		displayingList: {
