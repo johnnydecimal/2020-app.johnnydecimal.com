@@ -1,5 +1,5 @@
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import React, { FunctionComponent, ChangeEvent } from "react";
+import React, { FunctionComponent, MouseEvent } from "react";
 import { useMachine } from "@xstate/react";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
@@ -27,7 +27,11 @@ const DisplayItem: FunctionComponent<DisplayItemProps> = ({
 	userbaseItem,
 }) => {
 	console.log("DisplayItem/userbaseItem:", userbaseItem);
-	return <button onClick={handleCancel}>Display item</button>;
+	return (
+		<button onClick={handleCancel}>
+			{userbaseItem.item.jdNumber} {userbaseItem.item.jdTitle}
+		</button>
+	);
 };
 
 const DisplayList: FunctionComponent<DisplayListProps> = ({ jdProject }) => {
@@ -37,17 +41,16 @@ const DisplayList: FunctionComponent<DisplayListProps> = ({ jdProject }) => {
 
 	// @ts-ignore
 	window.pear = displayDataState;
-
 	// @ts-ignore
 	window.banana = displayDataSend;
 
-	const handleOnClick = (event: any) => {
+	const handleOnClick = (event: MouseEvent<HTMLButtonElement>) => {
 		// Get the full UserbaseItem from jdProject so we can feed it to the
 		// display component.
 
 		let selectedUserbaseItem;
 		for (let userbaseItem of jdProject.data) {
-			if (userbaseItem.itemId === event.target.dataset.itemid) {
+			if (userbaseItem.itemId === event.currentTarget.dataset.itemid) {
 				selectedUserbaseItem = userbaseItem;
 				break;
 			}
@@ -56,7 +59,7 @@ const DisplayList: FunctionComponent<DisplayListProps> = ({ jdProject }) => {
 		console.debug("selectedUserbaseItem:", selectedUserbaseItem);
 		displayDataSend({
 			type: "CLICK_ITEM",
-			itemId: event.target.dataset.itemid,
+			itemId: event.currentTarget.dataset.itemid,
 			userbaseItem: selectedUserbaseItem,
 		});
 	};
@@ -90,12 +93,14 @@ const DisplayList: FunctionComponent<DisplayListProps> = ({ jdProject }) => {
 							{userbaseItem.item.jdNumber}
 						</button>
 					</td>
-					<td
-						className="px-4 py-2"
-						data-itemid={userbaseItem.itemId}
-						onClick={handleOnClick}
-					>
-						{userbaseItem.item.jdTitle}
+					<td>
+						<button
+							className="px-4 py-2"
+							data-itemid={userbaseItem.itemId}
+							onClick={handleOnClick}
+						>
+							{userbaseItem.item.jdTitle}
+						</button>
 					</td>
 				</tr>
 			);

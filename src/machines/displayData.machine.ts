@@ -50,9 +50,9 @@ const displayDataMachine = Machine<
 					target: "displayingItem",
 					actions: assign({
 						// @ts-ignore
-						itemId: (context, event) => event.itemId,
+						itemId: (_context, event) => event.itemId,
 						// @ts-ignore
-						userbaseItem: (context, event) => event.userbaseItem,
+						userbaseItem: (_context, event) => event.userbaseItem,
 					}),
 				},
 			},
