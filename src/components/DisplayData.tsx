@@ -37,17 +37,9 @@ const DisplayItem: FunctionComponent<DisplayItemProps> = ({
 const DisplayList: FunctionComponent<DisplayListProps> = ({ jdProject }) => {
 	const [displayDataState, displayDataSend] = useMachine(displayDataMachine);
 
-	console.debug("dDS.context:", displayDataState.context);
-
-	// @ts-ignore
-	window.pear = displayDataState;
-	// @ts-ignore
-	window.banana = displayDataSend;
-
 	const handleOnClick = (event: MouseEvent<HTMLButtonElement>) => {
 		// Get the full UserbaseItem from jdProject so we can feed it to the
 		// display component.
-
 		let selectedUserbaseItem;
 		for (let userbaseItem of jdProject.data) {
 			if (userbaseItem.itemId === event.currentTarget.dataset.itemid) {
@@ -56,10 +48,8 @@ const DisplayList: FunctionComponent<DisplayListProps> = ({ jdProject }) => {
 			}
 		}
 
-		console.debug("selectedUserbaseItem:", selectedUserbaseItem);
 		displayDataSend({
 			type: "CLICK_ITEM",
-			itemId: event.currentTarget.dataset.itemid,
 			userbaseItem: selectedUserbaseItem,
 		});
 	};

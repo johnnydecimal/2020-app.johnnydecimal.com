@@ -5,7 +5,6 @@ import { Machine, assign, StateSchema, EventObject } from "xstate";
 import { UserbaseItem } from "../@types/Userbase";
 
 export type DisplayDataContext = {
-	itemId?: string;
 	userbaseItem?: UserbaseItem;
 };
 
@@ -18,7 +17,6 @@ export interface DisplayDataSchema extends StateSchema {
 
 export interface DisplayDataEvent extends EventObject {
 	type: "CLICK_ITEM" | "RETURN_TO_LIST";
-	itemId?: string;
 	userbaseItem?: UserbaseItem;
 }
 
