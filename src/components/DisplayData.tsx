@@ -1,5 +1,5 @@
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, SyntheticEvent } from "react";
 import { useMachine } from "@xstate/react";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
@@ -11,12 +11,12 @@ import displayDataMachine, {
 import { RouteComponentProps } from "@reach/router";
 import JDProject from "../@types/JDProject";
 
-interface Props extends RouteComponentProps {
+type DisplayDataProps = {
 	jdProject: JDProject;
-}
+};
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-const DisplayData: FunctionComponent<Props> = ({ jdProject }) => {
+const DisplayData: FunctionComponent<DisplayDataProps> = ({ jdProject }) => {
 	const [displayDataState, displayDataSend] = useMachine(displayDataMachine);
 
 	console.debug("dDS.context:", displayDataState.context);
@@ -27,10 +27,15 @@ const DisplayData: FunctionComponent<Props> = ({ jdProject }) => {
 	// @ts-ignore
 	window.banana = displayDataSend;
 
-	const handleOnClick = (event) => {
+	const handleOnClick = (event: SyntheticEvent<EventTarget>) => {
+		// If event target not an HTMLButtonElement, exit
+		// https://stackoverflow.com/questions/49631688/property-dataset-does-not-exist-on-type-eventtarget
+		if (!(event.target instanceof HTMLButtonElement)) {
+			return;
+		}
 		displayDataSend({
 			type: "CLICK_ITEM",
-			itemId: event.currentTarget.dataset.itemid,
+			itemId: event.target.dataset.itemid,
 		});
 	};
 
