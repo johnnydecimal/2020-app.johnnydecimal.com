@@ -97,31 +97,33 @@ const DisplayList: FunctionComponent<DisplayListProps> = ({ jdProject }) => {
 		});
 	}
 
-	if (displayDataState.matches("displayingList")) {
-		return (
-			<table className="table-auto">
-				<thead>
-					<tr>
-						<th className="px-4 py-2">Number</th>
-						<th className="px-4 py-2">Title</th>
-					</tr>
-				</thead>
-				<tbody>{tableRows}</tbody>
-			</table>
-		);
-	} else if (displayDataState.matches("displayingItem")) {
-		if (displayDataState.context && displayDataState.context.userbaseItem) {
+	switch (true) {
+		case displayDataState.matches("displayingList"):
 			return (
-				<DisplayItem
-					handleCancel={handleCancel}
-					userbaseItem={displayDataState.context.userbaseItem}
-				/>
+				<table className="table-auto">
+					<thead>
+						<tr>
+							<th className="px-4 py-2">Number</th>
+							<th className="px-4 py-2">Title</th>
+						</tr>
+					</thead>
+					<tbody>{tableRows}</tbody>
+				</table>
 			);
-		} else {
-			throw new Error("🚨 Whoopa");
-		}
-	} else {
-		return <div>WTF</div>;
+		case displayDataState.matches("displayingItem"):
+			if (displayDataState.context && displayDataState.context.userbaseItem) {
+				return (
+					<DisplayItem
+						handleCancel={handleCancel}
+						userbaseItem={displayDataState.context.userbaseItem}
+					/>
+				);
+			} else {
+				// TODO: Change to something that an error boundary can catch properly.
+				throw new Error("🚨 Whoopa");
+			}
+		default:
+			return <div>WTF</div>;
 	}
 };
 
