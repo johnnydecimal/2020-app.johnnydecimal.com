@@ -2,30 +2,30 @@
 import { Machine, DefaultContext, StateSchema, EventObject } from "xstate";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-type DisplayDataContext = DefaultContext & {
+export type DisplayDataContext = DefaultContext & {
 	// setJdProject: Function;
 };
 
-interface DisplayDataSchema extends StateSchema {
+export interface DisplayDataSchema extends StateSchema {
 	states: {
 		displayingList: {};
 		displayingItem: {};
 	};
 }
 
-interface DisplayDataEvent extends EventObject {
+export interface DisplayDataEvent extends EventObject {
 	type: "CLICK_ITEM" | "RETURN_TO_LIST";
 }
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-const displayDataStateMachine = Machine<
+const displayDataMachine = Machine<
 	DisplayDataContext,
 	DisplayDataSchema,
 	DisplayDataEvent
 >({
 	strict: true,
 
-	id: "displayDataState",
+	id: "displayData",
 	initial: "displayingList",
 
 	states: {
@@ -42,4 +42,4 @@ const displayDataStateMachine = Machine<
 	},
 });
 
-export default displayDataStateMachine;
+export default displayDataMachine;
